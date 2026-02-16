@@ -1,5 +1,0 @@
-# Ignore database folder
-database/
-
-# Ignore GitHub workflows and config
-.github/

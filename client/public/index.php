@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-      require_once "connessione.php";
+      require_once "server/config/connessione.php";
 
       if ($conn->connect_error) {
      	die("Errore di connessione al database: " . $conn->connect_error);
@@ -17,4 +17,4 @@
       
     ?>
 </body>
-</html>
+</html>

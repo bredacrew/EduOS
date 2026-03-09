@@ -55,7 +55,7 @@
                     <i class="fa-solid fa-chevron-down topbar-chevron" id="chevron-icon"></i>
 
                     <div class="profile-dropdown" id="profile-dropdown">
-                        <a href="client/public/login" class="dropdown-logout">
+                        <a href="client/public/login/index.php" class="dropdown-logout"> <!-- perchè logout? -->
                             <i class="fa-solid fa-right-from-bracket"></i>
                             Effettua il login
                         </a>

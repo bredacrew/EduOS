@@ -130,7 +130,7 @@
 
     <div class="logo">
         <img
-            src="Logo-Senza_sfondo.png"
+            src="../../src/img/logo/Logo-Senza_sfondo.png"
             alt="EduOS Logo"
             class="logo-img"
         >
@@ -166,7 +166,7 @@
     </form>
 
     <div class="extra-links">
-        Hai già un account? <a href="login.html">Accedi</a>
+        Hai già un account? <a href="../login">Accedi</a>
     </div>
 
 </div>

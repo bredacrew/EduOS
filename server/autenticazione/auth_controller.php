@@ -90,7 +90,7 @@ if ($action === 'login') {
             'last_activity' => time(),
     ];
 
-    redirect('../client/public/dashboard');
+    redirect('../../client/public/dashboard');
 }
 
 // =============================================

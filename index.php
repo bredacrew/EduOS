@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="client/src/homepage.css">
+    <link rel="stylesheet" href="client/src/css/homepage.css">
 </head>
 <body>
 
@@ -126,7 +126,7 @@
     </div>
 </div>
 
-<script src="client/src/calendar.js"></script>
-<script src="client/src/profilo.js"></script>
+<script src="client/src/js/calendar.js"></script>
+<script src="client/src/js/profilo.js"></script>
 </body>
 </html>

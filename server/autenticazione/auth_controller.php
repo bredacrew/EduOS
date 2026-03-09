@@ -4,9 +4,9 @@
 // auth_controller.php
 
 session_start([
-    'cookie_httponly' => true,
-    'cookie_secure'   => true,       // solo https in produzione
-    'cookie_samesite' => 'Strict',
+        'cookie_httponly' => true,
+        'cookie_secure'   => true,       // solo https in produzione
+        'cookie_samesite' => 'Strict',
 ]);
 
 // =============================================
@@ -20,14 +20,14 @@ define('DB_CHARSET',  'utf8mb4');
 
 try {
     $pdo = new PDO(
-        "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=".DB_CHARSET,
-        DB_USER,
-        DB_PASS,
-        [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ]
+            "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=".DB_CHARSET,
+            DB_USER,
+            DB_PASS,
+            [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+            ]
     );
 } catch (PDOException $e) {
     die("Errore connessione DB: " . $e->getMessage());
@@ -57,7 +57,7 @@ if ($action === 'login') {
     $password = $_POST['password']      ?? '';
 
     if (empty($email) || empty($password)) {
-        redirect('../client/public/login', ['error' => 'Compila tutti i campi']);
+        redirect('../../client/public/login', ['error' => 'Compila tutti i campi']);
     }
 
     // Cerchiamo l'utente
@@ -70,7 +70,7 @@ if ($action === 'login') {
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
         // Per sicurezza: stesso messaggio anche se utente non esiste
-        redirect('../client/public/login', ['error' => 'Credenziali non valide']);
+        redirect('../../client/public/login', ['error' => 'Credenziali non valide']);
     }
 
     // =====================================
@@ -82,12 +82,12 @@ if ($action === 'login') {
 
     // Dati da mettere in sessione
     $_SESSION = [
-        'user_id'    => $user['id'],
-        'email'      => $user['email'],
-        'nome'       => $user['nome'],
-        'ruolo'      => $user['ruolo'],
-        'logged_in'  => true,
-        'last_activity' => time(),
+            'user_id'    => $user['id'],
+            'email'      => $user['email'],
+            'nome'       => $user['nome'],
+            'ruolo'      => $user['ruolo'],
+            'logged_in'  => true,
+            'last_activity' => time(),
     ];
 
     redirect('../client/public/dashboard');
@@ -100,17 +100,17 @@ if ($action === 'logout') {
     $_SESSION = [];
     $params = session_get_cookie_params();
     setcookie(
-        session_name(),
-        '',
-        time() - 42000,
-        $params['path'],
-        $params['domain'],
-        $params['secure'],
-        $params['httponly']
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
     );
     session_destroy();
-    redirect('../client/public/login', ['msg' => 'Logout effettuato']);
+    redirect('../../client/public/login', ['msg' => 'Logout effettuato']);
 }
 
 // Azione non riconosciuta
-redirect('../client/public/login', ['error' => 'Richiesta non valida']);
+redirect('../../client/public/login', ['error' => 'Richiesta non valida']);

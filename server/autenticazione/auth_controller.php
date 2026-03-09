@@ -1,5 +1,3 @@
-//DA REVISIONARE
-
 <?php
 // auth_controller.php
 
@@ -14,8 +12,8 @@ session_start([
 // =============================================
 define('DB_HOST',     'localhost');
 define('DB_NAME',     'eduos_db');       // ← cambia
-define('DB_USER',     'tuo_utente');     // ← cambia
-define('DB_PASS',     'tua_password');   // ← cambia
+define('DB_USER',     'root');     // ← cambia
+define('DB_PASS',     '');   // ← cambia
 define('DB_CHARSET',  'utf8mb4');
 
 try {

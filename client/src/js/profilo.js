@@ -24,10 +24,11 @@
             logoutUtente();
         });
     }
-
-    function logoutUtente() {
+/*
+     function logoutUtente() {
         // TODO: aggiungi qui la chiamata al DB per invalidare la sessione
         // es: await supabase.auth.signOut()
         window.location.href = 'PERCORSO_LOGIN';
     }
+ */
 })();

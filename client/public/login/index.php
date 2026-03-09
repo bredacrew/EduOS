@@ -1,0 +1,59 @@
+<!-- ... head e stili uguali ... -->
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">
+        <img src="Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
+    </div>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div style="color: #ff6b6b; margin: 20px 0; padding: 12px; background: rgba(255,107,107,0.15); border-radius: 8px;">
+            <?= htmlspecialchars($_GET['error']) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['msg'])): ?>
+        <div style="color: #4ecdc4; margin: 20px 0; padding: 12px; background: rgba(78,205,196,0.15); border-radius: 8px;">
+            <?= htmlspecialchars($_GET['msg']) ?>
+        </div>
+    <?php endif; ?>
+
+    <form action="auth_controller.php" method="post">
+        <input type="hidden" name="action" value="login">
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your.name@domain.com"
+                required
+                autocomplete="email"
+                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="extra-links">
+        <a href="#">Password dimenticata?</a><br>
+        <a href="register.html">Non hai un account? Registrati</a>
+    </div>
+
+</div>
+</body>
+</html>

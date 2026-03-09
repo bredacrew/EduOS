@@ -19,7 +19,7 @@
         <div class="sidebar">
             <!-- LOGO -->
             <a href="index.php" class="logo-wrap">
-                <img src="src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
+                <img src="client/src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
             </a>
 
             <div class="nav-icons">
@@ -55,7 +55,7 @@
                     <i class="fa-solid fa-chevron-down topbar-chevron" id="chevron-icon"></i>
 
                     <div class="profile-dropdown" id="profile-dropdown">
-                        <a href="client/public/login/index.php" class="dropdown-logout">
+                        <a href="client/public/login" class="dropdown-logout">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             Effettua il login
                         </a>

@@ -33,9 +33,9 @@
             </div>
 
             <!-- LOGOUT -->
-            <!-- <a href="client/public/login" class="nav-logout"> -->
-            <!--   <i class="fa-solid fa-right-from-bracket"></i>--> <!-- perchè logout? -->
-            <!-- </a> -->
+            <a href="client/public/login" class="nav-logout">
+                <i class="fa-solid fa-right-from-bracket"></i> <!-- perchè logout? -->
+            </a>
 
         </div>
 

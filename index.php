@@ -33,8 +33,8 @@
             </div>
 
             <!-- LOGOUT -->
-            <a href="client/public/login" class="nav-logout">
-                <i class="fa-solid fa-right-from-bracket"></i> <!-- perchè logout? -->
+            <a href="#" class="nav-logout" id="auth-button">
+                <i class="fa-solid fa-right-to-bracket"></i>
             </a>
 
         </div>
@@ -56,9 +56,9 @@
                     <i class="fa-solid fa-chevron-down topbar-chevron" id="chevron-icon"></i>
 
                     <div class="profile-dropdown" id="profile-dropdown">
-                        <a href="client/public/login" class="dropdown-logout"> <!-- perchè logout? -->
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            Effettua il login
+                        <a href="#" class="dropdown-logout" id="auth-dropdown">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
                         </a>
                     </div>
                 </div>

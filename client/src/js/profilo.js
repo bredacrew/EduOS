@@ -28,7 +28,47 @@
      function logoutUtente() {
         // TODO: aggiungi qui la chiamata al DB per invalidare la sessione
         // es: await supabase.auth.signOut()
-        window.location.href = 'login';
+        window.location.href = 'client/public/login';
     }
-
 })();
+
+    function logoutUtente(){
+    // qui potrai mettere supabase.auth.signOut()
+    localStorage.removeItem("utenteLoggato");
+
+    window.location.href = "client/public/login";
+}
+
+    function loginRedirect(){
+    window.location.href = "client/public/login";
+}
+
+    function controllaLogin(){
+
+    const utente = localStorage.getItem("utenteLoggato");
+
+    const btn = document.getElementById("auth-button");
+    const dropdown = document.getElementById("auth-dropdown");
+
+    if(utente){
+
+    btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>';
+    dropdown.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Logout';
+
+    btn.onclick = logoutUtente;
+    dropdown.onclick = logoutUtente;
+
+}else{
+
+    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i>';
+    dropdown.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
+
+    btn.onclick = loginRedirect;
+    dropdown.onclick = loginRedirect;
+
+}
+
+}
+
+    // controlla quando carica la pagina
+    controllaLogin();

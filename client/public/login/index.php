@@ -3,7 +3,7 @@
 <body>
 
 <div class="login-container">
-
+    <link rel="stylesheet" href="../../src/css/style.css">
     <div class="logo">
         <img src="../../src/img/logo/Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
     </div>

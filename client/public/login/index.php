@@ -5,7 +5,7 @@
 <div class="login-container">
 
     <div class="logo">
-        <img src="Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
+        <img src="../../src/img/logo/Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
     </div>
 
     <?php if (isset($_GET['error'])): ?>
@@ -20,7 +20,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="auth_controller.php" method="post">
+    <form action="../../../server/autenticazione/auth_controller.php" method="post">
         <input type="hidden" name="action" value="login">
 
         <div class="form-group">
@@ -51,7 +51,7 @@
 
     <div class="extra-links">
         <a href="#">Password dimenticata?</a><br>
-        <a href="register.html">Non hai un account? Registrati</a>
+        <a href="../register">Non hai un account? Registrati</a>
     </div>
 
 </div>

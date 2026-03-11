@@ -1,0 +1,27 @@
+body{
+    background:#020a0e;
+    font-family:'Exo 2',sans-serif;
+    color:#d4eef0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.about-container{
+    max-width:800px;
+    background:#071922;
+    padding:40px;
+    border-radius:16px;
+    border:1px solid rgba(14,207,207,0.2);
+}
+
+h1{
+    font-family:'Rajdhani';
+    margin-bottom:20px;
+}
+
+p{
+    line-height:1.6;
+    color:#8ecfd4;
+}

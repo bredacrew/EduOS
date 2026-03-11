@@ -1,0 +1,48 @@
+<!-- DA VEDERE -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recupera Password • EduOS</title>
+
+    <link rel="stylesheet" href="../../src/css/style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">
+        <img src="../../src/img/logo/Logo-Senza_sfondo.png" class="logo-img">
+    </div>
+
+    <h2 style="margin-bottom:20px">Recupero Password</h2>
+
+    <?php if(isset($_GET['msg'])): ?>
+        <div style="color:#4ecdc4;margin-bottom:15px">
+            <?= htmlspecialchars($_GET['msg']) ?>
+        </div>
+    <?php endif; ?>
+
+    <form action="../../../server/autenticazione/resetPasswordController.php" method="post">
+
+        <input type="hidden" name="action" value="request">
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="email@dominio.com">
+        </div>
+
+        <button class="btn-login">Invia richiesta</button>
+
+    </form>
+
+    <div class="extra-links">
+        <a href="../login">Torna al login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

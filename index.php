@@ -23,13 +23,27 @@
             </a>
 
             <div class="nav-icons">
-                <div class="nav-item"><i class="fa-solid fa-house"></i></div>
-                <div class="nav-item">
+
+                <!-- HOME -->
+                <a href="index.php" class="nav-item active">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+
+                <!-- PIANI -->
+                <a href="piani" class="nav-item">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <span class="nav-badge">3</span>
+                </a>
+
+                <!-- CHI SIAMO -->
+                <a href="chiSiamo" class="nav-item">
+                    <i class="fa-solid fa-chart-bar"></i>
+                </a>
+
+                <!-- IMPOSTAZIONI -->
+                <div class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
                 </div>
-                <div class="nav-item"><i class="fa-solid fa-chart-bar"></i></div>
-                <div class="nav-item"><i class="fa-solid fa-gear"></i></div>
+
             </div>
 
             <!-- LOGOUT -->

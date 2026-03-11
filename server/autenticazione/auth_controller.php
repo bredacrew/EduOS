@@ -1,3 +1,4 @@
+<!-- | -->
 <?php
 // auth_controller.php
 

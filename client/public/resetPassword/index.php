@@ -1,4 +1,4 @@
-<!-- DA VEDERE -->
+<!-- DA VEDERE! -->
 <?php
 $token = $_GET['token'] ?? '';
 ?>

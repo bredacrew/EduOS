@@ -31,12 +31,12 @@
                 </a>
 
                 <!-- PIANI -->
-                <a href="piani" class="nav-item">
+                <a href="/client/public/piani" class="nav-item">
                     <i class="fa-solid fa-calendar-days"></i>
                 </a>
 
                 <!-- CHI SIAMO -->
-                <a href="chiSiamo" class="nav-item">
+                <a href="/client/public/chiSiamo" class="nav-item">
                     <i class="fa-solid fa-chart-bar"></i>
                 </a>
 

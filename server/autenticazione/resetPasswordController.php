@@ -35,9 +35,9 @@ if($action === "reset"){
 
     }
 
-    $hash = password_hash($password,PASSWORD_ARGON2ID);
+    $hash = password_hash($password,PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("UPDATE utenti SET password_hash=?,reset_token=NULL WHERE reset_token=?");
+    $stmt = $pdo->prepare("UPDATE utenti SET password=?, reset_token=NULL WHERE reset_token=?");
 
     $stmt->execute([$hash,$token]);
 

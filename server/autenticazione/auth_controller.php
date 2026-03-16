@@ -1,4 +1,3 @@
-<!-- | -->
 <?php
 // auth_controller.php
 
@@ -12,10 +11,10 @@ session_start([
 // CONFIGURAZIONE DATABASE
 // =============================================
 define('DB_HOST',     'localhost');
-define('DB_NAME',     'eduos_db');       // ← cambia
-define('DB_USER',     'root');     // ← cambia
+define('DB_NAME',     'my_eduos');
+define('DB_USER',     'eduos');
 define('DB_PASS',     '');   // ← cambia
-define('DB_CHARSET',  'utf8mb4');
+define('DB_CHARSET',  'utf8mb4_0900_ai_ci');
 
 try {
     $pdo = new PDO(
@@ -60,14 +59,14 @@ if ($action === 'login') {
     }
 
     // Cerchiamo l'utente
-    $stmt = $pdo->prepare("SELECT id, email, password_hash, nome, ruolo
-                           FROM utenti
-                           WHERE email = ? AND attivo = 1
-                           LIMIT 1");
+    $stmt = $pdo->prepare("SELECT idUtente, Email, Password, Nome, Cognome, IsAmministratore 
+                                FROM Utenti 
+                                WHERE email = ? AND attivo = 1 
+                                LIMIT 1");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if (!$user || !password_verify($password, $user['password_hash'])) {
+    if (!$user || !password_verify($password, $user['password'])) {
         // Per sicurezza: stesso messaggio anche se utente non esiste
         redirect('../../client/public/login', ['error' => 'Credenziali non valide']);
     }
@@ -81,10 +80,11 @@ if ($action === 'login') {
 
     // Dati da mettere in sessione
     $_SESSION = [
-            'user_id'    => $user['id'],
+            'user_id'    => $user['idUtente'],
             'email'      => $user['email'],
             'nome'       => $user['nome'],
-            'ruolo'      => $user['ruolo'],
+            'cognome'      => $user['cognome'],
+            'admin'      => $user['isAmministratore'],
             'logged_in'  => true,
             'last_activity' => time(),
     ];

@@ -1,4 +1,3 @@
-<!-- DA VEDERE! -->
 <?php
 
 require_once "auth_controller.php";
@@ -23,10 +22,10 @@ if($password !== $confirm){
 
 }
 
-$hash = password_hash($password, PASSWORD_ARGON2ID);
+$hash = password_hash($password, PASSWORD_DEFAULT);
 
-$stmt = $pdo->prepare("INSERT INTO utenti(nome,cognome,email,password_hash,ruolo,attivo)
-VALUES(?,?,?,?, 'studente',1)");
+$stmt = $pdo->prepare("INSERT INTO Utenti(nome,cognome,email,password,dataRegistrazione,IsAmministratore)
+VALUES(?,?,?,?, 'now()',0)");
 
 $stmt->execute([$nome,$cognome,$email,$hash]);
 

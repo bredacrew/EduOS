@@ -1,7 +1,6 @@
 <!-- DA VEDERE! -->
 <?php
-
-require_once "auth_controller.php";
+require_once "../../database/connessione.php";
 
 $action = $_POST['action'] ?? '';
 
@@ -11,11 +10,10 @@ if($action === "request"){
 
     $token = bin2hex(random_bytes(32));
 
-    $stmt = $pdo->prepare("UPDATE utenti SET reset_token=?, reset_expire=DATE_ADD(NOW(),INTERVAL 1 HOUR) WHERE email=?");
+    $stmt = $conn->prepare("UPDATE utenti SET reset_token=?, reset_expire=DATE_ADD(NOW(),INTERVAL 1 HOUR) WHERE email=?");
 
-    $stmt->execute([$token,$email]);
-
-    $link = "http://localhost/client/public/resetPassword?token=".$token;
+    $stmt->bind_param("ss", $token, $email);
+    $stmt->execute();
 
     header("Location: ../../client/public/login?msg=Link reset creato: ".$link);
     exit;
@@ -37,9 +35,10 @@ if($action === "reset"){
 
     $hash = password_hash($password,PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("UPDATE utenti SET password=?, reset_token=NULL WHERE reset_token=?");
-
-    $stmt->execute([$hash,$token]);
+    $stmt = $conn->prepare("UPDATE utenti SET password=?, reset_token=NULL
+              WHERE reset_token=?");
+    $stmt->bind_param("ss", $hash, $token);
+    $stmt->execute();
 
     header("Location: ../../client/public/login?msg=Password aggiornata");
     exit;

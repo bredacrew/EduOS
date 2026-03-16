@@ -1,6 +1,5 @@
 <?php
-
-require_once "auth_controller.php";
+require_once "../../database/connessione.php";
 
 $nome = trim($_POST['nome'] ?? '');
 $cognome = trim($_POST['cognome'] ?? '');
@@ -14,7 +13,6 @@ if(!$nome || !$cognome || !$email || !$password){
     exit;
 
 }
-
 if($password !== $confirm){
 
     header("Location: ../../client/public/register?error=Le password non coincidono");
@@ -24,10 +22,11 @@ if($password !== $confirm){
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-$stmt = $pdo->prepare("INSERT INTO Utenti(nome,cognome,email,password,dataRegistrazione,IsAmministratore)
-VALUES(?,?,?,?, 'now()',0)");
+$stmt = $conn->prepare("INSERT INTO Utenti(nome,cognome,email,password,dataRegistrazione,IsAmministratore)
+VALUES(?,?,?,?, 'NOW()',0)");
 
-$stmt->execute([$nome,$cognome,$email,$hash]);
+$stmt->bind_param("ssss",$nome,$cognome,$email,$hash);
+$stmt->execute();
 
 header("Location: ../../client/public/login?msg=Registrazione completata");
 exit;

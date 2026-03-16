@@ -1,5 +1,6 @@
 <?php
 // auth_controller.php
+require_once "../../database/connessione.php";
 
 session_start([
         'cookie_httponly' => true,
@@ -59,12 +60,15 @@ if ($action === 'login') {
     }
 
     // Cerchiamo l'utente
-    $stmt = $pdo->prepare("SELECT idUtente, Email, Password, Nome, Cognome, IsAmministratore 
+    $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
                                 FROM Utenti 
-                                WHERE email = ? AND attivo = 1 
+                                WHERE email = ?
                                 LIMIT 1");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch();
+    $sttm = bind_param("s",$email);
+    $stmt->execute();
+
+    $result->get_result();
+    $user = $result->fetch_assoc();
 
     if (!$user || !password_verify($password, $user['password'])) {
         // Per sicurezza: stesso messaggio anche se utente non esiste

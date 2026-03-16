@@ -64,7 +64,7 @@ if ($action === 'login') {
                                 FROM Utenti 
                                 WHERE email = ?
                                 LIMIT 1");
-    $sttm = bind_param("s",$email);
+    $stmt = bind_param("s",$email);
     $stmt->execute();
 
     $result->get_result();

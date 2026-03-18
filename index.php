@@ -40,7 +40,7 @@
                 <i class="fa-solid fa-right-to-bracket"></i>
                 Login
             </a>
-            <a href="client/public/register/register.php" class="dropdown-item dropdown-item--spaced">
+            <a href="client/public/register/index.php" class="dropdown-item dropdown-item--spaced">
                 <i class="fa-solid fa-user-plus"></i>
                 Registrati
             </a>

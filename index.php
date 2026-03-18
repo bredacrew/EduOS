@@ -1,1 +1,344 @@
-<!-- VERRA' AGGIUNTA LA PAGINA DI PRESENTAZIONE -->
+<!-- DA SISTEMARE -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduOs • La tua piattaforma accademica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="client/src/css/index.css">
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+    <div class="header-logo">
+        <img src="client/src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
+        <span class="header-logo-text">Edu<span>Os</span></span>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="header-socials">
+        <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" class="social-link" aria-label="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+
+    <div class="header-profile" id="header-profile">
+        <div class="header-avatar"><i class="fa-solid fa-user"></i></div>
+        <i class="fa-solid fa-chevron-down header-chevron"></i>
+
+        <div class="header-dropdown" id="header-dropdown">
+            <a href="client/public/login/index.php" class="dropdown-item">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Login
+            </a>
+            <a href="client/public/register/register.php" class="dropdown-item dropdown-item--spaced">
+                <i class="fa-solid fa-user-plus"></i>
+                Registrati
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+
+    <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Piattaforma Accademica
+    </div>
+
+    <h1 class="hero-title">
+        Gestisci<br>
+        il tuo percorso<br>
+        <span>scolastico.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+        EduOs è la piattaforma che centralizza la tua vita scolastica: organizza lo studio, traccia i progressi, gestisci il calendario degli esami e molto altro, tutto in un'unica dashboard.
+    </p>
+
+    <div class="hero-cta-group">
+        <a href="client/public/login/index.php" class="btn-primary">
+            <i class="fa-solid fa-rocket"></i>
+            Inizia Gratis
+        </a>
+        <a href="#about" class="btn-secondary">
+            Scopri di più
+            <i class="fa-solid fa-arrow-down"></i>
+        </a>
+        <!-- Da Rimuovere -->
+        <a href="client/public/homepage/index.php" class="btn-primary">
+            <i class="fa-solid fa-rocket"></i>
+            Homepage (Da rimuovere)
+        </a>
+    </div>
+
+</section>
+
+<!-- ─── ABOUT / PROGETTO ─── -->
+<section class="about" id="about">
+    <div class="section-inner">
+        <div class="section-tag">Il Progetto</div>
+        <h2 class="section-title">Progettato per chi<br><span>studia seriamente.</span></h2>
+        <p class="section-desc">
+            Nata dall'esperienza diretta di studenti del liceo, EduOs risolve il caos quotidiano della vita scolastica con strumenti pensati su misura.
+        </p>
+
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <p>
+                    Ogni periodo porta con sé scadenze, compiti, esami, appunti e una montagna di cose da ricordare. EduOs raccoglie tutto in un unico spazio: la tua dashboard personale, sempre aggiornata e a portata di mano.
+                </p>
+                <p>
+                    Che tu stia pianificando la sessione, monitorando la media voti o cercando di non dimenticare quella lezione importante, EduOs ti ha già pensato.
+                </p>
+
+                <div class="about-features">
+                    <div class="feature-row">
+                        <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="feature-text">
+                            <strong>Calendario Accademico</strong>
+                            <span>Gestisci esami, scadenze e lezioni in un'unica vista settimanale.</span>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="feature-text">
+                            <strong>Statistiche in Tempo Reale</strong>
+                            <span>Tieni traccia della tua media e andamento nel tempo.</span>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="feature-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <div class="feature-text">
+                            <strong>Piani di Studio Personalizzati</strong>
+                            <span>Costruisci un piano di studio su misura per ogni tuo obiettivo.</span>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                        <div class="feature-text">
+                            <strong>Notifiche Intelligenti</strong>
+                            <span>Promemoria automatici per non perderti mai una scadenza importante.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual reveal reveal-delay-2">
+                <div class="mockup-frame">
+                    <div class="mockup-topbar">
+                        <div class="mockup-dot"></div>
+                        <div class="mockup-dot"></div>
+                        <div class="mockup-dot"></div>
+                    </div>
+                    <div class="mockup-body">
+                        <div class="mock-card">
+                            <div class="mock-card-label">Media Voti</div>
+                            <div class="mock-stat">27.8</div>
+                        </div>
+                        <div class="mock-card">
+                            <div class="mock-card-label">Prossimo Obiettivo</div>
+                            <div class="mock-stat-goal">Esame di Fisica</div>
+                            <div class="mock-stat-sub">tra 10 giorni</div>
+                        </div>
+                        <div class="mock-card mock-card-span2">
+                            <div class="mock-card-label">Andamento Mensile</div>
+                            <div class="mock-bars">
+                                <div class="mock-bar" style="height:40%"></div>
+                                <div class="mock-bar" style="height:55%"></div>
+                                <div class="mock-bar" style="height:35%"></div>
+                                <div class="mock-bar" style="height:70%"></div>
+                                <div class="mock-bar accent" style="height:90%"></div>
+                                <div class="mock-bar" style="height:60%"></div>
+                                <div class="mock-bar" style="height:75%"></div>
+                            </div>
+                        </div>
+                        <div class="mock-card mock-card-span2">
+                            <div class="mock-card-label">Prossimi Esami</div>
+                            <div class="mock-event-list">
+                                <div class="mock-event"><div class="mock-event-dot"></div> Analisi Matematica II — 22 Mar</div>
+                                <div class="mock-event"><div class="mock-event-dot"></div> Fisica I — 28 Mar</div>
+                                <div class="mock-event"><div class="mock-event-dot"></div> Algoritmi — 4 Apr</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section class="pricing" id="pricing">
+    <div class="section-inner">
+        <div class="pricing-header">
+            <div class="section-tag">Piani</div>
+            <h2 class="section-title reveal">Scegli il piano<br><span>più adatto a te.</span></h2>
+            <p class="section-desc pricing-desc reveal reveal-delay-1">
+                Inizia gratis e fai l'upgrade quando ne hai bisogno. Nessuna sorpresa, nessun costo nascosto.
+            </p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- FREE -->
+            <div class="plan-card reveal">
+                <div class="plan-header">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price">
+                        <span class="plan-price-cur">€</span>
+                        <span class="plan-price-num">0</span>
+                        <span class="plan-price-per">/ mese</span>
+                    </div>
+                    <p class="plan-desc">Perfetto per iniziare a organizzare la tua vita scolastiva senza impegno.</p>
+                </div>
+                <div class="plan-divider"></div>
+                <div class="plan-features">
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Dashboard personale</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Calendario accademico base</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Statistiche voti</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Piani di studio limitati</div>
+                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Notifiche avanzate</div>
+                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Analisi della media</div>
+                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Export dati PDF / CSV</div>
+                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Supporto prioritario</div>
+                </div>
+                <a href="client/public/login/index.php" class="plan-cta">Inizia Gratis</a>
+            </div>
+
+            <!-- PLUS -->
+            <div class="plan-card featured reveal reveal-delay-2">
+                <div class="plan-popular">Più popolare</div>
+                <div class="plan-header">
+                    <div class="plan-name">Plus</div>
+                    <div class="plan-price">
+                        <span class="plan-price-cur">€</span>
+                        <span class="plan-price-num">4</span>
+                        <span class="plan-price-per">/ mese</span>
+                    </div>
+                    <p class="plan-desc">Sblocca tutto il potenziale di EduOs e porta il tuo metodo di studio al livello successivo.</p>
+                </div>
+                <div class="plan-divider"></div>
+                <div class="plan-features">
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Dashboard personale</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Calendario accademico avanzato</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Statistiche voti complete</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Piani di studio illimitati</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Notifiche avanzate</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Analisi della media</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Export dati PDF / CSV</div>
+                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Supporto prioritario</div>
+                </div>
+                <a href="client/public/login/index.php" class="plan-cta">Passa a Plus</a> <!-- capire a che pag indirizzare -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CHI SIAMO ─── -->
+<section class="who" id="chi-siamo">
+    <div class="section-inner">
+        <div class="section-tag">Chi Siamo</div>
+        <h2 class="section-title reveal">Nato da noi studenti,<br><span>costruito per te.</span></h2>
+        <p class="section-desc reveal reveal-delay-1">
+            EduOs nasce da una frustrazione reale: troppo caos, troppi strumenti inutili, zero soluzioni pensate per chi vuole studiare davvero. Così abbiamo deciso di cambiare le cose.
+        </p>
+
+        <div class="who-grid">
+            <div class="who-card reveal">
+                <div class="who-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <h3>La Nostra Missione</h3>
+                <p>Rendere l'esperienza scolastica più organizzata, più serena e più efficace per ogni studente, indipendentemente che tu sia al liceo o all'università.</p>
+            </div>
+            <div class="who-card reveal reveal-delay-1">
+                <div class="who-icon"><i class="fa-solid fa-users"></i></div>
+                <h3>Il Nostro Team</h3>
+                <p>Siamo un piccolo gruppo di studenti e siamo convinti che le idee giuste, nelle mani giuste, possano cambiare il modo in cui si studia. Da questa convinzione è nato tutto.</p>
+            </div>
+            <div class="who-card reveal reveal-delay-2">
+                <div class="who-icon"><i class="fa-solid fa-seedling"></i></div>
+                <h3>Il Nostro Futuro</h3>
+                <p>EduOs è in continua crescita. Ogni aggiornamento nasce dal feedback della community: siamo qui per costruire un qualcosa che possa realmente aiutare gli studenti.</p>
+            </div>
+        </div>
+
+        <!-- TEAM CAROUSEL -->
+        <div class="team-section reveal">
+            <div class="section-tag">Il nostro Team</div>
+
+            <div class="team-carousel-wrap">
+                <div class="team-carousel" id="team-carousel">
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Lorenzo Cirulli</div>
+                        <div class="team-role">Amministratore Delegato</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Nicolò Putzu</div>
+                        <div class="team-role">Direttore Operativo</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Davide Tropea</div>
+                        <div class="team-role">Manager della Produzione</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Matteo Infanti</div>
+                        <div class="team-role">Marketing Manager</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Matteo Valnerini</div>
+                        <div class="team-role">Manager della Comunicazione e delle Vendite</div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-name">Simone Pitorri</div>
+                        <div class="team-role">Manager Finanziario</div>
+                    </div>
+                </div>
+
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="carousel-prev" aria-label="Precedente">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <div class="carousel-dots" id="carousel-dots"></div>
+                    <button class="carousel-btn" id="carousel-next" aria-label="Successivo">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <div class="footer-logo">Edu<span>Os</span></div>
+    <div class="footer-copy">© 2026 EduOs · Tutti i diritti riservati</div> <!-- DA CAPIRE -->
+    <div class="footer-socials">
+        <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
+</footer>
+
+<script src="client/src/js/index.js"></script>
+
+</body>
+</html>

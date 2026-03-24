@@ -85,7 +85,7 @@
                 <!-- LEFT -->
                 <div class="col-main">
                     <div class="greeting-card">
-                        <div class="greeting-icon">📅</div>
+                        <div class="greeting-icon"><i class="fa-solid fa-calendar-days"></i></div>
                         <div class="greeting-text"><h1>Buongiorno, Nome</h1></div>
                     </div>
 
@@ -123,7 +123,23 @@
                     <div class="calendar-card">
                         <div class="cal-header">
                             <h3>CALENDARIO</h3>
-                            <div class="cal-range" id="week-range">–</div>
+                            <div style="position:relative;">
+                                <div class="cal-range" id="cal-range-btn">
+                                    <span id="cal-view-label">SETTIMANA</span>
+                                    <span class="cal-chevron">▼</span>
+                                </div>
+                                <div class="cal-dropdown-menu" id="cal-dropdown">
+                                    <div class="cal-menu-item active" data-view="week">
+                                        Settimana
+                                    </div>
+                                    <div class="cal-menu-item" data-view="month">
+                                        Mese
+                                    </div>
+                                    <div class="cal-menu-item" data-view="year">
+                                        Anno
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="cal-inner">
                             <div id="mini-calendar"></div>

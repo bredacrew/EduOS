@@ -326,8 +326,11 @@ html, body {
 }
 
 #mini-calendar {
-    display: grid; grid-template-columns: repeat(7, 1fr);
-    gap: 4px; margin-bottom: 14px; flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 14px;
+    flex-shrink: 0;
 }
 
 .cal-day-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
@@ -447,3 +450,317 @@ html, body {
     cursor: pointer;
 }
 
+/* ── CALENDAR NAVIGATION ── */
+.cal-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cal-nav-btn {
+    background: rgba(14,207,207,0.07);
+    border: 1px solid rgba(14,207,207,0.15);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    padding: 2px 10px;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    transition: all 0.18s;
+    line-height: 1.6;
+}
+.cal-nav-btn:hover {
+    color: var(--accent);
+    border-color: rgba(14,207,207,0.30);
+    background: rgba(14,207,207,0.12);
+}
+
+.cal-nav-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* ── CALENDAR GRID HEADER + BODY ── */
+.cal-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+.cal-grid-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 12px;
+}
+
+.cal-day-num {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+}
+.cal-day-num:hover {
+    color: var(--accent);
+    background: rgba(14,207,207,0.08);
+    border-color: rgba(14,207,207,0.15);
+}
+.cal-day-num.today {
+    background: var(--accent);
+    color: #030c15;
+    box-shadow: 0 0 14px rgba(14,207,207,0.45);
+}
+.cal-day-num.today:hover { background: #0bebeb; }
+.cal-day-num.selected:not(.today) {
+    background: rgba(14,207,207,0.16);
+    color: var(--accent);
+    border-color: rgba(14,207,207,0.40);
+    box-shadow: 0 0 10px rgba(14,207,207,0.20);
+}
+.cal-day-num.other-month {
+    color: var(--text-muted);
+    opacity: 0.45;
+}
+
+/* ── DROPDOWN CALENDARIO ── */
+.cal-range {
+    background: rgba(14,207,207,0.10);
+    border: 1px solid rgba(14,207,207,0.22);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+}
+.cal-range:hover {
+    background: rgba(14,207,207,0.16);
+    border-color: rgba(14,207,207,0.32);
+}
+.cal-range .cal-chevron {
+    font-size: 9px;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+.cal-range.open .cal-chevron { transform: rotate(180deg); }
+
+.cal-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 160px;
+    background: #0d1f2d;
+    border: 1px solid rgba(14,207,207,0.22);
+    border-radius: 14px;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(14,207,207,0.08);
+    animation: fadeDown 0.18s ease;
+}
+.cal-dropdown-menu.open { display: block; }
+
+.cal-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: 'Exo 2', sans-serif;
+    padding: 8px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+.cal-menu-item:hover { background: rgba(14,207,207,0.10); color: var(--text-primary); }
+.cal-menu-item.active { background: rgba(14,207,207,0.13); color: var(--accent); }
+.cal-menu-item .cal-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--text-muted); flex-shrink: 0;
+    transition: background 0.18s;
+}
+.cal-menu-item.active .cal-dot,
+.cal-menu-item:hover .cal-dot { background: var(--accent); }
+
+/* ── YEAR GRID ── */
+.cal-year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.cal-month-card {
+    background: rgba(14,207,207,0.04);
+    border: 1px solid rgba(14,207,207,0.12);
+    border-radius: 10px;
+    padding: 8px 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.cal-month-card:hover {
+    background: rgba(14,207,207,0.09);
+    border-color: rgba(14,207,207,0.28);
+}
+.cal-month-card.current-month {
+    border-color: rgba(14,207,207,0.35);
+    background: rgba(14,207,207,0.08);
+}
+
+.cal-month-card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.cal-month-card.current-month .cal-month-card-title { color: var(--accent); }
+
+/* ── MINI MONTH (vista anno) ── */
+.cal-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+}
+
+.cal-mini-header {
+    font-size: 7px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.cal-mini-day {
+    font-size: 7px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+}
+.cal-mini-day.today-mini {
+    background: var(--accent);
+    color: #030c15;
+    border-radius: 2px;
+}
+.cal-mini-day.other-mini { opacity: 0; }
+
+/* fix layout cal-inner */
+.cal-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#mini-calendar {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+/* fix grid header e body: erano display:grid ma servono qui */
+.cal-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+.cal-grid-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 12px;
+}
+
+/* fix nav row */
+.cal-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 6px;
+}
+
+.cal-nav-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    flex: 1;
+}
+
+/* fix year grid */
+.cal-year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+/* fix mini grid dentro ogni mese */
+.cal-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+}
+
+/* fix dropdown: togli position dal padre e metti sul wrapper */
+.cal-header {
+    position: relative;
+}
+
+.cal-inner.year-view {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.cal-inner.year-view::-webkit-scrollbar {
+    width: 3px;
+}
+
+.cal-inner.year-view::-webkit-scrollbar-thumb {
+    background: rgba(14,207,207,0.25);
+    border-radius: 2px;
+}
+
+.cal-inner.year-view::-webkit-scrollbar-track {
+    background: transparent;
+}

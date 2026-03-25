@@ -1,6 +1,6 @@
 <?php
 // auth_controller.php
-require_once "../../database/connessione.php";
+// require_once "../../database/connessione.php";
 
 session_start([
         'cookie_httponly' => true,
@@ -17,7 +17,7 @@ define('DB_USER',     'eduos');
 define('DB_PASS',     '');   // ← cambia
 define('DB_CHARSET',  'utf8mb4_0900_ai_ci');
 
-try {
+/*try {
     $pdo = new PDO(
             "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=".DB_CHARSET,
             DB_USER,
@@ -30,7 +30,7 @@ try {
     );
 } catch (PDOException $e) {
     die("Errore connessione DB: " . $e->getMessage());
-}
+}*/
 
 // =============================================
 // FUNZIONI DI UTILITÀ
@@ -56,7 +56,7 @@ if ($action === 'login') {
     $password = $_POST['password']      ?? '';
 
     if (empty($email) || empty($password)) {
-        redirect('../../client/public/login', ['error' => 'Compila tutti i campi']);
+        reference('../../client/public/login.php', ['error' => 'Compila tutti i campi']);
     }
 
     // Cerchiamo l'utente
@@ -72,7 +72,7 @@ if ($action === 'login') {
 
     if (!$user || !password_verify($password, $user['password'])) {
         // Per sicurezza: stesso messaggio anche se utente non esiste
-        redirect('../../client/public/login', ['error' => 'Credenziali non valide']);
+        redirect('../../client/public/login.php', ['error' => 'Credenziali non valide']);
     }
 
     // =====================================
@@ -93,7 +93,7 @@ if ($action === 'login') {
             'last_activity' => time(),
     ];
 
-    redirect('../../client/public/dashboard');
+    redirect('../../client/public/dashboard.php');
 }
 
 // =============================================
@@ -112,8 +112,8 @@ if ($action === 'logout') {
             $params['httponly']
     );
     session_destroy();
-    redirect('../../client/public/login', ['msg' => 'Logout effettuato']);
+    redirect('../../client/public/login.php', ['msg' => 'Logout effettuato']);
 }
 
 // Azione non riconosciuta
-redirect('../../client/public/login', ['error' => 'Richiesta non valida']);
+redirect('../../client/public/login.php', ['error' => 'Richiesta non valida']);

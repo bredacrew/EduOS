@@ -50,8 +50,8 @@
     </form>
 
     <div class="extra-links">
-        <a href="PasswordDimenticata">Password dimenticata?</a><br>
-        <a href="register">Non hai un account? Registrati</a>
+        <a href="PasswordDimenticata.php">Password dimenticata?</a><br>
+        <a href="register.php">Non hai un account? Registrati</a>
     </div>
 
 </div>

@@ -177,7 +177,7 @@
 
     function logoutUtente() {
         // TODO: sostituisci con → await supabase.auth.signOut()
-        window.location.href = 'client/public/login';
+        window.location.href = 'client/public/login.php';
     }
 
 })();
@@ -195,11 +195,11 @@ function settingsShowTab(name, el) {
 
 function logoutUtente() {
     localStorage.removeItem("utenteLoggato");
-    window.location.href = "client/public/login";
+    window.location.href = "client/public/login.php";
 }
 
 function loginRedirect() {
-    window.location.href = "client/public/login";
+    window.location.href = "client/public/login.php";
 }
 
 function controllaLogin() {

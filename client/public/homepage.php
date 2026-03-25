@@ -26,17 +26,17 @@
             <div class="nav-icons">
 
                 <!-- HOME -->
-                <a href="index.php" class="nav-item active">
+                <a href="../../index.php" class="nav-item active">
                     <i class="fa-solid fa-house"></i>
                 </a>
 
                 <!-- PIANI -->
-                <a href="../piani" class="nav-item">
+                <a href="piani.php" class="nav-item">
                     <i class="fa-solid fa-calendar-days"></i>
                 </a>
 
                 <!-- CHI SIAMO -->
-                <a href="../chiSiamo" class="nav-item">
+                <a href="chiSiamo.php" class="nav-item">
                     <i class="fa-solid fa-chart-bar"></i>
                 </a>
 
@@ -296,7 +296,7 @@
     </div>
 </div>
 
-<script src="../../src/js/calendar.js"></script>
-<script src="../../src/js/profilo.js"></script>
+<script src="../src/js/calendar.js"></script>
+<script src="../src/js/profilo.js"></script>
 </body>
 </html>

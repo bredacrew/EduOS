@@ -36,11 +36,11 @@
         <i class="fa-solid fa-chevron-down header-chevron"></i>
 
         <div class="header-dropdown" id="header-dropdown">
-            <a href="client/public/login/index.php" class="dropdown-item">
+            <a href="client/public/login.php" class="dropdown-item">
                 <i class="fa-solid fa-right-to-bracket"></i>
                 Login
             </a>
-            <a href="client/public/register/index.php" class="dropdown-item dropdown-item--spaced">
+            <a href="client/public/index.php" class="dropdown-item dropdown-item--spaced">
                 <i class="fa-solid fa-user-plus"></i>
                 Registrati
             </a>
@@ -71,7 +71,7 @@
     </p>
 
     <div class="hero-cta-group">
-        <a href="client/public/login/index.php" class="btn-primary">
+        <a href="client/public/login.php" class="btn-primary">
             <i class="fa-solid fa-rocket"></i>
             Inizia Gratis
         </a>
@@ -80,7 +80,7 @@
             <i class="fa-solid fa-arrow-down"></i>
         </a>
         <!-- Da Rimuovere -->
-        <a href="client/public/homepage/index.php" class="btn-primary">
+        <a href="client/public/homepage.php" class="btn-primary">
             <i class="fa-solid fa-rocket"></i>
             Homepage (Da rimuovere)
         </a>
@@ -216,7 +216,7 @@
                     <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Export dati PDF / CSV</div>
                     <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Supporto prioritario</div>
                 </div>
-                <a href="client/public/login/index.php" class="plan-cta">Inizia Gratis</a>
+                <a href="client/public/login.php" class="plan-cta">Inizia Gratis</a>
             </div>
 
             <!-- PLUS -->
@@ -242,7 +242,7 @@
                     <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Export dati PDF / CSV</div>
                     <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Supporto prioritario</div>
                 </div>
-                <a href="client/public/login/index.php" class="plan-cta">Passa a Plus</a> <!-- capire a che pag indirizzare -->
+                <a href="client/public/login.php" class="plan-cta">Passa a Plus</a> <!-- capire a che pag indirizzare -->
             </div>
         </div>
     </div>

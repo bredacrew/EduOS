@@ -9,7 +9,7 @@
 
     <title>Chi siamo • EduOS</title>
 
-    <link rel="stylesheet" href="../../src/css/chisiamo.css">
+    <link rel="stylesheet" href="../src/css/chisiamo.css">
 
 </head>
 

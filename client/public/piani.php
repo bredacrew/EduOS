@@ -8,7 +8,7 @@
 
     <title>Piani • EduOS</title>
 
-    <link rel="stylesheet" href="../../src/css/piani.css">
+    <link rel="stylesheet" href="../src/css/piani.css">
 
 </head>
 

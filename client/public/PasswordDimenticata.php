@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recupera Password • EduOS</title>
 
-    <link rel="stylesheet" href="../../src/css/style.css">
+    <link rel="stylesheet" href="../src/css/style.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 <div class="login-container">
 
     <div class="logo">
-        <img src="../../src/img/logo/Logo-Senza_sfondo.png" class="logo-img">
+        <img src="../src/img/logo/Logo-Senza_sfondo.png" class="logo-img">
     </div>
 
     <h2 style="margin-bottom:20px">Recupero Password</h2>
@@ -25,7 +25,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="../../../server/autenticazione/resetPasswordController.php" method="post">
+    <form action="../../server/autenticazione/resetPasswordController.php" method="post">
 
         <input type="hidden" name="action" value="request">
 
@@ -39,7 +39,7 @@
     </form>
 
     <div class="extra-links">
-        <a href="../login">Torna al login</a>
+        <a href="login">Torna al login</a>
     </div>
 
 </div>

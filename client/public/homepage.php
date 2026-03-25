@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="../../src/css/homepage.css">
+    <link rel="stylesheet" href="../src/css/homepage.css">
 </head>
 <body>
 
@@ -19,8 +19,8 @@
         <!-- SIDEBAR -->
         <div class="sidebar">
             <!-- LOGO -->
-            <a href="../../../index.php" class="logo-wrap">
-                <img src="../../src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
+            <a href="../../index.php" class="logo-wrap">
+                <img src="../src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
             </a>
 
             <div class="nav-icons">

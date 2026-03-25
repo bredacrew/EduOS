@@ -1,344 +1,302 @@
-<!-- DA SISTEMARE -->
+<!-- | -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduOs • La tua piattaforma accademica</title>
+    <title>Dashboard • EduOs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="client/src/css/index.css">
+    <link rel="stylesheet" href="../../src/css/homepage.css">
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
-<header>
-    <div class="header-logo">
-        <img src="client/src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
-        <span class="header-logo-text">Edu<span>Os</span></span>
-    </div>
+<div class="shell">
+    <div class="app-frame">
 
-    <div class="header-spacer"></div>
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <!-- LOGO -->
+            <a href="../../../index.php" class="logo-wrap">
+                <img src="../../src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
+            </a>
 
-    <div class="header-socials">
-        <a href="#" class="social-link" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="#" class="social-link" aria-label="TikTok">
-            <i class="fa-brands fa-tiktok"></i>
-        </a>
-    </div>
+            <div class="nav-icons">
 
-    <div class="header-profile" id="header-profile">
-        <div class="header-avatar"><i class="fa-solid fa-user"></i></div>
-        <i class="fa-solid fa-chevron-down header-chevron"></i>
+                <!-- HOME -->
+                <a href="index.php" class="nav-item active">
+                    <i class="fa-solid fa-house"></i>
+                </a>
 
-        <div class="header-dropdown" id="header-dropdown">
-            <a href="client/public/login/index.php" class="dropdown-item">
+                <!-- PIANI -->
+                <a href="../piani" class="nav-item">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </a>
+
+                <!-- CHI SIAMO -->
+                <a href="../chiSiamo" class="nav-item">
+                    <i class="fa-solid fa-chart-bar"></i>
+                </a>
+
+                <!-- IMPOSTAZIONI -->
+                <div class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+
+            </div>
+
+            <!-- LOGOUT -->
+            <a href="#" class="nav-logout" id="auth-button">
                 <i class="fa-solid fa-right-to-bracket"></i>
-                Login
             </a>
-            <a href="client/public/register/index.php" class="dropdown-item dropdown-item--spaced">
-                <i class="fa-solid fa-user-plus"></i>
-                Registrati
-            </a>
+
         </div>
-    </div>
-</header>
 
-<!-- ─── HERO ─── -->
-<section class="hero">
-    <div class="hero-corner tl"></div>
-    <div class="hero-corner tr"></div>
-    <div class="hero-corner bl"></div>
-    <div class="hero-corner br"></div>
+        <!-- MAIN -->
+        <div class="main">
 
-    <div class="hero-badge">
-        <div class="hero-badge-dot"></div>
-        Piattaforma Accademica
-    </div>
-
-    <h1 class="hero-title">
-        Gestisci<br>
-        il tuo percorso<br>
-        <span>scolastico.</span>
-    </h1>
-
-    <p class="hero-subtitle">
-        EduOs è la piattaforma che centralizza la tua vita scolastica: organizza lo studio, traccia i progressi, gestisci il calendario degli esami e molto altro, tutto in un'unica dashboard.
-    </p>
-
-    <div class="hero-cta-group">
-        <a href="client/public/login/index.php" class="btn-primary">
-            <i class="fa-solid fa-rocket"></i>
-            Inizia Gratis
-        </a>
-        <a href="#about" class="btn-secondary">
-            Scopri di più
-            <i class="fa-solid fa-arrow-down"></i>
-        </a>
-        <!-- Da Rimuovere -->
-        <a href="client/public/homepage/index.php" class="btn-primary">
-            <i class="fa-solid fa-rocket"></i>
-            Homepage (Da rimuovere)
-        </a>
-    </div>
-
-</section>
-
-<!-- ─── ABOUT / PROGETTO ─── -->
-<section class="about" id="about">
-    <div class="section-inner">
-        <div class="section-tag">Il Progetto</div>
-        <h2 class="section-title">Progettato per chi<br><span>studia seriamente.</span></h2>
-        <p class="section-desc">
-            Nata dall'esperienza diretta di studenti del liceo, EduOs risolve il caos quotidiano della vita scolastica con strumenti pensati su misura.
-        </p>
-
-        <div class="about-grid">
-            <div class="about-text reveal">
-                <p>
-                    Ogni periodo porta con sé scadenze, compiti, esami, appunti e una montagna di cose da ricordare. EduOs raccoglie tutto in un unico spazio: la tua dashboard personale, sempre aggiornata e a portata di mano.
-                </p>
-                <p>
-                    Che tu stia pianificando la sessione, monitorando la media voti o cercando di non dimenticare quella lezione importante, EduOs ti ha già pensato.
-                </p>
-
-                <div class="about-features">
-                    <div class="feature-row">
-                        <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                        <div class="feature-text">
-                            <strong>Calendario Accademico</strong>
-                            <span>Gestisci esami, scadenze e lezioni in un'unica vista settimanale.</span>
-                        </div>
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="search-wrap">
+                    <div class="search-inner">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" placeholder="Cerca eventi, corsi...">
                     </div>
-                    <div class="feature-row">
-                        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <div class="feature-text">
-                            <strong>Statistiche in Tempo Reale</strong>
-                            <span>Tieni traccia della tua media e andamento nel tempo.</span>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-icon"><i class="fa-solid fa-book-open"></i></div>
-                        <div class="feature-text">
-                            <strong>Piani di Studio Personalizzati</strong>
-                            <span>Costruisci un piano di studio su misura per ogni tuo obiettivo.</span>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
-                        <div class="feature-text">
-                            <strong>Notifiche Intelligenti</strong>
-                            <span>Promemoria automatici per non perderti mai una scadenza importante.</span>
-                        </div>
-                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="avatar-ring"><i class="fa-solid fa-user"></i></div>
                 </div>
             </div>
 
-            <div class="about-visual reveal reveal-delay-2">
-                <div class="mockup-frame">
-                    <div class="mockup-topbar">
-                        <div class="mockup-dot"></div>
-                        <div class="mockup-dot"></div>
-                        <div class="mockup-dot"></div>
+            <!-- BODY -->
+            <div class="body">
+
+                <!-- LEFT -->
+                <div class="col-main">
+                    <div class="greeting-card">
+                        <div class="greeting-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                        <div class="greeting-text"><h1>Buongiorno, Nome</h1></div>
                     </div>
-                    <div class="mockup-body">
-                        <div class="mock-card">
-                            <div class="mock-card-label">Media Voti</div>
-                            <div class="mock-stat">27.8</div>
+
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <h2>Statistiche Accademiche</h2>
+                            <select class="stats-select">
+                                <option>MESE / ANNO</option>
+                                <option>QUESTA SETTIMANA</option>
+                            </select>
                         </div>
-                        <div class="mock-card">
-                            <div class="mock-card-label">Prossimo Obiettivo</div>
-                            <div class="mock-stat-goal">Esame di Fisica</div>
-                            <div class="mock-stat-sub">tra 10 giorni</div>
+                        <div class="graph-area">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <p>Dati grafico dal database</p>
                         </div>
-                        <div class="mock-card mock-card-span2">
-                            <div class="mock-card-label">Andamento Mensile</div>
-                            <div class="mock-bars">
-                                <div class="mock-bar" style="height:40%"></div>
-                                <div class="mock-bar" style="height:55%"></div>
-                                <div class="mock-bar" style="height:35%"></div>
-                                <div class="mock-bar" style="height:70%"></div>
-                                <div class="mock-bar accent" style="height:90%"></div>
-                                <div class="mock-bar" style="height:60%"></div>
-                                <div class="mock-bar" style="height:75%"></div>
+                    </div>
+                </div>
+            <div class="col-right">
+                <div class="profile-card">
+                    <div class="profile-label">
+                        PROFILO
+                    </div>
+                    <div class="profile-body">
+                        <div class="avatar-lg"><i class="fa-solid fa-user"></i></div>
+                        <div class="profile-info">
+                            <h3 id="profileNome">NOME</h3>
+                            <div class="profile-divider"></div>
+                            <p id="profileCognome">COGNOME</p>
+                            <div class="profile-divider"></div>
+                            <span id="profileData" class="profile-data">DATA NASCITA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calendar-card">
+                    <div class="cal-header">
+                        <h3>CALENDARIO</h3>
+                        <div style="position:relative;">
+                            <div class="cal-range" id="cal-range-btn">
+                                <span id="cal-view-label">SETTIMANA</span>
+                                <span class="cal-chevron">▼</span>
                             </div>
-                        </div>
-                        <div class="mock-card mock-card-span2">
-                            <div class="mock-card-label">Prossimi Esami</div>
-                            <div class="mock-event-list">
-                                <div class="mock-event"><div class="mock-event-dot"></div> Analisi Matematica II — 22 Mar</div>
-                                <div class="mock-event"><div class="mock-event-dot"></div> Fisica I — 28 Mar</div>
-                                <div class="mock-event"><div class="mock-event-dot"></div> Algoritmi — 4 Apr</div>
+                            <div class="cal-dropdown-menu" id="cal-dropdown">
+                                <div class="cal-menu-item active" data-view="week">
+                                    Settimana
+                                </div>
+                                <div class="cal-menu-item" data-view="month">
+                                    Mese
+                                </div>
+                                <div class="cal-menu-item" data-view="year">
+                                    Anno
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="cal-inner">
+                        <div id="mini-calendar"></div>
+                        <div class="events-section">
+                            <div class="events-label">Eventi</div>
+                            <div id="events-list"></div>
+                            <p id="no-events" class="no-events" style="display:none;">Nessun evento questa settimana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVERLAY IMPOSTAZIONI -->
+            <div class="settings-overlay" id="settingsOverlay">
+                <div class="settings-panel">
+
+                    <div class="settings-panel-header">
+                        <span class="settings-panel-title">IMPOSTAZIONI PROFILO</span>
+                        <div class="settings-close-btn" id="settingsCloseBtn">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+
+                    <div class="settings-panel-body">
+
+                        <nav class="settings-nav">
+                            <div class="settings-nav-item active" onclick="settingsShowTab('profilo', this)">
+                                <i class="fa-solid fa-user"></i> Profilo
+                            </div>
+                            <div class="settings-nav-item" onclick="settingsShowTab('sicurezza', this)">
+                                <i class="fa-solid fa-lock"></i> Sicurezza
+                            </div>
+                            <div class="settings-nav-item" onclick="settingsShowTab('notifiche', this)">
+                                <i class="fa-solid fa-bell"></i> Notifiche
+                            </div>
+                            <div class="settings-nav-item" onclick="settingsShowTab('aspetto', this)">
+                                <i class="fa-solid fa-palette"></i> Aspetto
+                            </div>
+                        </nav>
+
+                        <div class="settings-content">
+
+                            <!-- TAB: Profilo -->
+                            <div class="settings-tab" id="stab-profilo">
+                                <div class="settings-avatar-row">
+                                    <div class="settings-avatar" id="settingsAvatar">
+                                        <i class="fa-solid fa-user" id="settingsAvatarIcon"></i>
+                                        <img id="settingsAvatarImg" src="" alt="avatar" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" />
+                                    </div>
+                                    <div class="settings-avatar-info">
+                                        <strong>Nome Cognome</strong>
+                                        <span>Cambia foto profilo</span>
+                                        <a href="#" id="uploadAvatarBtn">Carica immagine</a>
+                                        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" />
+                                    </div>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Nome</label>
+                                    <input type="text" placeholder="Inserisci nome" />
+                                </div>
+                                <div class="settings-field">
+                                    <label>Cognome</label>
+                                    <input type="text" placeholder="Inserisci cognome" />
+                                </div>
+                                <div class="settings-field">
+                                    <label>Data di nascita</label>
+                                    <input type="date" id="inputDataNascita" />
+                                </div>
+                                <div class="settings-field">
+                                    <label>Email</label>
+                                    <input type="email" placeholder="email@esempio.com" />
+                                </div>
+                                <button class="settings-save-btn">SALVA MODIFICHE</button>
+                            </div>
+
+                            <!-- TAB: Sicurezza -->
+                            <div class="settings-tab" id="stab-sicurezza" style="display:none;">
+                                <div class="settings-section-title">Sicurezza account</div>
+                                <div class="settings-field">
+                                    <label>Password attuale</label>
+                                    <input type="password" placeholder="••••••••" />
+                                </div>
+                                <div class="settings-field">
+                                    <label>Nuova password</label>
+                                    <input type="password" placeholder="••••••••" />
+                                </div>
+                                <div class="settings-field">
+                                    <label>Conferma password</label>
+                                    <input type="password" placeholder="••••••••" />
+                                </div>
+                                <button class="settings-save-btn">AGGIORNA PASSWORD</button>
+                            </div>
+
+                            <!-- TAB: Notifiche -->
+                            <div class="settings-tab" id="stab-notifiche" style="display:none;">
+                                <div class="settings-section-title">Preferenze notifiche</div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Email promemoria</span>
+                                        <small>Ricevi promemoria eventi via email</small>
+                                    </div>
+                                    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Notifiche corsi</span>
+                                        <small>Nuovi materiali disponibili</small>
+                                    </div>
+                                    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Avvisi scadenze</span>
+                                        <small>Promemoria 24h prima della scadenza</small>
+                                    </div>
+                                    <div class="settings-toggle" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Newsletter</span>
+                                        <small>Aggiornamenti e novità della piattaforma</small>
+                                    </div>
+                                    <div class="settings-toggle" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <button class="settings-save-btn">SALVA PREFERENZE</button>
+                            </div>
+
+                            <!-- TAB: Aspetto -->
+                            <div class="settings-tab" id="stab-aspetto" style="display:none;">
+                                <div class="settings-section-title">Personalizzazione</div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Tema scuro</span>
+                                        <small>Usa sempre il tema dark</small>
+                                    </div>
+                                    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <div class="settings-toggle-row">
+                                    <div>
+                                        <span>Animazioni UI</span>
+                                        <small>Transizioni e animazioni dell'interfaccia</small>
+                                    </div>
+                                    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
+                                </div>
+                                <div class="settings-field" style="margin-top:14px;">
+                                    <label>Lingua interfaccia</label>
+                                    <select>
+                                        <option>Italiano</option>
+                                        <option>English</option>
+                                        <option>Français</option>
+                                    </select>
+                                </div>
+                                <button class="settings-save-btn">SALVA ASPETTO</button>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-</section>
+</div>
 
-<!-- ─── PRICING ─── -->
-<section class="pricing" id="pricing">
-    <div class="section-inner">
-        <div class="pricing-header">
-            <div class="section-tag">Piani</div>
-            <h2 class="section-title reveal">Scegli il piano<br><span>più adatto a te.</span></h2>
-            <p class="section-desc pricing-desc reveal reveal-delay-1">
-                Inizia gratis e fai l'upgrade quando ne hai bisogno. Nessuna sorpresa, nessun costo nascosto.
-            </p>
-        </div>
-
-        <div class="pricing-grid">
-            <!-- FREE -->
-            <div class="plan-card reveal">
-                <div class="plan-header">
-                    <div class="plan-name">Free</div>
-                    <div class="plan-price">
-                        <span class="plan-price-cur">€</span>
-                        <span class="plan-price-num">0</span>
-                        <span class="plan-price-per">/ mese</span>
-                    </div>
-                    <p class="plan-desc">Perfetto per iniziare a organizzare la tua vita scolastiva senza impegno.</p>
-                </div>
-                <div class="plan-divider"></div>
-                <div class="plan-features">
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Dashboard personale</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Calendario accademico base</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Statistiche voti</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Piani di studio limitati</div>
-                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Notifiche avanzate</div>
-                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Analisi della media</div>
-                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Export dati PDF / CSV</div>
-                    <div class="plan-feature inactive"><div class="check no"><i class="fa-solid fa-xmark"></i></div>Supporto prioritario</div>
-                </div>
-                <a href="client/public/login/index.php" class="plan-cta">Inizia Gratis</a>
-            </div>
-
-            <!-- PLUS -->
-            <div class="plan-card featured reveal reveal-delay-2">
-                <div class="plan-popular">Più popolare</div>
-                <div class="plan-header">
-                    <div class="plan-name">Plus</div>
-                    <div class="plan-price">
-                        <span class="plan-price-cur">€</span>
-                        <span class="plan-price-num">4</span>
-                        <span class="plan-price-per">/ mese</span>
-                    </div>
-                    <p class="plan-desc">Sblocca tutto il potenziale di EduOs e porta il tuo metodo di studio al livello successivo.</p>
-                </div>
-                <div class="plan-divider"></div>
-                <div class="plan-features">
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Dashboard personale</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Calendario accademico avanzato</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Statistiche voti complete</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Piani di studio illimitati</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Notifiche avanzate</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Analisi della media</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Export dati PDF / CSV</div>
-                    <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Supporto prioritario</div>
-                </div>
-                <a href="client/public/login/index.php" class="plan-cta">Passa a Plus</a> <!-- capire a che pag indirizzare -->
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ─── CHI SIAMO ─── -->
-<section class="who" id="chi-siamo">
-    <div class="section-inner">
-        <div class="section-tag">Chi Siamo</div>
-        <h2 class="section-title reveal">Nato da noi studenti,<br><span>costruito per te.</span></h2>
-        <p class="section-desc reveal reveal-delay-1">
-            EduOs nasce da una frustrazione reale: troppo caos, troppi strumenti inutili, zero soluzioni pensate per chi vuole studiare davvero. Così abbiamo deciso di cambiare le cose.
-        </p>
-
-        <div class="who-grid">
-            <div class="who-card reveal">
-                <div class="who-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                <h3>La Nostra Missione</h3>
-                <p>Rendere l'esperienza scolastica più organizzata, più serena e più efficace per ogni studente, indipendentemente che tu sia al liceo o all'università.</p>
-            </div>
-            <div class="who-card reveal reveal-delay-1">
-                <div class="who-icon"><i class="fa-solid fa-users"></i></div>
-                <h3>Il Nostro Team</h3>
-                <p>Siamo un piccolo gruppo di studenti e siamo convinti che le idee giuste, nelle mani giuste, possano cambiare il modo in cui si studia. Da questa convinzione è nato tutto.</p>
-            </div>
-            <div class="who-card reveal reveal-delay-2">
-                <div class="who-icon"><i class="fa-solid fa-seedling"></i></div>
-                <h3>Il Nostro Futuro</h3>
-                <p>EduOs è in continua crescita. Ogni aggiornamento nasce dal feedback della community: siamo qui per costruire un qualcosa che possa realmente aiutare gli studenti.</p>
-            </div>
-        </div>
-
-        <!-- TEAM CAROUSEL -->
-        <div class="team-section reveal">
-            <div class="section-tag">Il nostro Team</div>
-
-            <div class="team-carousel-wrap">
-                <div class="team-carousel" id="team-carousel">
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Lorenzo Cirulli</div>
-                        <div class="team-role">Amministratore Delegato</div>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Nicolò Putzu</div>
-                        <div class="team-role">Direttore Operativo</div>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Davide Tropea</div>
-                        <div class="team-role">Manager della Produzione</div>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Matteo Infanti</div>
-                        <div class="team-role">Marketing Manager</div>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Matteo Valnerini</div>
-                        <div class="team-role">Manager della Comunicazione e delle Vendite</div>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="team-name">Simone Pitorri</div>
-                        <div class="team-role">Manager Finanziario</div>
-                    </div>
-                </div>
-
-                <div class="carousel-controls">
-                    <button class="carousel-btn" id="carousel-prev" aria-label="Precedente">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <div class="carousel-dots" id="carousel-dots"></div>
-                    <button class="carousel-btn" id="carousel-next" aria-label="Successivo">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- ─── FOOTER ─── -->
-<footer>
-    <div class="footer-logo">Edu<span>Os</span></div>
-    <div class="footer-copy">© 2026 EduOs · Tutti i diritti riservati</div> <!-- DA CAPIRE -->
-    <div class="footer-socials">
-        <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-    </div>
-</footer>
-
-<script src="client/src/js/index.js"></script>
-
+<script src="../../src/js/calendar.js"></script>
+<script src="../../src/js/profilo.js"></script>
 </body>
 </html>

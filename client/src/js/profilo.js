@@ -28,7 +28,7 @@
      function logoutUtente() {
         // TODO: aggiungi qui la chiamata al DB per invalidare la sessione
         // es: await supabase.auth.signOut()
-        window.location.href = 'client/public/login.php';
+        window.location.href = 'login.php';
     }
 })();
 
@@ -36,11 +36,11 @@
     // qui potrai mettere supabase.auth.signOut()
     localStorage.removeItem("utenteLoggato");
 
-    window.location.href = "client/public/login.php";
+    window.location.href = "login.php";
 }
 
     function loginRedirect(){
-    window.location.href = "client/public/login.php";
+    window.location.href = "login.php";
 }
 
     function controllaLogin(){

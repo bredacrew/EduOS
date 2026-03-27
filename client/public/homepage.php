@@ -16,45 +16,54 @@
 <div class="shell">
     <div class="app-frame">
 
-        <!-- SIDEBAR -->
+        <!-- ─── SIDEBAR ─── -->
         <div class="sidebar">
+
             <!-- LOGO -->
             <a href="../../index.php" class="logo-wrap">
                 <img src="../src/img/logo/Logo-Senza_sfondo.png" alt="Logo EduOs">
             </a>
 
+            <!-- NAV -->
             <div class="nav-icons">
 
-                <!-- HOME -->
+                <!-- HOMEPAGE -->
                 <a href="../../index.php" class="nav-item active">
                     <i class="fa-solid fa-house"></i>
+                    <span class="nav-label">Homepage</span>
                 </a>
 
-                <!-- PIANI -->
+                <!-- CALENDARIO -->
                 <a href="piani.php" class="nav-item">
                     <i class="fa-solid fa-calendar-days"></i>
+                    <span class="nav-label">Calendario</span>
                 </a>
 
-                <!-- CHI SIAMO -->
+                <!-- PROGRESSI -->
                 <a href="chiSiamo.php" class="nav-item">
                     <i class="fa-solid fa-chart-bar"></i>
+                    <span class="nav-label">Progressi</span>
                 </a>
 
+                <div class="nav-divider"></div>
+
                 <!-- IMPOSTAZIONI -->
-                <div class="nav-item">
+                <div class="nav-item" id="settingsNavBtn">
                     <i class="fa-solid fa-gear"></i>
+                    <span class="nav-label">Impostazioni</span>
                 </div>
 
             </div>
 
             <!-- LOGOUT -->
-            <a href="#" class="nav-logout" id="auth-button">
+            <a href="login.php" class="nav-logout" id="auth-button">
                 <i class="fa-solid fa-right-to-bracket"></i>
+                <span class="nav-label">Logout</span>
             </a>
 
         </div>
 
-        <!-- MAIN -->
+        <!-- ─── MAIN ─── -->
         <div class="main">
 
             <!-- TOPBAR -->
@@ -82,11 +91,16 @@
             <!-- BODY -->
             <div class="body">
 
-                <!-- LEFT -->
+                <!-- COLONNA SINISTRA -->
                 <div class="col-main">
+
                     <div class="greeting-card">
-                        <div class="greeting-icon"><i class="fa-solid fa-calendar-days"></i></div>
-                        <div class="greeting-text"><h1>Buongiorno, Nome</h1></div>
+                        <div class="greeting-icon" id="greeting-icon">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+                        <div class="greeting-text">
+                            <h1 id="greeting-text">Buongiorno, Nome</h1>
+                        </div>
                     </div>
 
                     <div class="stats-card">
@@ -102,55 +116,53 @@
                             <p>Dati grafico dal database</p>
                         </div>
                     </div>
-                </div>
-            <div class="col-right">
-                <div class="profile-card">
-                    <div class="profile-label">
-                        PROFILO
-                    </div>
-                    <div class="profile-body">
-                        <div class="avatar-lg"><i class="fa-solid fa-user"></i></div>
-                        <div class="profile-info">
-                            <h3 id="profileNome">NOME</h3>
-                            <p id="profileCognome">COGNOME</p>
-                            <span id="profileData" class="profile-data">DATA NASCITA</span>
-                        </div>
-                    </div>
+
                 </div>
 
-                <div class="calendar-card">
-                    <div class="cal-header">
-                        <h3>CALENDARIO</h3>
-                        <div style="position:relative;">
-                            <div class="cal-range" id="cal-range-btn">
-                                <span id="cal-view-label">SETTIMANA</span>
-                                <span class="cal-chevron">▼</span>
-                            </div>
-                            <div class="cal-dropdown-menu" id="cal-dropdown">
-                                <div class="cal-menu-item active" data-view="week">
-                                    Settimana
-                                </div>
-                                <div class="cal-menu-item" data-view="month">
-                                    Mese
-                                </div>
-                                <div class="cal-menu-item" data-view="year">
-                                    Anno
-                                </div>
+                <!-- COLONNA DESTRA -->
+                <div class="col-right">
+
+                    <div class="profile-card">
+                        <div class="profile-label">PROFILO</div>
+                        <div class="profile-body">
+                            <div class="avatar-lg"><i class="fa-solid fa-user"></i></div>
+                            <div class="profile-info">
+                                <h3 id="profileNome">NOME</h3>
+                                <p id="profileCognome">COGNOME</p>
+                                <span id="profileData" class="profile-data">DATA NASCITA</span>
                             </div>
                         </div>
                     </div>
-                    <div class="cal-inner">
-                        <div id="mini-calendar"></div>
-                        <div class="events-section">
-                            <div class="events-label">Eventi</div>
-                            <div id="events-list"></div>
-                            <p id="no-events" class="no-events" style="display:none;">Nessun evento questa settimana</p>
+
+                    <div class="calendar-card">
+                        <div class="cal-header">
+                            <h3>CALENDARIO</h3>
+                            <div style="position:relative;">
+                                <div class="cal-range" id="cal-range-btn">
+                                    <span id="cal-view-label">SETTIMANA</span>
+                                    <span class="cal-chevron">▼</span>
+                                </div>
+                                <div class="cal-dropdown-menu" id="cal-dropdown">
+                                    <div class="cal-menu-item active" data-view="week">Settimana</div>
+                                    <div class="cal-menu-item" data-view="month">Mese</div>
+                                    <div class="cal-menu-item" data-view="year">Anno</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cal-inner">
+                            <div id="mini-calendar"></div>
+                            <div class="events-section">
+                                <div class="events-label">Eventi</div>
+                                <div id="events-list"></div>
+                                <p id="no-events" class="no-events" style="display:none;">Nessun evento questa settimana</p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
-
-            <!-- OVERLAY IMPOSTAZIONI -->
+            <!-- ─── OVERLAY IMPOSTAZIONI ─── -->
             <div class="settings-overlay" id="settingsOverlay">
                 <div class="settings-panel">
 
@@ -298,7 +310,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

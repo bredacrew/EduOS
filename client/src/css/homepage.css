@@ -1060,3 +1060,62 @@ html, body {
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
+
+.topbar-chevron {
+    color: var(--text-muted);
+    font-size: 11px;
+    transition: transform 0.22s;
+    cursor: pointer;
+}
+
+.topbar-right.open .topbar-chevron {
+    transform: rotate(180deg);
+}
+
+.topbar-profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 180px;
+    background: #0d1f2d;
+    border: 1px solid rgba(14,207,207,0.22);
+    border-radius: 14px;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(14,207,207,0.08);
+    animation: fadeDown 0.18s ease;
+}
+
+.topbar-profile-dropdown.open {
+    display: block;
+}
+
+.topbar-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--accent);
+    font-size: 13px;
+    font-family: 'Exo 2', sans-serif;
+    padding: 8px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.topbar-dropdown-item:hover {
+    background: rgba(14,207,207,0.10);
+}
+
+.profile-info h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: #fff; letter-spacing: 0.04em; line-height: 1.1;
+    margin-bottom: 4px;
+}
+.profile-info p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}

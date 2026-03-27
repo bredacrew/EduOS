@@ -66,8 +66,16 @@
                     </div>
                 </div>
 
-                <div class="topbar-right">
+                <div class="topbar-right" id="profile-dropdown-trigger">
                     <div class="avatar-ring"><i class="fa-solid fa-user"></i></div>
+                    <i class="fa-solid fa-chevron-down topbar-chevron" id="topbar-chevron-icon"></i>
+
+                    <div class="topbar-profile-dropdown" id="topbar-profile-dropdown">
+                        <div class="topbar-dropdown-item" id="openSettingsFromDropdown">
+                            <i class="fa-solid fa-user-gear"></i>
+                            Gestione profilo
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -104,9 +112,7 @@
                         <div class="avatar-lg"><i class="fa-solid fa-user"></i></div>
                         <div class="profile-info">
                             <h3 id="profileNome">NOME</h3>
-                            <div class="profile-divider"></div>
                             <p id="profileCognome">COGNOME</p>
-                            <div class="profile-divider"></div>
                             <span id="profileData" class="profile-data">DATA NASCITA</span>
                         </div>
                     </div>

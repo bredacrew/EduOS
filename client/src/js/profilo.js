@@ -220,4 +220,25 @@ function controllaLogin() {
     }
 }
 
+// Dropdown profilo topbar
+const profileTrigger = document.getElementById('profile-dropdown-trigger');
+const profileDropdown = document.getElementById('topbar-profile-dropdown');
+const topbarChevron = document.getElementById('topbar-chevron-icon');
+
+profileTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileTrigger.classList.toggle('open');
+    profileDropdown.classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+    profileTrigger.classList.remove('open');
+    profileDropdown.classList.remove('open');
+});
+
+document.getElementById('openSettingsFromDropdown').addEventListener('click', () => {
+    document.getElementById('settingsOverlay').classList.add('open');
+    profileDropdown.classList.remove('open');
+    profileTrigger.classList.remove('open');
+});
 controllaLogin();

@@ -203,20 +203,10 @@ function loginRedirect() {
 }
 
 function controllaLogin() {
-    const utente   = localStorage.getItem("utenteLoggato");
-    const btn      = document.getElementById("auth-button");
-    const dropdown = document.getElementById("auth-dropdown");
-
-    if (utente) {
-        btn.innerHTML      = '<i class="fa-solid fa-right-from-bracket"></i>';
-        dropdown.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Logout';
-        btn.onclick      = logoutUtente;
-        dropdown.onclick = logoutUtente;
-    } else {
-        btn.innerHTML      = '<i class="fa-solid fa-right-to-bracket"></i>';
-        dropdown.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
-        btn.onclick      = loginRedirect;
-        dropdown.onclick = loginRedirect;
+    const btn = document.getElementById("auth-button");
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i><span class="nav-label">Logout</span>';
+        btn.onclick = logoutUtente;
     }
 }
 

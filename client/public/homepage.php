@@ -28,7 +28,7 @@
             <div class="nav-icons">
 
                 <!-- HOMEPAGE -->
-                <a href="../../index.php" class="nav-item active">
+                <a href="#" class="nav-item">
                     <i class="fa-solid fa-house"></i>
                     <span class="nav-label">Homepage</span>
                 </a>

@@ -66,12 +66,13 @@ html, body {
     position: relative;
     z-index: 2;
     overflow: hidden;
-    transition: width 0.25s ease, align-items 0.25s ease;
+    transition: width 0.25s ease;
 }
 
 .sidebar:hover {
     width: 180px;
     align-items: flex-start;
+    overflow: visible;
 }
 
 .sidebar::after {
@@ -200,7 +201,6 @@ html, body {
     cursor: pointer;
     text-decoration: none;
     flex-shrink: 0;
-    overflow: hidden;
     transition: color 0.25s, background 0.25s;
 }
 

@@ -232,3 +232,30 @@ document.getElementById('openSettingsFromDropdown').addEventListener('click', ()
     profileTrigger.classList.remove('open');
 });
 controllaLogin();
+
+/* ── Dropdown statistiche ── */
+const statsRangeBtn  = document.getElementById('stats-range-btn');
+const statsDropdown  = document.getElementById('stats-dropdown');
+const statsViewLabel = document.getElementById('stats-view-label');
+
+statsRangeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    statsRangeBtn.classList.toggle('open');
+    statsDropdown.classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+    statsRangeBtn.classList.remove('open');
+    statsDropdown.classList.remove('open');
+});
+
+document.querySelectorAll('.stats-menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.stats-menu-item')
+            .forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        statsViewLabel.textContent = item.textContent.trim().toUpperCase();
+        statsRangeBtn.classList.remove('open');
+        statsDropdown.classList.remove('open');
+    });
+});

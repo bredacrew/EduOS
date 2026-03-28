@@ -1007,3 +1007,69 @@ html, body {
     background: #0bebeb;
     box-shadow: 0 0 18px rgba(14,207,207,0.35);
 }
+
+/* ── Dropdown statistiche ── */
+.stats-range {
+    background: rgba(14,207,207,0.10);
+    border: 1px solid rgba(14,207,207,0.22);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px; color: var(--accent);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; letter-spacing: 0.05em;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.stats-range:hover {
+    background: rgba(14,207,207,0.16);
+    border-color: rgba(14,207,207,0.32);
+}
+
+.stats-chevron {
+    font-size: 9px;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+.stats-range.open .stats-chevron {
+    transform: rotate(180deg);
+}
+
+.stats-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px); right: 0;
+    width: 160px;
+    background: #0d1f2d;
+    border: 1px solid rgba(14,207,207,0.22);
+    border-radius: 14px; padding: 10px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(14,207,207,0.08);
+    animation: fadeDown 0.18s ease;
+}
+
+.stats-dropdown-menu.open {
+    display: block;
+}
+
+.stats-menu-item {
+    display: flex; align-items: center; gap: 9px;
+    color: var(--text-secondary);
+    font-size: 13px; font-family: 'Exo 2', sans-serif;
+    padding: 8px 10px; border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+
+.stats-menu-item:hover {
+    background: rgba(14,207,207,0.10);
+    color: var(--text-primary);
+}
+
+.stats-menu-item.active {
+    background: rgba(14,207,207,0.13);
+    color: var(--accent);
+}

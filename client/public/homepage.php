@@ -39,10 +39,10 @@
                     <span class="nav-label">Calendario</span>
                 </a>
 
-                <!-- PROGRESSI -->
+                <!-- STATISTICHE -->
                 <a href="chiSiamo.php" class="nav-item">
                     <i class="fa-solid fa-chart-bar"></i>
-                    <span class="nav-label">Progressi</span>
+                    <span class="nav-label">Statistiche</span>
                 </a>
 
                 <div class="nav-divider"></div>
@@ -106,10 +106,16 @@
                     <div class="stats-card">
                         <div class="stats-header">
                             <h2>Statistiche Accademiche</h2>
-                            <select class="stats-select">
-                                <option>MESE / ANNO</option>
-                                <option>QUESTA SETTIMANA</option>
-                            </select>
+                            <div style="position:relative;">
+                                <div class="stats-range" id="stats-range-btn">
+                                    <span id="stats-view-label">QUESTA SETTIMANA</span>
+                                    <span class="stats-chevron">▼</span>
+                                </div>
+                                <div class="stats-dropdown-menu" id="stats-dropdown">
+                                    <div class="stats-menu-item active" data-view="week">Questa Settimana</div>
+                                    <div class="stats-menu-item" data-view="month">Mese / Anno</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="graph-area">
                             <i class="fa-solid fa-chart-line"></i>

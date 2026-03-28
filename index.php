@@ -1,4 +1,4 @@
-<!-- DA SISTEMARE index -->
+<!-- DA SISTEMARE -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -158,13 +158,13 @@
                         <div class="mock-card mock-card-span2">
                             <div class="mock-card-label">Andamento Mensile</div>
                             <div class="mock-bars">
-                                <div class="mock-bar" style="height:40%"></div>
-                                <div class="mock-bar" style="height:55%"></div>
-                                <div class="mock-bar" style="height:35%"></div>
-                                <div class="mock-bar" style="height:70%"></div>
-                                <div class="mock-bar accent" style="height:90%"></div>
-                                <div class="mock-bar" style="height:60%"></div>
-                                <div class="mock-bar" style="height:75%"></div>
+                                <div class="mock-bar" data-h="40"></div>
+                                <div class="mock-bar" data-h="55"></div>
+                                <div class="mock-bar" data-h="35"></div>
+                                <div class="mock-bar" data-h="70"></div>
+                                <div class="mock-bar accent" data-h="90"></div>
+                                <div class="mock-bar" data-h="60"></div>
+                                <div class="mock-bar" data-h="75"></div>
                             </div>
                         </div>
                         <div class="mock-card mock-card-span2">
@@ -242,7 +242,7 @@
                     <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Export dati PDF / CSV</div>
                     <div class="plan-feature"><div class="check yes"><i class="fa-solid fa-check"></i></div>Supporto prioritario</div>
                 </div>
-                <a href="client/public/login/index.php" class="plan-cta">Passa a Plus</a> <!-- capire a che pag indirizzare -->
+                <a href="client/public/login/index.php" class="plan-cta">Passa a Plus</a>
             </div>
         </div>
     </div>
@@ -282,32 +282,32 @@
             <div class="team-carousel-wrap">
                 <div class="team-carousel" id="team-carousel">
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Lorenzo Cirulli</div>
                         <div class="team-role">Amministratore Delegato</div>
                     </div>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Nicolò Putzu</div>
                         <div class="team-role">Direttore Operativo</div>
                     </div>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Davide Tropea</div>
                         <div class="team-role">Manager della Produzione</div>
                     </div>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Matteo Infanti</div>
                         <div class="team-role">Marketing Manager</div>
                     </div>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Matteo Valnerini</div>
                         <div class="team-role">Manager della Comunicazione e delle Vendite</div>
                     </div>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="team-avatar"></div>
                         <div class="team-name">Simone Pitorri</div>
                         <div class="team-role">Manager Finanziario</div>
                     </div>
@@ -328,13 +328,60 @@
     </div>
 </section>
 
+<!-- ─── FAQ, da sistemare ─── -->
+<section class="faq" id="faq">
+    <div class="section-inner">
+        <div class="section-tag">FAQ</div>
+        <h2 class="section-title reveal">Domande<br><span>frequenti.</span></h2>
+
+        <div class="faq-list">
+            <div class="faq-item reveal">
+                <button class="faq-question" aria-expanded="false">
+                    EduOs è davvero gratuito?
+                    <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sì, il piano Free è completamente gratuito e senza limiti di tempo. Puoi fare l'upgrade a Plus in qualsiasi momento per sbloccare le funzionalità avanzate.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal reveal-delay-1">
+                <button class="faq-question" aria-expanded="false">
+                    Posso usarlo sia al liceo che all'università?
+                    <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Assolutamente sì. EduOs è progettato per studenti delle superiori e università, adattandosi al tuo tipo di percorso scolastico.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal reveal-delay-2">
+                <button class="faq-question" aria-expanded="false">
+                    Come vengono protetti i miei dati?
+                    <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>I tuoi dati sono protetti con connessioni cifrate e non vengono mai condivisi con terze parti. Puoi eliminare il tuo account e tutti i dati associati in qualsiasi momento.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal reveal-delay-3">
+                <button class="faq-question" aria-expanded="false">
+                    Posso cancellare il piano Plus quando voglio?
+                    <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sì, nessun vincolo. Puoi disdire il piano Plus in qualsiasi momento direttamente dalle impostazioni del tuo profilo, senza costi aggiuntivi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ─── FOOTER ─── -->
 <footer>
     <div class="footer-logo">Edu<span>Os</span></div>
-    <div class="footer-copy">© 2026 EduOs · Tutti i diritti riservati</div> <!-- DA CAPIRE -->
+    <div class="footer-copy">© 2026 EduOs · Tutti i diritti riservati</div>
     <div class="footer-socials">
-        <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://instagram.com/eduos_social" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://tiktok.com/@eduos_" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
     </div>
 </footer>
 

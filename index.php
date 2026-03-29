@@ -103,7 +103,7 @@
                     Ogni periodo porta con sé scadenze, compiti, esami, appunti e una montagna di cose da ricordare. EduOs raccoglie tutto in un unico spazio: la tua dashboard personale, sempre aggiornata e a portata di mano.
                 </p>
                 <p>
-                    Che tu stia pianificando la sessione, monitorando la media voti o cercando di non dimenticare quella lezione importante, EduOs ti ha già pensato.
+                    Che tu stia pianificando la sessione, monitorando la media voti o cercando di non dimenticare quella lezione importante, EduOs ha già pensato a te.
                 </p>
 
                 <div class="about-features">
@@ -189,7 +189,7 @@
             <div class="section-tag">Piani</div>
             <h2 class="section-title reveal">Scegli il piano<br><span>più adatto a te.</span></h2>
             <p class="section-desc pricing-desc reveal reveal-delay-1">
-                Inizia gratis e fai l'upgrade quando ne hai bisogno. Nessuna sorpresa, nessun costo nascosto.
+                Inizia gratis e passa a un piano superiore solo quando ne hai bisogno. Nessuna sorpresa, nessun costo nascosto.
             </p>
         </div>
 
@@ -203,7 +203,7 @@
                         <span class="plan-price-num">0</span>
                         <span class="plan-price-per">/ mese</span>
                     </div>
-                    <p class="plan-desc">Perfetto per iniziare a organizzare la tua vita scolastiva senza impegno.</p>
+                    <p class="plan-desc">Perfetto per iniziare a organizzare la tua vita scolastica senza impegno.</p>
                 </div>
                 <div class="plan-divider"></div>
                 <div class="plan-features">
@@ -266,12 +266,12 @@
             <div class="who-card reveal reveal-delay-1">
                 <div class="who-icon"><i class="fa-solid fa-users"></i></div>
                 <h3>Il Nostro Team</h3>
-                <p>Siamo un piccolo gruppo di studenti e siamo convinti che le idee giuste, nelle mani giuste, possano cambiare il modo in cui si studia. Da questa convinzione è nato tutto.</p>
+                <p>Siamo un piccolo gruppo di studenti e siamo convinti che le idee giuste, nelle mani giuste, possano cambiare il modo in cui si studia. Da questa convinzione è nato EduOs.</p>
             </div>
             <div class="who-card reveal reveal-delay-2">
                 <div class="who-icon"><i class="fa-solid fa-seedling"></i></div>
                 <h3>Il Nostro Futuro</h3>
-                <p>EduOs è in continua crescita. Ogni aggiornamento nasce dal feedback della community: siamo qui per costruire un qualcosa che possa realmente aiutare gli studenti.</p>
+                <p>EduOs è in continua crescita: ogni aggiornamento nasce dal feedback della community. Siamo qui per costruire qualcosa che possa aiutare concretamente gli studenti.</p>
             </div>
         </div>
 

@@ -605,17 +605,37 @@ section { position: relative; }
 .team-carousel-wrap { position: relative; margin-top: 24px; }
 
 .team-carousel {
-    display: flex; gap: 16px;
-    overflow: hidden; scroll-behavior: smooth;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
     padding: 8px 4px 16px;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y;
+    scrollbar-width: none;
+}
+
+.team-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.team-carousel.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
 }
 
 .team-card {
     background: rgba(14,207,207,0.04);
     border: 1px solid var(--border);
-    border-radius: 14px; padding: 28px 20px;
-    text-align: center; transition: all 0.25s;
-    flex: 0 0 calc(25% - 12px); min-width: 160px;
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: all 0.25s;
+    flex: 0 0 calc(25% - 12px);
+    min-width: 160px;
+    user-select: none;
 }
 
 .team-card:hover {
@@ -717,7 +737,7 @@ section { position: relative; }
     font-size: 14px; line-height: 1.75; color: var(--text-secondary);
 }
 
-.faq-item.open .faq-answer { max-height: 200px; }
+.faq-item.open .faq-answer { max-height: 500px; }
 
 /* ─── FOOTER ─── */
 footer {

@@ -1,36 +1,12 @@
 <?php
 // auth_controller.php
-// require_once "../../database/connessione.php";
+require_once "../../database/connessione.php";
 
 session_start([
-        'cookie_httponly' => true,
-        'cookie_secure'   => true,       // solo https in produzione
-        'cookie_samesite' => 'Strict',
+    'cookie_httponly' => true,
+    'cookie_secure'   => true,
+    'cookie_samesite' => 'Strict',
 ]);
-
-// =============================================
-// CONFIGURAZIONE DATABASE
-// =============================================
-define('DB_HOST',     'localhost');
-define('DB_NAME',     'my_eduos');
-define('DB_USER',     'eduos');
-define('DB_PASS',     '');   // ← cambia
-define('DB_CHARSET',  'utf8mb4_0900_ai_ci');
-
-/*try {
-    $pdo = new PDO(
-            "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=".DB_CHARSET,
-            DB_USER,
-            DB_PASS,
-            [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,
-            ]
-    );
-} catch (PDOException $e) {
-    die("Errore connessione DB: " . $e->getMessage());
-}*/
 
 // =============================================
 // FUNZIONI DI UTILITÀ
@@ -39,11 +15,6 @@ function redirect(string $location, array $params = []): never {
     $query = $params ? ('?' . http_build_query($params)) : '';
     header("Location: $location$query");
     exit;
-}
-
-function hash_password(string $plain): string {
-    return password_hash($plain, PASSWORD_ARGON2ID);
-    // oppure PASSWORD_DEFAULT (sceglie l'algoritmo migliore automaticamente)
 }
 
 // =============================================
@@ -56,64 +27,61 @@ if ($action === 'login') {
     $password = $_POST['password']      ?? '';
 
     if (empty($email) || empty($password)) {
-        reference('../../client/view/login.html', ['error' => 'Compila tutti i campi']);
+        redirect('../../client/view/login.html', ['error' => 'Compila tutti i campi']);
     }
 
     // Cerchiamo l'utente
     $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
-                                FROM Utenti 
-                                WHERE email = ?
-                                LIMIT 1");
-    $stmt = bind_param("s",$email);
+                            FROM Utenti 
+                            WHERE Email = ?
+                            LIMIT 1");
+
+    if ($stmt === false) {
+        redirect('../../client/view/login.html', ['error' => 'Errore interno']);
+    }
+
+    $stmt->bind_param("s", $email);
     $stmt->execute();
+    $result = $stmt->get_result();
+    $user   = $result->fetch_assoc();
 
-    $result->get_result();
-    $user = $result->fetch_assoc();
-
-    if (!$user || !password_verify($password, $user['password'])) {
-        // Per sicurezza: stesso messaggio anche se utente non esiste
+    if (!$user || !password_verify($password, $user['Password'])) {
         redirect('../../client/view/login.html', ['error' => 'Credenziali non valide']);
     }
 
-    // =====================================
     // LOGIN RIUSCITO
-    // =====================================
-
-    // Rigeneriamo l'ID sessione (protezione session fixation)
     session_regenerate_id(true);
 
-    // Dati da mettere in sessione
     $_SESSION = [
-            'user_id'    => $user['idUtente'],
-            'email'      => $user['email'],
-            'nome'       => $user['nome'],
-            'cognome'      => $user['cognome'],
-            'admin'      => $user['isAmministratore'],
-            'logged_in'  => true,
-            'last_activity' => time(),
+        'user_id'       => $user['IdUtente'],
+        'email'         => $user['Email'],
+        'nome'          => $user['Nome'],
+        'cognome'       => $user['Cognome'],
+        'admin'         => $user['IsAmministratore'],
+        'logged_in'     => true,
+        'last_activity' => time(),
     ];
 
-    redirect('../../client/view/dashboard.html');
+    redirect('../../client/view/homepage.html');
 }
 
 // =============================================
-// LOGOUT (opzionale – puoi chiamare da altro file)
+// LOGOUT
 // =============================================
 if ($action === 'logout') {
     $_SESSION = [];
     $params = session_get_cookie_params();
     setcookie(
-            session_name(),
-            '',
-            time() - 42000,
-            $params['path'],
-            $params['domain'],
-            $params['secure'],
-            $params['httponly']
+        session_name(),
+        '',
+        time() - 42000,
+        $params['path'],
+        $params['domain'],
+        $params['secure'],
+        $params['httponly']
     );
     session_destroy();
     redirect('../../client/view/login.html', ['msg' => 'Logout effettuato']);
 }
 
-// Azione non riconosciuta
 redirect('../../client/view/login.html', ['error' => 'Richiesta non valida']);

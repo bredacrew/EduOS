@@ -1,6 +1,73 @@
 (function () {
 
-    // ── Overlay impostazioni: apre cliccando avatar-ring in alto a destra ──
+    // ── Carica dati utente dalla sessione ──
+    async function caricaUtente() {
+        try {
+            const res  = await fetch('../../database/get_user.php');
+            if (res.status === 401) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const user = await res.json();
+            if (user.error) return;
+
+            // Greeting
+            const ora = new Date().getHours();
+            let saluto = ora < 12 ? 'Buongiorno' : ora < 18 ? 'Buon pomeriggio' : 'Buonasera';
+            const greetingEl = document.querySelector('.greeting-text h1');
+            if (greetingEl) greetingEl.textContent = saluto + ', ' + (user.Nome || '');
+
+            // Profile card
+            const profileNome    = document.getElementById('profileNome');
+            const profileCognome = document.getElementById('profileCognome');
+            const profileData    = document.getElementById('profileData');
+            if (profileNome)    profileNome.textContent    = (user.Nome    || '').toUpperCase();
+            if (profileCognome) profileCognome.textContent = (user.Cognome || '').toUpperCase();
+            if (profileData && user.DataNascita) {
+                const parti = user.DataNascita.split('-');
+                profileData.textContent = parti[2] + '/' + parti[1] + '/' + parti[0];
+            }
+
+            // Settings panel
+            const avatarStrong = document.querySelector('.settings-avatar-info strong');
+            if (avatarStrong) avatarStrong.textContent = (user.Nome || '') + ' ' + (user.Cognome || '');
+
+            // Pre-compila i campi del form impostazioni
+            const inputNome    = document.querySelector('#stab-profilo input[placeholder="Inserisci nome"]');
+            const inputCognome = document.querySelector('#stab-profilo input[placeholder="Inserisci cognome"]');
+            const inputEmail   = document.querySelector('#stab-profilo input[placeholder="email@esempio.com"]');
+            const inputData    = document.getElementById('inputDataNascita');
+            if (inputNome)    inputNome.value    = user.Nome    || '';
+            if (inputCognome) inputCognome.value = user.Cognome || '';
+            if (inputEmail)   inputEmail.value   = user.Email   || '';
+            if (inputData)    inputData.value    = user.DataNascita || '';
+
+            // Avatar
+            if (user.AvatarUrl) {
+                impostaAvatar(user.AvatarUrl);
+            }
+
+        } catch (err) {
+            console.error('Errore caricamento utente:', err);
+        }
+    }
+
+    function impostaAvatar(src) {
+        const imgStyle     = 'width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;';
+        const avatarLg     = document.querySelector('.avatar-lg');
+        const avatarRingEl = document.querySelector('.avatar-ring');
+        const avatarImg    = document.getElementById('settingsAvatarImg');
+        const avatarIcon   = document.getElementById('settingsAvatarIcon');
+
+        if (avatarLg)     avatarLg.innerHTML     = '<img src="' + src + '" style="' + imgStyle + '" />';
+        if (avatarRingEl) avatarRingEl.innerHTML = '<img src="' + src + '" style="' + imgStyle + '" />';
+        if (avatarImg)  { avatarImg.src = src; avatarImg.style.display = 'block'; }
+        if (avatarIcon)   avatarIcon.style.display = 'none';
+    }
+
+    caricaUtente();
+
+    // ── Overlay impostazioni ──
     const avatarRing = document.querySelector('.avatar-ring');
     if (avatarRing) {
         avatarRing.addEventListener('click', function () {
@@ -17,7 +84,7 @@
         if (e.target === this) this.classList.remove('open');
     });
 
-    // ── Carica immagine profilo ──
+    // ── Carica immagine profilo (anteprima) ──
     const uploadBtn  = document.getElementById('uploadAvatarBtn');
     const fileInput  = document.getElementById('avatarFileInput');
     const avatarImg  = document.getElementById('settingsAvatarImg');
@@ -32,7 +99,6 @@
         fileInput.addEventListener('change', function () {
             const file = this.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function (e) {
                 avatarImg.src = e.target.result;
@@ -40,144 +106,85 @@
                 avatarIcon.style.display = 'none';
             };
             reader.readAsDataURL(file);
-
-            // ── COLLEGAMENTO DB: upload immagine
-            // Decommentare questo blocco quando colleghiamo il database.
-            //
-            // async function uploadAvatar(file) {
-            //     const utenteId = supabase.auth.user().id;
-            //     const estensione = file.name.split('.').pop();
-            //     const percorso = utenteId + '/avatar.' + estensione;
-            //
-            //     const { data, error } = await supabase.storage
-            //         .from('avatars')
-            //         .upload(percorso, file, { upsert: true });
-            //
-            //     if (error) {
-            //         console.error('Errore upload avatar:', error.message);
-            //         return;
-            //     }
-            //
-            //     const { data: urlData } = supabase.storage
-            //         .from('avatars')
-            //         .getPublicUrl(percorso);
-            //
-            //     const urlPubblico = urlData.publicUrl;
-            //
-            //     const { error: dbError } = await supabase
-            //         .from('utenti')
-            //         .update({ avatar_url: urlPubblico })
-            //         .eq('id', utenteId);
-            //
-            //     if (dbError) {
-            //         console.error('Errore salvataggio URL avatar:', dbError.message);
-            //     }
-            // }
-            //
-            // uploadAvatar(file);
         });
     }
 
     // ── Salva modifiche profilo ──
     const saveBtn = document.querySelector('.settings-save-btn');
-
     if (saveBtn) {
-        saveBtn.addEventListener('click', function () {
+        saveBtn.addEventListener('click', async function () {
             const nome    = document.querySelector('#stab-profilo input[placeholder="Inserisci nome"]').value.trim();
             const cognome = document.querySelector('#stab-profilo input[placeholder="Inserisci cognome"]').value.trim();
             const email   = document.querySelector('#stab-profilo input[placeholder="email@esempio.com"]').value.trim();
-            const data    = document.getElementById('inputDataNascita') ? document.getElementById('inputDataNascita').value : '';
+            const data    = document.getElementById('inputDataNascita')?.value || '';
+            const file    = fileInput?.files[0];
 
-            // Aggiorna solo i campi compilati
-            const h3           = document.getElementById('profileNome');
-            const p            = document.getElementById('profileCognome');
-            const dataEl       = document.getElementById('profileData');
+            const formData = new FormData();
+            if (nome)    formData.append('nome',         nome);
+            if (cognome) formData.append('cognome',      cognome);
+            if (email)   formData.append('email',        email);
+            if (data)    formData.append('data_nascita', data);
+            if (file)    formData.append('avatar',       file);
 
-            if (nome && h3)    h3.textContent = nome.toUpperCase();
-            if (cognome && p)  p.textContent  = cognome.toUpperCase();
+            try {
+                const res  = await fetch('../../database/save_user.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await res.json();
 
-            // Formatta la data in italiano es. 01/01/1990
-            if (data && dataEl) {
-                const parti = data.split('-');
-                dataEl.textContent = parti[2] + '/' + parti[1] + '/' + parti[0];
-            }
-
-            // Aggiorna il nome nel greeting "Buongiorno, Nome"
-            if (nome) {
-                const greetingEl = document.querySelector('.greeting-text h1');
-                if (greetingEl) {
-                    greetingEl.textContent = 'Buongiorno, ' + nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+                if (result.error) {
+                    alert('Errore: ' + result.error);
+                    return;
                 }
+
+                // Aggiorna UI
+                const h3    = document.getElementById('profileNome');
+                const p     = document.getElementById('profileCognome');
+                const dataEl = document.getElementById('profileData');
+
+                if (nome && h3)    h3.textContent = nome.toUpperCase();
+                if (cognome && p)  p.textContent  = cognome.toUpperCase();
+                if (data && dataEl) {
+                    const parti = data.split('-');
+                    dataEl.textContent = parti[2] + '/' + parti[1] + '/' + parti[0];
+                }
+
+                const greetingEl = document.querySelector('.greeting-text h1');
+                if (nome && greetingEl) {
+                    const ora = new Date().getHours();
+                    let saluto = ora < 12 ? 'Buongiorno' : ora < 18 ? 'Buon pomeriggio' : 'Buonasera';
+                    greetingEl.textContent = saluto + ', ' + nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+                }
+
+                if (result.avatarUrl) impostaAvatar(result.avatarUrl);
+
+                document.getElementById('settingsOverlay').classList.remove('open');
+
+            } catch (err) {
+                alert('Errore di connessione al server.');
+                console.error(err);
             }
-
-            // Aggiorna il nome nell'avatar info del pannello
-            const avatarStrong = document.querySelector('.settings-avatar-info strong');
-            if (avatarStrong) {
-                const nomeAttuale    = nome    ? nome    : (h3 ? h3.textContent : '');
-                const cognomeAttuale = cognome ? cognome : (p  ? p.textContent  : '');
-                avatarStrong.textContent = nomeAttuale + ' ' + cognomeAttuale;
-            }
-
-            // Aggiorna l'avatar nella profile-card e in alto a destra (avatar-ring)
-            const avatarImgSrc = document.getElementById('settingsAvatarImg');
-            const avatarLg     = document.querySelector('.avatar-lg');
-            const avatarRingEl = document.querySelector('.avatar-ring');
-
-            if (avatarImgSrc && avatarImgSrc.style.display === 'block' && avatarImgSrc.src) {
-                const imgStyle = 'width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;';
-
-                if (avatarLg)     avatarLg.innerHTML     = '<img src="' + avatarImgSrc.src + '" style="' + imgStyle + '" />';
-                if (avatarRingEl) avatarRingEl.innerHTML = '<img src="' + avatarImgSrc.src + '" style="' + imgStyle + '" />';
-            }
-
-            // ── COLLEGAMENTO DB: salva tutti i campi
-            // Decommentare questo blocco quando colleghiamo il database.
-            //
-            // async function salvaProfilo() {
-            //     const utenteId = supabase.auth.user().id;
-            //
-            //     const aggiornamenti = {};
-            //     if (nome)    aggiornamenti.nome          = nome;
-            //     if (cognome) aggiornamenti.cognome       = cognome;
-            //     if (email)   aggiornamenti.email         = email;
-            //     if (data)    aggiornamenti.data_nascita  = data;
-            //
-            //     const { error } = await supabase
-            //         .from('utenti')
-            //         .update(aggiornamenti)
-            //         .eq('id', utenteId);
-            //
-            //     if (error) {
-            //         console.error('Errore salvataggio profilo:', error.message);
-            //         alert('Errore durante il salvataggio. Riprova.');
-            //         return;
-            //     }
-            //
-            //     if (email) {
-            //         const { error: authError } = await supabase.auth.updateUser({ email: email });
-            //         if (authError) console.error('Errore aggiornamento email auth:', authError.message);
-            //     }
-            // }
-            //
-            // salvaProfilo();
-
-            // Chiudi il pannello
-            document.getElementById('settingsOverlay').classList.remove('open');
         });
     }
 
-    // ── Logout dalla tendina ──
-    const dropdownLogout = document.querySelector('.dropdown-logout');
-    if (dropdownLogout) {
-        dropdownLogout.addEventListener('click', function (e) {
+    // ── Logout ──
+    function logoutUtente() {
+        fetch('../../server/controller/auth_controller.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=logout'
+        }).then(() => {
+            window.location.href = 'login.html';
+        });
+    }
+
+    const authBtn = document.getElementById('auth-button');
+    if (authBtn) {
+        authBtn.addEventListener('click', function (e) {
             e.preventDefault();
             logoutUtente();
         });
-    }
-
-    function logoutUtente() {
-        // TODO: sostituisci con → await supabase.auth.signOut()
-        window.location.href = 'client/public/login.html';
     }
 
 })();
@@ -193,27 +200,9 @@ function settingsShowTab(name, el) {
     el.classList.add('active');
 }
 
-function logoutUtente() {
-    localStorage.removeItem("utenteLoggato");
-    window.location.href = "client/public/login.html";
-}
-
-function loginRedirect() {
-    window.location.href = "client/public/login.html";
-}
-
-function controllaLogin() {
-    const btn = document.getElementById("auth-button");
-    if (btn) {
-        btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i><span class="nav-label">Logout</span>';
-        btn.onclick = logoutUtente;
-    }
-}
-
-// Dropdown profilo topbar
-const profileTrigger = document.getElementById('profile-dropdown-trigger');
+// ── Dropdown profilo topbar ──
+const profileTrigger  = document.getElementById('profile-dropdown-trigger');
 const profileDropdown = document.getElementById('topbar-profile-dropdown');
-const topbarChevron = document.getElementById('topbar-chevron-icon');
 
 profileTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -231,9 +220,8 @@ document.getElementById('openSettingsFromDropdown').addEventListener('click', ()
     profileDropdown.classList.remove('open');
     profileTrigger.classList.remove('open');
 });
-controllaLogin();
 
-/* ── Dropdown statistiche ── */
+// ── Dropdown statistiche ──
 const statsRangeBtn  = document.getElementById('stats-range-btn');
 const statsDropdown  = document.getElementById('stats-dropdown');
 const statsViewLabel = document.getElementById('stats-view-label');
@@ -251,8 +239,7 @@ document.addEventListener('click', () => {
 
 document.querySelectorAll('.stats-menu-item').forEach(item => {
     item.addEventListener('click', () => {
-        document.querySelectorAll('.stats-menu-item')
-            .forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.stats-menu-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
         statsViewLabel.textContent = item.textContent.trim().toUpperCase();
         statsRangeBtn.classList.remove('open');

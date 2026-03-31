@@ -37,9 +37,9 @@
             const inputCognome = document.querySelector('#stab-profilo input[placeholder="Inserisci cognome"]');
             const inputEmail   = document.querySelector('#stab-profilo input[placeholder="email@esempio.com"]');
             const inputData    = document.getElementById('inputDataNascita');
-            if (inputNome)    inputNome.value    = user.Nome    || '';
-            if (inputCognome) inputCognome.value = user.Cognome || '';
-            if (inputEmail)   inputEmail.value   = user.Email   || '';
+            if (inputNome)    inputNome.value    = user.Nome        || '';
+            if (inputCognome) inputCognome.value = user.Cognome     || '';
+            if (inputEmail)   inputEmail.value   = user.Email       || '';
             if (inputData)    inputData.value    = user.DataNascita || '';
 
             // Avatar
@@ -59,11 +59,15 @@
         const avatarImg    = document.getElementById('settingsAvatarImg');
         const avatarIcon   = document.getElementById('settingsAvatarIcon');
 
-        if (avatarLg)     avatarLg.innerHTML     = '<img src="' + src + '" style="' + imgStyle + '" />';
-        if (avatarRingEl) avatarRingEl.innerHTML = '<img src="' + src + '" style="' + imgStyle + '" />';
-        if (avatarImg)  { avatarImg.src = src; avatarImg.style.display = 'block'; }
+        // Cache-busting per forzare ricarica immagine
+        const srcBusted = src + '?t=' + Date.now();
+
+        if (avatarLg)     avatarLg.innerHTML     = '<img src="' + srcBusted + '" style="' + imgStyle + '" />';
+        if (avatarRingEl) avatarRingEl.innerHTML = '<img src="' + srcBusted + '" style="' + imgStyle + '" />';
+        if (avatarImg)  { avatarImg.src = srcBusted; avatarImg.style.display = 'block'; }
         if (avatarIcon)   avatarIcon.style.display = 'none';
     }
+
     caricaUtente();
 
     // ── Overlay impostazioni ──

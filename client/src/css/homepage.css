@@ -103,6 +103,12 @@ html, body {
     width: 100px;
     height: 100px;
     object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar:hover .logo-wrap img {
+    opacity: 1;
 }
 
 /* Nav icons */
@@ -545,7 +551,6 @@ html, body {
     color: #fff; letter-spacing: 0.04em; text-transform: uppercase;
 }
 
-/* Dropdown vista calendario */
 .cal-range {
     background: rgba(14,207,207,0.10);
     border: 1px solid rgba(14,207,207,0.22);
@@ -609,7 +614,6 @@ html, body {
 .cal-menu-item.active .cal-dot,
 .cal-menu-item:hover .cal-dot { background: var(--accent); }
 
-/* Inner calendario */
 .cal-inner {
     flex: 1; display: flex; flex-direction: column;
     background: rgba(0,0,0,0.30);
@@ -627,7 +631,6 @@ html, body {
 .cal-inner.year-view::-webkit-scrollbar-thumb { background: rgba(14,207,207,0.25); border-radius: 2px; }
 .cal-inner.year-view::-webkit-scrollbar-track { background: transparent; }
 
-/* Nav mese/settimana */
 .cal-nav-row {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 10px; gap: 6px;
@@ -656,7 +659,6 @@ html, body {
     text-transform: uppercase; text-align: center; flex: 1;
 }
 
-/* Griglia giorni */
 .cal-grid-header,
 .cal-grid-body {
     display: grid;
@@ -710,7 +712,6 @@ html, body {
 
 .cal-day-num.other-month { color: var(--text-muted); opacity: 0.45; }
 
-/* Vista anno */
 .cal-year-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
 }
@@ -741,7 +742,6 @@ html, body {
 
 .cal-month-card.current-month .cal-month-card-title { color: var(--accent); }
 
-/* Mini griglia (vista anno) */
 .cal-mini-grid {
     display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
 }
@@ -763,7 +763,6 @@ html, body {
 .cal-mini-day.today-mini { background: var(--accent); color: #030c15; }
 .cal-mini-day.other-mini { opacity: 0; }
 
-/* Sezione eventi */
 .events-section {
     flex: 1; display: flex; flex-direction: column;
     overflow: hidden; min-height: 0;
@@ -874,7 +873,6 @@ html, body {
 
 .settings-panel-body { display: flex; }
 
-/* Nav laterale settings */
 .settings-nav {
     width: 148px; min-width: 148px;
     border-right: 1px solid var(--border);
@@ -897,7 +895,6 @@ html, body {
 .settings-nav-item:hover { color: var(--text-primary); background: rgba(14,207,207,0.05); }
 .settings-nav-item.active { color: var(--accent); background: rgba(14,207,207,0.08); border-left-color: var(--accent); }
 
-/* Contenuto tab settings */
 .settings-content {
     flex: 1; padding: 20px 22px; min-height: 320px;
 }
@@ -909,7 +906,6 @@ html, body {
     color: var(--accent); margin-bottom: 14px;
 }
 
-/* Avatar settings */
 .settings-avatar-row {
     display: flex; align-items: center; gap: 16px; margin-bottom: 18px;
 }
@@ -938,7 +934,6 @@ html, body {
 
 .settings-avatar-info a:hover { text-decoration: underline; }
 
-/* Campi input settings */
 .settings-field { margin-bottom: 13px; }
 
 .settings-field label {
@@ -964,7 +959,6 @@ html, body {
     box-shadow: 0 0 10px rgba(14,207,207,0.10);
 }
 
-/* Toggle settings */
 .settings-toggle-row {
     display: flex; align-items: center; justify-content: space-between;
     padding: 10px 0; border-bottom: 1px solid var(--border); gap: 12px;
@@ -993,7 +987,6 @@ html, body {
 
 .settings-toggle.on::after { left: 19px; }
 
-/* Bottone salva settings */
 .settings-save-btn {
     margin-top: 18px; width: 100%; padding: 10px;
     background: var(--accent); color: #030c15;

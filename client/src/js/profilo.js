@@ -3,7 +3,7 @@
     // ── Carica dati utente dalla sessione ──
     async function caricaUtente() {
         try {
-            const res  = await fetch('../../database/get_user.php');
+            const res  = await fetch('/database/get_user.php');
             if (res.status === 401) {
                 window.location.href = 'login.html';
                 return;
@@ -127,7 +127,7 @@
             if (file)    formData.append('avatar',       file);
 
             try {
-                const res  = await fetch('../../database/save_user.php', {
+                const res    = await fetch('/database/save_user.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -139,8 +139,8 @@
                 }
 
                 // Aggiorna UI
-                const h3    = document.getElementById('profileNome');
-                const p     = document.getElementById('profileCognome');
+                const h3     = document.getElementById('profileNome');
+                const p      = document.getElementById('profileCognome');
                 const dataEl = document.getElementById('profileData');
 
                 if (nome && h3)    h3.textContent = nome.toUpperCase();
@@ -170,12 +170,12 @@
 
     // ── Logout ──
     function logoutUtente() {
-        fetch('../../server/controller/auth_controller.php', {
+        fetch('/server/controller/auth_controller.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'action=logout'
         }).then(() => {
-            window.location.href = 'login.html';
+            window.location.href = '/client/view/login.html';
         });
     }
 

@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"> DA VERIFICARE-->
     <link rel="stylesheet" href="../src/css/homepage.css">
 </head>
 <body>
@@ -27,19 +26,16 @@
             <!-- NAV -->
             <div class="nav-icons">
 
-                <!-- HOMEPAGE -->
                 <a href="#" class="nav-item">
                     <i class="fa-solid fa-house"></i>
                     <span class="nav-label">Homepage</span>
                 </a>
 
-                <!-- CALENDARIO -->
                 <a href="piani.html" class="nav-item">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span class="nav-label">Calendario</span>
                 </a>
 
-                <!-- STATISTICHE -->
                 <a href="chiSiamo.html" class="nav-item">
                     <i class="fa-solid fa-chart-bar"></i>
                     <span class="nav-label">Statistiche</span>
@@ -47,7 +43,6 @@
 
                 <div class="nav-divider"></div>
 
-                <!-- IMPOSTAZIONI -->
                 <div class="nav-item" id="settingsNavBtn">
                     <i class="fa-solid fa-gear"></i>
                     <span class="nav-label">Impostazioni</span>
@@ -76,7 +71,7 @@
                 </div>
 
                 <div class="topbar-right" id="profile-dropdown-trigger">
-                    <div class="avatar-ring"><i class="fa-solid fa-user"></i></div>
+                    <div class="avatar-ring" id="topbar-avatar"><i class="fa-solid fa-user"></i></div>
                     <i class="fa-solid fa-chevron-down topbar-chevron" id="topbar-chevron-icon"></i>
 
                     <div class="topbar-profile-dropdown" id="topbar-profile-dropdown">
@@ -168,6 +163,7 @@
                 </div>
 
             </div>
+
             <!-- ─── OVERLAY IMPOSTAZIONI ─── -->
             <div class="settings-overlay" id="settingsOverlay">
                 <div class="settings-panel">
@@ -214,26 +210,19 @@
                                 </div>
                                 <div class="settings-field">
                                     <label>Nome</label>
-                                    <label>
-                                        <input type="text" placeholder="Inserisci nome" />
-                                    </label>
+                                    <input type="text" placeholder="Inserisci nome" />
                                 </div>
                                 <div class="settings-field">
                                     <label>Cognome</label>
-                                    <label>
-                                        <input type="text" placeholder="Inserisci cognome" />
-                                    </label>
+                                    <input type="text" placeholder="Inserisci cognome" />
                                 </div>
                                 <div class="settings-field">
                                     <label>Data di nascita</label>
-                                    <label for="inputDataNascita"></label>
                                     <input type="date" id="inputDataNascita" />
                                 </div>
                                 <div class="settings-field">
                                     <label>Email</label>
-                                    <label>
-                                        <input type="email" placeholder="email@esempio.com" />
-                                    </label>
+                                    <input type="email" placeholder="email@esempio.com" />
                                 </div>
                                 <button class="settings-save-btn">SALVA MODIFICHE</button>
                             </div>
@@ -243,21 +232,15 @@
                                 <div class="settings-section-title">Sicurezza account</div>
                                 <div class="settings-field">
                                     <label>Password attuale</label>
-                                    <label>
-                                        <input type="password" placeholder="••••••••" />
-                                    </label>
+                                    <input type="password" placeholder="Password attuale" />
                                 </div>
                                 <div class="settings-field">
                                     <label>Nuova password</label>
-                                    <label>
-                                        <input type="password" placeholder="••••••••" />
-                                    </label>
+                                    <input type="password" placeholder="Nuova password" />
                                 </div>
                                 <div class="settings-field">
                                     <label>Conferma password</label>
-                                    <label>
-                                        <input type="password" placeholder="••••••••" />
-                                    </label>
+                                    <input type="password" placeholder="Conferma password" />
                                 </div>
                                 <button class="settings-save-btn">AGGIORNA PASSWORD</button>
                             </div>
@@ -315,13 +298,11 @@
                                 </div>
                                 <div class="settings-field" style="margin-top:14px;">
                                     <label>Lingua interfaccia</label>
-                                    <label>
-                                        <select>
-                                            <option>Italiano</option>
-                                            <option>English</option>
-                                            <option>Français</option>
-                                        </select>
-                                    </label>
+                                    <select>
+                                        <option>Italiano</option>
+                                        <option>English</option>
+                                        <option>Français</option>
+                                    </select>
                                 </div>
                                 <button class="settings-save-btn">SALVA ASPETTO</button>
                             </div>

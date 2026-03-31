@@ -55,7 +55,7 @@
     function impostaAvatar(src) {
         const imgStyle     = 'width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;';
         const avatarLg     = document.querySelector('.avatar-lg');
-        const avatarRingEl = document.querySelector('.avatar-ring');
+        const avatarRingEl = document.getElementById('topbar-avatar');
         const avatarImg    = document.getElementById('settingsAvatarImg');
         const avatarIcon   = document.getElementById('settingsAvatarIcon');
 
@@ -64,7 +64,6 @@
         if (avatarImg)  { avatarImg.src = src; avatarImg.style.display = 'block'; }
         if (avatarIcon)   avatarIcon.style.display = 'none';
     }
-
     caricaUtente();
 
     // ── Overlay impostazioni ──

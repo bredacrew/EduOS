@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -17,17 +16,8 @@
         <img src="../src/img/logo/Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
     </div>
 
-    <?php if (isset($_GET['error'])): ?>
-        <div style="color: #ff6b6b; margin: 20px 0; padding: 12px; background: rgba(255,107,107,0.15); border-radius: 8px;">
-            <?= htmlspecialchars($_GET['error']) ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_GET['msg'])): ?>
-        <div style="color: #4ecdc4; margin: 20px 0; padding: 12px; background: rgba(78,205,196,0.15); border-radius: 8px;">
-            <?= htmlspecialchars($_GET['msg']) ?>
-        </div>
-    <?php endif; ?>
+    <div id="msg-error" style="display:none; color:#ff6b6b; margin:20px 0; padding:12px; background:rgba(255,107,107,0.15); border-radius:8px;"></div>
+    <div id="msg-success" style="display:none; color:#4ecdc4; margin:20px 0; padding:12px; background:rgba(78,205,196,0.15); border-radius:8px;"></div>
 
     <form action="../../server/controller/auth_controller.php" method="post">
         <input type="hidden" name="action" value="login">
@@ -40,8 +30,7 @@
                 name="email"
                 placeholder="your.name@domain.com"
                 required
-                autocomplete="email"
-                value="<?= htmlspecialchars($_SESSION['last_email'] ?? $_GET['email'] ?? '') ?>">
+                autocomplete="email">
         </div>
 
         <div class="form-group">
@@ -63,6 +52,29 @@
         <a href="register.html">Non hai un account? Registrati</a>
     </div>
 </div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    // Mostra errore
+    if (params.get('error')) {
+        const el = document.getElementById('msg-error');
+        el.textContent = params.get('error');
+        el.style.display = 'block';
+    }
+
+    // Mostra messaggio success (es. dopo logout)
+    if (params.get('msg')) {
+        const el = document.getElementById('msg-success');
+        el.textContent = params.get('msg');
+        el.style.display = 'block';
+    }
+
+    // Pre-compila email se passata nell'URL
+    if (params.get('email')) {
+        document.getElementById('email').value = params.get('email');
+    }
+</script>
 
 </body>
 </html>

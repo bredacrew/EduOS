@@ -8,29 +8,22 @@ session_start([
     'cookie_samesite' => 'Strict',
 ]);
 
-// =============================================
-// FUNZIONI DI UTILITÀ
-// =============================================
 function redirect(string $location, array $params = []): never {
     $query = $params ? ('?' . http_build_query($params)) : '';
     header("Location: $location$query");
     exit;
 }
 
-// =============================================
-// LOGICA PRINCIPALE
-// =============================================
 $action = $_POST['action'] ?? '';
 
 if ($action === 'login') {
-    $email    = trim($_POST['email']    ?? '');
-    $password = $_POST['password']      ?? '';
+    $email    = trim($_POST['email'] ?? '');
+    $password = $_POST['password']   ?? '';
 
     if (empty($email) || empty($password)) {
-        redirect('../../client/view/login.html', ['error' => 'Compila tutti i campi']);
+        redirect('../../client/view/login.html', ['error' => 'Compila tutti i campi', 'email' => $email]);
     }
 
-    // Cerchiamo l'utente
     $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
                             FROM Utenti 
                             WHERE Email = ?
@@ -46,10 +39,9 @@ if ($action === 'login') {
     $user   = $result->fetch_assoc();
 
     if (!$user || !password_verify($password, $user['Password'])) {
-        redirect('../../client/view/login.html', ['error' => 'Credenziali non valide']);
+        redirect('../../client/view/login.html', ['error' => 'Credenziali non valide', 'email' => $email]);
     }
 
-    // LOGIN RIUSCITO
     session_regenerate_id(true);
 
     $_SESSION = [
@@ -65,9 +57,6 @@ if ($action === 'login') {
     redirect('../../client/view/homepage.html');
 }
 
-// =============================================
-// LOGOUT
-// =============================================
 if ($action === 'logout') {
     $_SESSION = [];
     $params = session_get_cookie_params();

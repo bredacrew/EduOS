@@ -7,7 +7,7 @@
     <div class="logo">
         <img src="../src/img/logo/Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
     </div>
-
+<!-- DA SPOSTARE
     <?php if (isset($_GET['error'])): ?>
         <div style="color: #ff6b6b; margin: 20px 0; padding: 12px; background: rgba(255,107,107,0.15); border-radius: 8px;">
             <?= htmlspecialchars($_GET['error']) ?>
@@ -19,8 +19,8 @@
             <?= htmlspecialchars($_GET['msg']) ?>
         </div>
     <?php endif; ?>
-
-    <form action="../../server/autenticazione/auth_controller.php" method="post">
+    DA SPOSTARE -->
+    <form action="../../server/controller/auth_controller.php" method="post">
         <input type="hidden" name="action" value="login">
 
         <div class="form-group">
@@ -50,8 +50,8 @@
     </form>
 
     <div class="extra-links">
-        <a href="PasswordDimenticata.php">Password dimenticata?</a><br>
-        <a href="register.php">Non hai un account? Registrati</a>
+        <a href="PasswordDimenticata.html">Password dimenticata?</a><br>
+        <a href="register.html">Non hai un account? Registrati</a>
     </div>
 
 </div>

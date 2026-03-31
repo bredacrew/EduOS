@@ -15,7 +15,7 @@ if($action === "request"){
     $stmt->bind_param("ss", $token, $email);
     $stmt->execute();
 
-    header("Location: ../../client/public/login?msg=Link reset creato: ".$link);
+    header("Location: ../../client/view/login?msg=Link reset creato: ".$link);
     exit;
 
 }
@@ -28,7 +28,7 @@ if($action === "reset"){
 
     if($password !== $confirm){
 
-        header("Location: ../../client/public/login?error=Password non coincidono");
+        header("Location: ../../client/view/login?error=Password non coincidono");
         exit;
 
     }
@@ -40,7 +40,7 @@ if($action === "reset"){
     $stmt->bind_param("ss", $hash, $token);
     $stmt->execute();
 
-    header("Location: ../../client/public/login?msg=Password aggiornata");
+    header("Location: ../../client/view/login?msg=Password aggiornata");
     exit;
 
 }

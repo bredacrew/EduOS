@@ -9,13 +9,13 @@ $confirm = $_POST['confirm-password'] ?? '';
 
 if(!$nome || !$cognome || !$email || !$password){
 
-    header("Location: ../../client/public/register?error=Compila tutti i campi");
+    header("Location: ../../client/view/register?error=Compila tutti i campi");
     exit;
 
 }
 if($password !== $confirm){
 
-    header("Location: ../../client/public/register?error=Le password non coincidono");
+    header("Location: ../../client/view/register?error=Le password non coincidono");
     exit;
 
 }
@@ -28,5 +28,5 @@ VALUES(?,?,?,?, 'NOW()',0)");
 $stmt->bind_param("ssss",$nome,$cognome,$email,$hash);
 $stmt->execute();
 
-header("Location: ../../client/public/login?msg=Registrazione completata");
+header("Location: ../../client/view/login?msg=Registrazione completata");
 exit;

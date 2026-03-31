@@ -56,7 +56,7 @@ if ($action === 'login') {
     $password = $_POST['password']      ?? '';
 
     if (empty($email) || empty($password)) {
-        reference('../../client/public/login.php', ['error' => 'Compila tutti i campi']);
+        reference('../../client/view/login.html', ['error' => 'Compila tutti i campi']);
     }
 
     // Cerchiamo l'utente
@@ -72,7 +72,7 @@ if ($action === 'login') {
 
     if (!$user || !password_verify($password, $user['password'])) {
         // Per sicurezza: stesso messaggio anche se utente non esiste
-        redirect('../../client/public/login.php', ['error' => 'Credenziali non valide']);
+        redirect('../../client/view/login.html', ['error' => 'Credenziali non valide']);
     }
 
     // =====================================
@@ -93,7 +93,7 @@ if ($action === 'login') {
             'last_activity' => time(),
     ];
 
-    redirect('../../client/public/dashboard.php');
+    redirect('../../client/view/dashboard.html');
 }
 
 // =============================================
@@ -112,8 +112,8 @@ if ($action === 'logout') {
             $params['httponly']
     );
     session_destroy();
-    redirect('../../client/public/login.php', ['msg' => 'Logout effettuato']);
+    redirect('../../client/view/login.html', ['msg' => 'Logout effettuato']);
 }
 
 // Azione non riconosciuta
-redirect('../../client/public/login.php', ['error' => 'Richiesta non valida']);
+redirect('../../client/view/login.html', ['error' => 'Richiesta non valida']);

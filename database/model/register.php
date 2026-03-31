@@ -30,7 +30,7 @@ if ($stmt === false) {
 $stmt->bind_param("ssss", $nome, $cognome, $email, $passwordHash);
 
 if ($stmt->execute()) {
-    header("Location: ../client/view/homepage.html");
+    header("Location: ../../client/view/homepage.html");
     exit();
 } else {
     die("Errore durante la registrazione: " . $stmt->error);

@@ -22,6 +22,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $conn->prepare("INSERT INTO utenti (Nome, Cognome, Email, Password) VALUES (?, ?, ?, ?)");
+
+if ($stmt === false) {
+    die("Errore nella prepare: " . $conn->error);
+}
+
 $stmt->bind_param("ssss", $nome, $cognome, $email, $passwordHash);
 
 if ($stmt->execute()) {

@@ -1,3 +1,14 @@
+function settingsShowTab(name, el) {
+    document.querySelectorAll('.settings-tab').forEach(function (t) {
+        t.style.display = 'none';
+    });
+    document.querySelectorAll('.settings-nav-item').forEach(function (n) {
+        n.classList.remove('active');
+    });
+    document.getElementById('stab-' + name).style.display = 'block';
+    el.classList.add('active');
+}
+
 (function () {
 
     // ── Carica dati utente dalla sessione ──
@@ -174,18 +185,7 @@
         });
     }
 
-    function settingsShowTab(name, el) {
-        document.querySelectorAll('.settings-tab').forEach(function (t) {
-            t.style.display = 'none';
-        });
-        document.querySelectorAll('.settings-nav-item').forEach(function (n) {
-            n.classList.remove('active');
-        });
-        document.getElementById('stab-' + name).style.display = 'block';
-        el.classList.add('active');
-    }
-
-// ── Dropdown profilo topbar ──
+    // ── Dropdown profilo topbar ──
     const profileTrigger = document.getElementById('profile-dropdown-trigger');
     const profileDropdown = document.getElementById('topbar-profile-dropdown');
 
@@ -195,18 +195,13 @@
         profileDropdown.classList.toggle('open');
     });
 
-    document.addEventListener('click', () => {
-        profileTrigger.classList.remove('open');
-        profileDropdown.classList.remove('open');
-    });
-
     document.getElementById('openSettingsFromDropdown').addEventListener('click', () => {
         document.getElementById('settingsOverlay').classList.add('open');
         profileDropdown.classList.remove('open');
         profileTrigger.classList.remove('open');
     });
 
-// ── Dropdown statistiche ──
+    // ── Dropdown statistiche ──
     const statsRangeBtn = document.getElementById('stats-range-btn');
     const statsDropdown = document.getElementById('stats-dropdown');
     const statsViewLabel = document.getElementById('stats-view-label');
@@ -215,11 +210,6 @@
         e.stopPropagation();
         statsRangeBtn.classList.toggle('open');
         statsDropdown.classList.toggle('open');
-    });
-
-    document.addEventListener('click', () => {
-        statsRangeBtn.classList.remove('open');
-        statsDropdown.classList.remove('open');
     });
 
     document.querySelectorAll('.stats-menu-item').forEach(item => {
@@ -231,4 +221,13 @@
             statsDropdown.classList.remove('open');
         });
     });
-})
+
+    // ── Chiudi tutti i dropdown al click fuori ──
+    document.addEventListener('click', () => {
+        profileTrigger.classList.remove('open');
+        profileDropdown.classList.remove('open');
+        statsRangeBtn.classList.remove('open');
+        statsDropdown.classList.remove('open');
+    });
+
+})();

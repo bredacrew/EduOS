@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduOs • Calendario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../src/css/calendario.css">
+</head>
+
+<body>
+<div class="shell">
+    <div class="app-frame">
+        <div id="sidebar-container"></div>
+
+        <div class="main">
+            <div class="topbar">
+                <div class="page-title">Calen<span>dario</span></div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button class="btn-new-event" onclick="openNew()"><i class="fa-solid fa-plus"></i> Nuovo Evento</button>
+                    <div class="avatar-ring"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </div>
+            <div class="body">
+                <div class="panel-left">
+                    <div class="mini-cal-card">
+                        <div class="mini-cal-hdr">
+                            <button class="mini-nav" onclick="miniPrev()">&#8249;</button>
+                            <span class="mlabel" id="miniLbl"></span>
+                            <button class="mini-nav" onclick="miniNext()">&#8250;</button>
+                        </div>
+                        <div class="mini-gh"><span>Lu</span><span>Ma</span><span>Me</span><span>Gi</span><span>Ve</span><span>Sa</span><span>Do</span></div>
+                        <div class="mini-gb" id="miniGb"></div>
+                    </div>
+                    <div>
+                        <div class="sec-label">Categorie</div>
+                        <div class="cat-tags" id="catTags"></div>
+                    </div>
+                    <div class="ev-card">
+                        <div class="ev-card-hdr"><i class="fa-regular fa-calendar"></i><span>Oggi</span></div>
+                        <div id="todayList"></div>
+                    </div>
+                </div>
+                <div class="cal-area" id="calArea"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Evento -->
+<div class="pop-overlay" id="ovl" onclick="closeP()"></div>
+<div class="popup" id="popup">
+    <div class="pop-top">
+        <i class="fa-solid fa-plus" id="popIcon"></i>
+        <input class="pop-ti" id="pTi" type="text" placeholder="Nome evento...">
+        <button class="pop-close" onclick="closeP()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="pop-sep"></div>
+    <div class="pop-cats" id="popCats"></div>
+    <div class="pop-dates">
+        <div class="pop-db"><i class="fa-regular fa-calendar"></i><input type="date" id="pS" onchange="syncE()"></div>
+        <span class="pop-dash">—</span>
+        <div class="pop-db"><i class="fa-regular fa-calendar"></i><input type="date" id="pE" onchange="onEndDateChange()"></div>
+        <button class="btn-time" id="bT" onclick="togT()">+ Ora</button>
+    </div>
+    <div id="tR" style="display:none;">
+        <div class="allday-row">
+            <span class="allday-label">Tutto il giorno</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="chkAllDay" onchange="onAlldayChange()">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+        </div>
+        <div id="timeSelWrap" class="pop-tr">
+            <div class="time-col-wrap"><div class="time-col" id="colSH"></div></div>
+            <span class="time-colon">:</span>
+            <div class="time-col-wrap"><div class="time-col" id="colSM"></div></div>
+            <span class="time-sep">→</span>
+            <div class="time-col-wrap"><div class="time-col" id="colEH"></div></div>
+            <span class="time-colon">:</span>
+            <div class="time-col-wrap"><div class="time-col" id="colEM"></div></div>
+        </div>
+        <div class="time-warning" id="timeWarning">
+            <i class="fa-solid fa-triangle-exclamation" style="margin-right:4px;"></i>
+            L'ora di fine deve essere successiva all'inizio
+        </div>
+    </div>
+    <button class="btn-create" id="btnCreate" onclick="createEv()"><i class="fa-solid fa-circle-plus" style="margin-right:6px;"></i>Crea Evento</button>
+    <div class="pop-actions" id="popActions" style="display:none;">
+        <button class="btn-del" onclick="deleteEv()"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn-save" onclick="saveEv()"><i class="fa-solid fa-check" style="margin-right:6px;"></i>Salva</button>
+    </div>
+</div>
+
+<!-- Modal Nuova Categoria -->
+<div class="modal-overlay" id="catModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeCatModal()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-title">Nuova Categoria</div>
+        <div class="modal-sub">Crea una categoria personalizzata per i tuoi eventi</div>
+        <div class="modal-field"><label>Nome</label><input type="text" id="catName" placeholder="es. Sessione, Verifica..." maxlength="24"></div>
+        <div class="modal-field"><label>Colore</label><div class="color-row" id="colorPicker"></div></div>
+        <div class="modal-actions">
+            <button class="btn-mc cancel" onclick="closeCatModal()">Annulla</button>
+            <button class="btn-mc save" onclick="saveCat()"><i class="fa-solid fa-check" style="margin-right:6px;"></i>Salva</button>
+        </div>
+    </div>
+</div>
+
+<script src="../src/js/calendario.js"></script>
+<script src="../src/js/sidebar.js"></script>
+</body>
+</html>

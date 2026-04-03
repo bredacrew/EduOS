@@ -168,21 +168,55 @@
         return true;
     }
 
-    function renderEvents(){
-        document.querySelector('.events-label') && (document.querySelector('.events-label').style.display='');
-        const listaEl=document.getElementById('events-list');
-        const nessunoEl=document.getElementById('no-events');
-        listaEl.innerHTML='';
+    function renderEvents() {
+        document.querySelector('.events-label') && (document.querySelector('.events-label').style.display = '');
+        const listaEl = document.getElementById('events-list');
+        const nessunoEl = document.getElementById('no-events');
+        listaEl.innerHTML = '';
 
-        const rel=sel?eventi.filter(ev=>sameDay(new Date(ev.data),sel)):eventi;
-        if(rel.length===0){
-            nessunoEl.style.display='block';
-            nessunoEl.textContent=sel?'Nessun evento questo giorno':'Nessun evento questa settimana';
-        }else{
-            nessunoEl.style.display='none';
-            rel.forEach(ev=>{
-                const item=document.createElement('div');item.className='event-item';
-                item.innerHTML=`<div class="event-dot"></div><div class="event-info"><div class="event-name">${ev.titolo}</div><div class="event-time">${ev.orario}</div></div>`;
+        // Legge gli eventi salvati dal calendario
+        let allEvs = [];
+        try {
+            const raw = localStorage.getItem('eduos_events');
+            if (raw) allEvs = JSON.parse(raw);
+        } catch(e) {}
+
+        // Filtra per settimana corrente o giorno selezionato
+        let rel;
+        if (sel) {
+            const selStr = [sel.getFullYear(), String(sel.getMonth()+1).padStart(2,'0'), String(sel.getDate()).padStart(2,'0')].join('-');
+            rel = allEvs.filter(ev => ev.s <= selStr && ev.e >= selStr);
+        } else {
+            // Settimana corrente
+            const lun = getLun(nav);
+            const dom = new Date(lun); dom.setDate(lun.getDate() + 6);
+            const lunStr = lun.toISOString().slice(0,10);
+            const domStr = dom.toISOString().slice(0,10);
+            rel = allEvs.filter(ev => ev.s <= domStr && ev.e >= lunStr);
+        }
+
+        if (rel.length === 0) {
+            nessunoEl.style.display = 'block';
+            nessunoEl.textContent = sel ? 'Nessun evento questo giorno' : 'Nessun evento questa settimana';
+        } else {
+            nessunoEl.style.display = 'none';
+            rel.forEach(ev => {
+                const item = document.createElement('div');
+                item.className = 'event-item';
+                // Colore: usa ev.c per trovare la categoria
+                let color = '#0ecfcf';
+                try {
+                    const cats = JSON.parse(localStorage.getItem('eduos_categories') || '[]');
+                    const cat = cats.find(c => c.id === ev.c);
+                    if (cat && cat.color && cat.color.hex) color = cat.color.hex;
+                } catch(e) {}
+                const tempo = ev.st ? `${ev.st}${ev.et ? ' – ' + ev.et : ''}` : 'Tutto il giorno';
+                item.innerHTML = `
+                <div class="event-dot" style="background:${color};box-shadow:0 0 6px ${color}99;"></div>
+                <div class="event-info">
+                    <div class="event-name">${ev.ti}</div>
+                    <div class="event-time">${tempo}</div>
+                </div>`;
                 listaEl.appendChild(item);
             });
         }

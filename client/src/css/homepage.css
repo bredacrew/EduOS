@@ -780,12 +780,23 @@ html, body {
 }
 
 #events-list {
-    flex: 1; overflow-y: auto;
-    display: flex; flex-direction: column; gap: 7px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-height: 0;
+    padding-right: 4px;
 }
 
-#events-list::-webkit-scrollbar { width: 3px; }
-#events-list::-webkit-scrollbar-thumb { background: rgba(14,207,207,0.20); border-radius: 2px; }
+#events-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+#events-list::-webkit-scrollbar-thumb {
+    background: rgba(14, 207, 207, 0.25);
+    border-radius: 2px;
+}
 
 .event-item {
     background: rgba(14,207,207,0.06);

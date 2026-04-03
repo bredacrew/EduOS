@@ -606,7 +606,7 @@ body {
 
 .popup {
     position: fixed;
-    width: 400px;
+    width: 460px;
     max-width: 94vw;
     background: linear-gradient(145deg, #0b1e2c 0%, #071520 100%);
     border: 1px solid rgba(14, 207, 207, 0.30);
@@ -699,7 +699,14 @@ body {
     background: rgba(14, 207, 207, 0.05);
     padding: 9px 12px;
 }
-.pop-db i { color: var(--accent); font-size: 12px; flex-shrink: 0; }
+
+.pop-db i {
+    color: var(--accent);
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-right: 2px;
+}
+
 .pop-db input {
     width: 100%;
     border: none;
@@ -791,6 +798,7 @@ body {
 
 .time-col-wrap {
     height: 138px;
+    min-width: 72px;
     border: 1px solid rgba(14, 207, 207, 0.22);
     border-radius: 12px;
     background: rgba(14, 207, 207, 0.04);
@@ -799,6 +807,7 @@ body {
     scrollbar-width: none;
     position: relative;
 }
+
 .time-col-wrap::-webkit-scrollbar { display: none; }
 .time-col-wrap:hover { border-color: rgba(14, 207, 207, 0.38); }
 

@@ -63,7 +63,11 @@ header::after {
     flex-shrink: 0;
 }
 
-.header-logo img { width: 40px; height: 40px; object-fit: contain; }
+.header-logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
 
 .header-logo-text {
     font-family: 'Rajdhani', sans-serif;

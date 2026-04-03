@@ -122,14 +122,20 @@ body {
 }
 
 .logo-wrap img {
-    width: 36px;
-    height: 36px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
     transition: width 0.25s ease, height 0.25s ease;
 }
 
-.sidebar:hover .logo-wrap { height: 90px; }
-.sidebar:hover .logo-wrap img { width: 70px; height: 70px; }
+.sidebar:hover .logo-wrap {
+    height: 90px;
+}
+
+.sidebar:hover .logo-wrap img {
+    width: 140px;
+    height: 140px;
+}
 
 .nav-icons {
     display: flex;

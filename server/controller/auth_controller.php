@@ -1,7 +1,7 @@
 <?php
 // auth_controller.php
 require_once "../../database/model/connessione.php";
-
+/** @var mysqli $conn */
 session_start([
     'cookie_httponly' => true,
     'cookie_secure'   => true,

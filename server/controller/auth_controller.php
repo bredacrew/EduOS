@@ -1,6 +1,6 @@
 <?php
 // auth_controller.php
-require_once "../../database/connessione.php";
+require_once "../../database/model/connessione.php";
 
 session_start([
     'cookie_httponly' => true,
@@ -24,8 +24,9 @@ if ($action === 'login') {
         redirect('../../client/view/login.html', ['error' => 'Compila tutti i campi', 'email' => $email]);
     }
 
-    $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
-                            FROM Utenti 
+    $con = 0;
+    $stmt = $con->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
+                             FROM Utenti 
                             WHERE Email = ?
                             LIMIT 1");
 

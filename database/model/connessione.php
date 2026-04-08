@@ -10,7 +10,7 @@
     if ($conn->connect_error) {
         die("Errore di connessione al database: " . $conn->connect_error);
     }else{
-        "grazie";
+        echo "grazie";
     }
 
     $conn->set_charset("utf8");

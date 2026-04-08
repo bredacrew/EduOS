@@ -1,6 +1,6 @@
 <?php
 require_once "../../database/model/connessione.php";
-
+/** @var mysqli $conn */
 $nome = trim($_POST['nome'] ?? '');
 $cognome = trim($_POST['cognome'] ?? '');
 $email = trim($_POST['email'] ?? '');

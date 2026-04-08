@@ -16,6 +16,10 @@ let scv = null, tvis = false, nid = 100, selColor = CAT_COLORS[0];
 let editingId = null;
 let ctrlDays = [], isCtrl = false;
 
+// Categoria in modifica
+let editingCatId = null;
+let selColorEdit = CAT_COLORS[0];
+
 const MO  = ['GENNAIO','FEBBRAIO','MARZO','APRILE','MAGGIO','GIUGNO','LUGLIO','AGOSTO','SETTEMBRE','OTTOBRE','NOVEMBRE','DICEMBRE'];
 const MOS = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
 const DW  = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
@@ -56,6 +60,7 @@ function renderCatTags() {
     cats.forEach(cat => {
         const s = document.createElement('span'); s.className = 'ct'; s.textContent = cat.name;
         s.style.background = cat.color.bg; s.style.color = cat.color.text; s.style.borderColor = cat.color.hex + '55';
+        s.addEventListener('click', (e) => openEditCat(cat.id, e.currentTarget));
         c.appendChild(s);
     });
     const add = document.createElement('span'); add.className = 'ct add'; add.textContent = '+ Aggiungi';
@@ -310,7 +315,7 @@ function weekPrev() { weekOffset--; const ws = getWS(weekOffset); mY = ws.getFul
 function weekNext() { weekOffset++; const ws = getWS(weekOffset); mY = ws.getFullYear(); mM = ws.getMonth(); renderMini(); renderMain(); }
 
 /* ══════════════════════════════════════════════
-   POPUP
+   POPUP EVENTO
    ══════════════════════════════════════════════ */
 function openP(y, m, d, el) {
     editingId = null; _resetPopup(ds(y,m,d), ds(y,m,d)); _positionPopup(el); _showPopup();
@@ -453,7 +458,9 @@ function deleteEv() {
 }
 function renderAll() { renderMain(); renderMini(); renderSidebar(); }
 
-/* ── MODAL CATEGORIA ── */
+/* ══════════════════════════════════════════════
+   MODAL NUOVA CATEGORIA
+   ══════════════════════════════════════════════ */
 function openCatModal() {
     document.getElementById('catName').value = ''; selColor = CAT_COLORS[0]; buildColorPicker();
     document.getElementById('catModal').classList.add('on');
@@ -476,6 +483,73 @@ function saveCat() {
     svCats(); renderCatTags(); renderPopCats(); closeCatModal();
 }
 document.getElementById('catModal').addEventListener('click', function(e) { if (e.target === this) closeCatModal(); });
+
+/* ══════════════════════════════════════════════
+   MODAL MODIFICA CATEGORIA
+   ══════════════════════════════════════════════ */
+function openEditCat(catId, triggerEl) {
+    const cat = cats.find(c => c.id === catId); if (!cat) return;
+    editingCatId = catId;
+    selColorEdit = cat.color;
+
+    document.getElementById('editCatName').value = cat.name;
+    buildColorPickerEdit();
+
+    // Controlla se ci sono eventi che usano questa categoria
+    const evCount = evs.filter(e => e.c === catId).length;
+    const warnEl = document.getElementById('editCatWarn');
+    if (evCount > 0) {
+        warnEl.textContent = `Attenzione: ${evCount} evento${evCount > 1 ? 'i' : ''} usa${evCount > 1 ? 'no' : ''} questa categoria.`;
+        warnEl.style.display = 'block';
+    } else {
+        warnEl.style.display = 'none';
+    }
+
+    // Posiziona il modal vicino al tag cliccato
+    const modal = document.getElementById('editCatModal');
+    modal.classList.add('on');
+    setTimeout(() => document.getElementById('editCatName').focus(), 80);
+}
+
+function closeEditCatModal() {
+    document.getElementById('editCatModal').classList.remove('on');
+    editingCatId = null;
+}
+
+function buildColorPickerEdit() {
+    const cp = document.getElementById('colorPickerEdit'); cp.innerHTML = '';
+    CAT_COLORS.forEach(c => {
+        const sw = document.createElement('div'); sw.className = 'cswatch';
+        sw.style.background = c.hex; sw.style.color = c.hex;
+        if (c.hex === selColorEdit.hex) sw.classList.add('sel');
+        sw.onclick = () => { selColorEdit = c; buildColorPickerEdit(); };
+        cp.appendChild(sw);
+    });
+}
+
+function saveEditCat() {
+    const name = document.getElementById('editCatName').value.trim(); if (!name) return;
+    const idx = cats.findIndex(c => c.id === editingCatId); if (idx === -1) return;
+    cats[idx] = { ...cats[idx], name, color: selColorEdit };
+    svCats(); renderCatTags(); renderPopCats(); renderAll(); closeEditCatModal();
+}
+
+function deleteEditCat() {
+    if (!editingCatId) return;
+    const evCount = evs.filter(e => e.c === editingCatId).length;
+    if (evCount > 0) {
+        // Sposta gli eventi sulla prima categoria disponibile (o crea una di default)
+        const fallback = cats.find(c => c.id !== editingCatId);
+        if (fallback) {
+            evs = evs.map(e => e.c === editingCatId ? {...e, c: fallback.id} : e);
+        }
+        svEvs();
+    }
+    cats = cats.filter(c => c.id !== editingCatId);
+    svCats(); renderCatTags(); renderPopCats(); renderAll(); closeEditCatModal();
+}
+
+document.getElementById('editCatModal').addEventListener('click', function(e) { if (e.target === this) closeEditCatModal(); });
 
 /* ══════════════════════════════════════════════
    TIME PICKER CON VALIDAZIONE ORA FINE >= ORA INIZIO
@@ -619,7 +693,7 @@ function hideWarning() {
 /* ── KEYBOARD ── */
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-        closeP(); closeCatModal(); ctrlDays = [];
+        closeP(); closeCatModal(); closeEditCatModal(); ctrlDays = [];
         document.querySelectorAll('.ctrl-hover').forEach(el => el.classList.remove('ctrl-hover'));
     }
 });

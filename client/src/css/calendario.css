@@ -1081,3 +1081,47 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(14, 207, 207, 0.18); border-radius: 2px; }
+
+/* MODAL MODIFICA CATEGORIA */
+.edit-cat-warn {
+    background: rgba(224, 92, 126, 0.10);
+    border: 1px solid rgba(224, 92, 126, 0.28);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #f0a0b8;
+    font-family: "Exo 2", sans-serif;
+    line-height: 1.5;
+    margin-top: -4px;
+    margin-bottom: 4px;
+}
+
+.edit-cat-warn::before {
+    content: "⚠ ";
+}
+
+.edit-cat-actions {
+    grid-template-columns: 1fr 1fr;
+}
+
+.btn-mc.delete {
+    border: 1px solid rgba(224, 92, 126, 0.30);
+    background: rgba(224, 92, 126, 0.07);
+    color: #e05c7e;
+}
+
+.btn-mc.delete:hover {
+    background: rgba(224, 92, 126, 0.16);
+    border-color: rgba(224, 92, 126, 0.50);
+}
+
+.ct:not(.add) {
+    cursor: pointer;
+    position: relative;
+    transition: all 0.18s, transform 0.15s;
+}
+
+.ct:not(.add):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}

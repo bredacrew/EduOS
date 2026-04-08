@@ -108,6 +108,21 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="editCatModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeEditCatModal()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-title">Modifica Categoria</div>
+        <div class="modal-sub">Modifica nome, colore o elimina la categoria</div>
+        <div class="modal-field"><label>Nome</label><input type="text" id="editCatName" placeholder="es. Sessione, Verifica..." maxlength="24"></div>
+        <div class="modal-field"><label>Colore</label><div class="color-row" id="colorPickerEdit"></div></div>
+        <div class="edit-cat-warn" id="editCatWarn" style="display:none;"></div>
+        <div class="modal-actions edit-cat-actions">
+            <button class="btn-mc delete" onclick="deleteEditCat()"><i class="fa-solid fa-trash" style="margin-right:6px;"></i>Elimina</button>
+            <button class="btn-mc save" onclick="saveEditCat()"><i class="fa-solid fa-check" style="margin-right:6px;"></i>Salva</button>
+        </div>
+    </div>
+</div>
+
 <script src="../src/js/calendario.js"></script>
 <script src="../src/js/sidebar.js"></script>
 </body>

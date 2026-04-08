@@ -24,7 +24,7 @@ if ($action === 'login') {
         redirect('../../client/view/login.html', ['error' => 'Compila tutti i campi', 'email' => $email]);
     }
 
-    $stmt = prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
+    $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
                              FROM Utenti 
                             WHERE Email = ?
                             LIMIT 1");

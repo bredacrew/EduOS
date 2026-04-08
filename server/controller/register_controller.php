@@ -28,5 +28,5 @@ VALUES(?,?,?,?, 'NOW()',0)");
 $stmt->bind_param("ssss",$nome,$cognome,$email,$hash);
 $stmt->execute();
 
-header("Location: ../../client/view/login?msg=Registrazione completata");
+header("Location: ../../client/view/login.html?msg=Registrazione completata");
 exit;

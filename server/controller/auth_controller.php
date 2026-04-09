@@ -25,7 +25,7 @@ if ($action === 'login') {
     }
 
     $stmt = $conn->prepare("SELECT IdUtente, Nome, Cognome, Email, Password, IsAmministratore 
-                             FROM Utenti 
+                            FROM Utenti 
                             WHERE Email = ?
                             LIMIT 1");
 

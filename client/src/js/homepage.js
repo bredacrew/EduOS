@@ -15,7 +15,7 @@ function settingsShowTab(name, el) {
     // ── Carica dati utente dalla sessione ──
     async function caricaUtente() {
         try {
-            const res = await fetch('/database/get_user.php');
+            const res = await fetch('../../../database/model/get_user.php');
             if (res.status === 401) {
                 window.location.href = 'login.html';
                 return;

@@ -59,7 +59,7 @@ input {
     color: #e0f0f0;
     font-size: 1rem;
     transition: all 0.2s ease;
-    box-sizing: border-box;   
+    box-sizing: border-box;
 }
 
 input:focus {

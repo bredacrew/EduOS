@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>EduOS - Registrazione</title>
+    <title>EduOS • Registrazione</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="../src/css/register.css">
 </head>
 <body>
 
+<a href="../../index.html" class="back-arrow">
+    <i class="fa-solid fa-arrow-left"></i>
+</a>
+
 <div class="register-container">
 
     <div class="logo">
-        <img
-                src="../src/img/logo/Logo-Senza_sfondo.png"
-                alt="EduOS Logo"
-                class="logo-img"
-        >
+        <img src="../src/img/logo/Logo-cyan.png" alt="EduOS Logo" class="logo-img">
     </div>
 
     <form action="../../server/controller/register_controller.php" method="POST">
@@ -34,6 +35,11 @@
         </div>
 
         <div class="form-group">
+            <label for="data-nascita">Data di nascita</label>
+            <input type="date" id="data-nascita" name="data_nascita" placeholder="GG / MM / AAAA" autocomplete="bday" required>
+        </div>
+
+        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="mario.rossi@esempio.it" required autocomplete="email">
         </div>
@@ -45,7 +51,7 @@
 
         <div class="form-group">
             <label for="confirm-password">Conferma Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required autocomplete="new-password">
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Ripeti la tua password" required autocomplete="new-password">
         </div>
 
         <button type="submit" class="btn-register">Registrati</button>

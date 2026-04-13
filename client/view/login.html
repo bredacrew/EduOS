@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>EduOS - Login</title>
+    <title>EduOS • Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../src/css/login.css">
 </head>
 <body>
 
+<a href="../../index.html" class="back-arrow">
+    <i class="fa-solid fa-arrow-left"></i>
+</a>
+
 <div class="login-container">
+
     <div class="logo">
-        <img src="../src/img/logo/Logo-Senza_sfondo.png" alt="EduOS Logo" class="logo-img">
+        <img src="../src/img/logo/Logo-cyan.png" alt="EduOS Logo" class="logo-img">
     </div>
 
     <div id="msg-error" style="display:none; color:#ff6b6b; margin:20px 0; padding:12px; background:rgba(255,107,107,0.15); border-radius:8px;"></div>
@@ -53,28 +59,7 @@
     </div>
 </div>
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-
-    // Mostra errore
-    if (params.get('error')) {
-        const el = document.getElementById('msg-error');
-        el.textContent = params.get('error');
-        el.style.display = 'block';
-    }
-
-    // Mostra messaggio success (es. dopo logout)
-    if (params.get('msg')) {
-        const el = document.getElementById('msg-success');
-        el.textContent = params.get('msg');
-        el.style.display = 'block';
-    }
-
-    // Pre-compila email se passata nell'URL
-    if (params.get('email')) {
-        document.getElementById('email').value = params.get('email');
-    }
-</script>
+<script src="../src/js/login.js"></script>
 
 </body>
 </html>

@@ -2,10 +2,9 @@
 session_start();
 
 if (isset($_SESSION['utente'])) {
-    http_response_code(200);
-    echo json_encode(["status" => "ok"]);
+    header("Location: ../../client/view/homepage.html?Login effettuato");
 } else {
-    http_response_code(401);
-    echo json_encode(["status" => "error"]);
+    header("Location: ../../client/view/login.html?msg=Login non effettuato");
 }
+exit;
 ?>

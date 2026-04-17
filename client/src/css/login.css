@@ -1,5 +1,4 @@
-<!-- DA RIVEDERE E IMPLEMENTARE SU HEADER -->
-<!-- INIZIO CSS di login.php -->
+/* login.css — stile condiviso tra login.html, PasswordDimenticata.html e resetPassword.php */
 *{
     margin: 0;
     padding: 0;

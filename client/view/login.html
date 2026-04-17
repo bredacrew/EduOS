@@ -25,29 +25,29 @@
     <div id="msg-error" style="display:none; color:#ff6b6b; margin:20px 0; padding:12px; background:rgba(255,107,107,0.15); border-radius:8px;"></div>
     <div id="msg-success" style="display:none; color:#4ecdc4; margin:20px 0; padding:12px; background:rgba(78,205,196,0.15); border-radius:8px;"></div>
 
-    <form action="../../server/controller/auth_controller.php" method="post">
+    <form action="../../server/controller/AuthController.php" method="post">
         <input type="hidden" name="action" value="login">
 
         <div class="form-group">
             <label for="email">Email</label>
             <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="your.name@domain.com"
-                required
-                autocomplete="email">
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="your.name@domain.com"
+                    required
+                    autocomplete="email">
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
             <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                required
-                autocomplete="current-password">
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    autocomplete="current-password">
         </div>
 
         <button type="submit" class="btn-login">Login</button>

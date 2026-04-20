@@ -5,10 +5,10 @@
 // NON esegue query SQL direttamente: delega al UserModel.
 
 // Includiamo il Model che sa come interrogare la tabella Utenti
-require_once __DIR__ . '/../model/UserModel.php';
+require_once '../model/UserModel.php';
 
 // Includiamo la connessione al database (invariata)
-require_once __DIR__ . '/../../database/connessione.php';
+require_once '../../database/connessione.php';
 /** @var mysqli $conn */
 
 // Avvia la sessione con opzioni di sicurezza

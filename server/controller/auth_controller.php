@@ -28,7 +28,6 @@ if ($action === 'login') {
                             FROM Utenti 
                             WHERE Email = ?
                             LIMIT 1");
-
     if ($stmt === false) {
         redirect('../../client/view/login.html', ['error' => 'Errore interno']);
     }

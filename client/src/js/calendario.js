@@ -704,3 +704,46 @@ renderMini();
 renderMain();
 renderSidebar();
 buildTimeCols();
+
+/* ── CARICA VOTI DAL DB E AGGIORNA CALENDARIO ── */
+(async function caricaVotiNelCalendario() {
+    const VOTO_CAT = {
+        id:    'voti_cat',
+        name:  'Voti',
+        color: { hex: '#f7b432', bg: 'rgba(247,180,50,0.15)', text: '#f7d080' }
+    };
+
+    try {
+        const res = await fetch('../../../database/model/get_voti.php');
+        if (!res.ok) return;   // non loggato o errore, non bloccare il calendario
+        const votiDB = await res.json();
+        if (!Array.isArray(votiDB)) return;
+
+        // Assicura che la categoria "Voti" esista
+        if (!cats.find(c => c.id === VOTO_CAT.id)) {
+            cats.push(VOTO_CAT);
+            svCats();
+        }
+
+        // Rimuovi tutti gli eventi-voto precedenti e reinseriscili freschi dal DB
+        evs = evs.filter(e => !String(e.id).startsWith('voto_'));
+        votiDB.forEach(v => {
+            if (!v.data) return;
+            evs.push({
+                id: 'voto_' + v.id,
+                ti: v.materia + ' — ' + v.voto,
+                s:  v.data,
+                e:  v.data,
+                st: null,
+                et: null,
+                c:  VOTO_CAT.id
+            });
+        });
+        svEvs();
+
+        // Ridisegna il calendario con i voti aggiornati
+        renderAll();
+    } catch (e) {
+        console.error('Errore caricamento voti nel calendario:', e);
+    }
+})();

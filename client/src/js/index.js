@@ -145,7 +145,7 @@ function animateScrollTo(target, duration = 10) {
     momentumFrame = requestAnimationFrame(step);
 }
 
-// Porta il carosello alla pagina indicata (usato da prev/next/dots )
+// Porta il carosello alla pagina indicata (usato da prev/next/dots)
 function goTo(page) {
     currentPage = clampPage(page);
     animateScrollTo(currentPage * pageWidth());

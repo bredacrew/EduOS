@@ -145,7 +145,7 @@ function settingsShowTab(name, el) {
             if (file) formData.append('avatar', file);
 
             try {
-                const res = await fetch('/database/save_user.php', {
+                const res = await fetch('../database/model/save_user.php', {
                     method: 'POST',
                     body: formData
                 });

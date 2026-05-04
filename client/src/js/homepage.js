@@ -203,12 +203,14 @@ function settingsShowTab(name, el) {
     });
 
     // ── Dropdown statistiche ──
-    const statsRangeBtn = document.getElementById('stats-range-btn');
-    const statsDropdown = document.getElementById('stats-dropdown');
+    const statsRangeBtn  = document.getElementById('stats-range-btn');
+    const statsDropdown  = document.getElementById('stats-dropdown');
     const statsViewLabel = document.getElementById('stats-view-label');
 
     // ── Grafico voti ──
-    let statsChart = null;
+    let statsChart    = null;
+    let statsVotiData = [];   // voti caricati dal DB
+    let statsView     = 'voti';
 
     const MATERIE_COLORS = [
         'rgba(14,207,207,0.85)',
@@ -219,28 +221,16 @@ function settingsShowTab(name, el) {
         'rgba(255,100,130,0.85)',
     ];
 
-    function getVotiDaStorage() {
-        try {
-            const raw = localStorage.getItem('eduos_voti');
-            return raw ? JSON.parse(raw) : null;
-        } catch(e) { return null; }
-    }
+    function buildChartVoti(voti) {
+        // Ultimi 8 voti ordinati per data
+        const sorted = [...voti]
+            .filter(v => v.data)
+            .sort((a, b) => a.data.localeCompare(b.data))
+            .slice(-8);
 
-    function buildDemoVoti() {
-        return [
-            { materia: 'Matematica', voto: 8,   data: '2026-04-28' },
-            { materia: 'Italiano',   voto: 7,   data: '2026-04-25' },
-            { materia: 'Fisica',     voto: 9,   data: '2026-04-22' },
-            { materia: 'Storia',     voto: 6.5, data: '2026-04-18' },
-            { materia: 'Inglese',    voto: 8.5, data: '2026-04-15' },
-            { materia: 'Chimica',    voto: 7.5, data: '2026-04-10' },
-        ];
-    }
-
-    function renderChartVoti(voti) {
-        const labels = voti.map(v => v.materia);
-        const data   = voti.map(v => v.voto);
-        const colors = voti.map((_, i) => MATERIE_COLORS[i % MATERIE_COLORS.length]);
+        const labels = sorted.map(v => v.materia);
+        const data   = sorted.map(v => v.voto);
+        const colors = sorted.map((_, i) => MATERIE_COLORS[i % MATERIE_COLORS.length]);
 
         return {
             type: 'bar',
@@ -267,9 +257,7 @@ function settingsShowTab(name, el) {
                         borderWidth: 1,
                         titleColor: '#0ecfcf',
                         bodyColor: '#d4eef0',
-                        callbacks: {
-                            label: ctx => ' Voto: ' + ctx.parsed.y
-                        }
+                        callbacks: { label: ctx => ' Voto: ' + ctx.parsed.y }
                     }
                 },
                 scales: {
@@ -280,28 +268,23 @@ function settingsShowTab(name, el) {
                     y: {
                         min: 0, max: 10,
                         grid: { color: 'rgba(14,207,207,0.08)' },
-                        ticks: {
-                            color: '#5a9aa8',
-                            font: { family: "'Rajdhani', sans-serif", size: 12 },
-                            stepSize: 2
-                        }
+                        ticks: { color: '#5a9aa8', font: { family: "'Rajdhani', sans-serif", size: 12 }, stepSize: 2 }
                     }
                 }
             }
         };
     }
 
-    function renderChartMedia(voti) {
-        // Raggruppa per materia e calcola media
+    function buildChartMedia(voti) {
         const map = {};
         voti.forEach(v => {
             if (!map[v.materia]) map[v.materia] = [];
             map[v.materia].push(v.voto);
         });
-        const labels = Object.keys(map);
+        const labels = Object.keys(map).sort();
         const data   = labels.map(m => {
             const arr = map[m];
-            return Math.round((arr.reduce((a,b) => a+b, 0) / arr.length) * 10) / 10;
+            return Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10) / 10;
         });
         const colors = labels.map((_, i) => MATERIE_COLORS[i % MATERIE_COLORS.length]);
 
@@ -330,9 +313,7 @@ function settingsShowTab(name, el) {
                         borderWidth: 1,
                         titleColor: '#0ecfcf',
                         bodyColor: '#d4eef0',
-                        callbacks: {
-                            label: ctx => ' Media: ' + ctx.parsed.y
-                        }
+                        callbacks: { label: ctx => ' Media: ' + ctx.parsed.y }
                     }
                 },
                 scales: {
@@ -343,30 +324,43 @@ function settingsShowTab(name, el) {
                     y: {
                         min: 0, max: 10,
                         grid: { color: 'rgba(14,207,207,0.08)' },
-                        ticks: {
-                            color: '#5a9aa8',
-                            font: { family: "'Rajdhani', sans-serif", size: 12 },
-                            stepSize: 2
-                        }
+                        ticks: { color: '#5a9aa8', font: { family: "'Rajdhani', sans-serif", size: 12 }, stepSize: 2 }
                     }
                 }
             }
         };
     }
 
-    function initChart(view) {
+    function renderStatsChart() {
         const canvas = document.getElementById('statsChart');
         if (!canvas) return;
-        const voti = getVotiDaStorage() || buildDemoVoti();
-        const cfg = view === 'media' ? renderChartMedia(voti) : renderChartVoti(voti);
 
         if (statsChart) { statsChart.destroy(); statsChart = null; }
+
+        if (statsVotiData.length === 0) return;
+
+        const cfg = statsView === 'media'
+            ? buildChartMedia(statsVotiData)
+            : buildChartVoti(statsVotiData);
 
         Chart.defaults.color = '#5a9aa8';
         statsChart = new Chart(canvas, cfg);
     }
 
-    initChart('voti');
+    // Carica voti dal DB e disegna il grafico
+    async function loadStatsChart() {
+        try {
+            const res = await fetch('../../../database/model/get_voti.php');
+            if (res.status === 401) return;   // non loggato, gestito da caricaUtente
+            const data = await res.json();
+            if (Array.isArray(data)) statsVotiData = data;
+        } catch (e) {
+            console.error('Errore caricamento voti per statistiche:', e);
+        }
+        renderStatsChart();
+    }
+
+    loadStatsChart();
 
     statsRangeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -381,7 +375,8 @@ function settingsShowTab(name, el) {
             statsViewLabel.textContent = item.textContent.trim().toUpperCase();
             statsRangeBtn.classList.remove('open');
             statsDropdown.classList.remove('open');
-            initChart(item.dataset.view);
+            statsView = item.dataset.view;
+            renderStatsChart();
         });
     });
 

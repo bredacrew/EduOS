@@ -1,42 +1,33 @@
 (function () {
     'use strict';
 
-    // ── Storage ──
-    const STORAGE_KEY = 'eduos_voti';
-
-    function loadVoti() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : [];
-        } catch (e) { return []; }
-    }
-
-    function saveVoti(voti) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(voti));
-    }
+    // ── API endpoints ──
+    const API_GET    = '../../../database/model/get_voti.php';
+    const API_SAVE   = '../../../database/model/save_voto.php';
+    const API_DELETE = '../../../database/model/delete_voto.php';
 
     // ── Stato ──
-    let voti = loadVoti();
+    let voti   = [];
     let editId = null;
-    let chart = null;
+    let chart  = null;
 
     // ── Elementi DOM ──
-    const tbody         = document.getElementById('votiTbody');
-    const emptyRow      = document.getElementById('emptyRow');
-    const mediaGenerale = document.getElementById('mediaGenerale');
-    const mediaGenSub   = document.getElementById('mediaGeneraleSub');
-    const materieList   = document.getElementById('materieList');
-    const filterMateria = document.getElementById('filterMateria');
-    const filterTipo    = document.getElementById('filterTipo');
-    const searchInput   = document.getElementById('searchInput');
-    const modal         = document.getElementById('votoModal');
-    const modalTitle    = document.getElementById('modalTitle');
-    const modalError    = document.getElementById('modalError');
-    const inputMateria  = document.getElementById('inputMateria');
-    const inputVoto     = document.getElementById('inputVoto');
-    const inputTipo     = document.getElementById('inputTipo');
-    const inputData     = document.getElementById('inputData');
-    const inputNote     = document.getElementById('inputNote');
+    const tbody           = document.getElementById('votiTbody');
+    const emptyRow        = document.getElementById('emptyRow');
+    const mediaGenerale   = document.getElementById('mediaGenerale');
+    const mediaGenSub     = document.getElementById('mediaGeneraleSub');
+    const materieList     = document.getElementById('materieList');
+    const filterMateria   = document.getElementById('filterMateria');
+    const filterTipo      = document.getElementById('filterTipo');
+    const searchInput     = document.getElementById('searchInput');
+    const modal           = document.getElementById('votoModal');
+    const modalTitle      = document.getElementById('modalTitle');
+    const modalError      = document.getElementById('modalError');
+    const inputMateria    = document.getElementById('inputMateria');
+    const inputVoto       = document.getElementById('inputVoto');
+    const inputTipo       = document.getElementById('inputTipo');
+    const inputData       = document.getElementById('inputData');
+    const inputNote       = document.getElementById('inputNote');
     const materieDatalist = document.getElementById('materieDatalist');
 
     // ── Colori per materia ──
@@ -52,10 +43,6 @@
     }
 
     // ── Utilità ──
-    function genId() {
-        return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    }
-
     function formatData(iso) {
         if (!iso) return '—';
         const [y, m, d] = iso.split('-');
@@ -63,13 +50,13 @@
     }
 
     function votoClass(v) {
-        if (v >= 7) return 'voto-alto';
+        if (v >= 7)   return 'voto-alto';
         if (v >= 5.5) return 'voto-medio';
         return 'voto-basso';
     }
 
     function mediaClass(v) {
-        if (v >= 7) return 'media-alta';
+        if (v >= 7)   return 'media-alta';
         if (v >= 5.5) return 'media-media';
         return 'media-bassa';
     }
@@ -79,6 +66,19 @@
         return map[t] || 'tipo-scritto';
     }
 
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function showError(msg) {
+        modalError.textContent = msg;
+        modalError.style.display = 'block';
+    }
+
     // ── Filtra voti ──
     function getFiltered() {
         const q    = searchInput.value.trim().toLowerCase();
@@ -86,7 +86,7 @@
         const tipo = filterTipo.value;
 
         return voti.filter(v => {
-            if (q   && !v.materia.toLowerCase().includes(q)) return false;
+            if (q    && !v.materia.toLowerCase().includes(q)) return false;
             if (mat  && v.materia !== mat)  return false;
             if (tipo && v.tipo    !== tipo) return false;
             return true;
@@ -97,7 +97,6 @@
     function renderTabella() {
         const filtered = getFiltered();
 
-        // Rimuovi righe esistenti (tranne emptyRow)
         Array.from(tbody.querySelectorAll('tr:not(#emptyRow)')).forEach(r => r.remove());
 
         if (filtered.length === 0) {
@@ -107,7 +106,6 @@
 
         emptyRow.style.display = 'none';
 
-        // Ordina per data decrescente
         const sorted = [...filtered].sort((a, b) => (b.data || '').localeCompare(a.data || ''));
 
         sorted.forEach(v => {
@@ -125,7 +123,6 @@
             tbody.appendChild(tr);
         });
 
-        // Delegazione eventi
         tbody.querySelectorAll('[data-edit]').forEach(btn => {
             btn.addEventListener('click', () => openEdit(btn.dataset.edit));
         });
@@ -138,18 +135,17 @@
     function renderMedie() {
         if (voti.length === 0) {
             mediaGenerale.textContent = '—';
-            mediaGenSub.textContent = 'Nessun voto inserito';
-            materieList.innerHTML = '<p class="empty-hint">Nessuna materia</p>';
+            mediaGenerale.className   = 'summary-value';
+            mediaGenSub.textContent   = 'Nessun voto inserito';
+            materieList.innerHTML     = '<p class="empty-hint">Nessuna materia</p>';
             return;
         }
 
-        // Media generale
         const mg = voti.reduce((s, v) => s + v.voto, 0) / voti.length;
         mediaGenerale.textContent = mg.toFixed(1);
-        mediaGenerale.className = 'summary-value ' + mediaClass(mg);
-        mediaGenSub.textContent = `${voti.length} vot${voti.length === 1 ? 'o' : 'i'} inserit${voti.length === 1 ? 'o' : 'i'}`;
+        mediaGenerale.className   = 'summary-value ' + mediaClass(mg);
+        mediaGenSub.textContent   = `${voti.length} vot${voti.length === 1 ? 'o' : 'i'} inserit${voti.length === 1 ? 'o' : 'i'}`;
 
-        // Medie per materia
         const map = {};
         voti.forEach(v => {
             if (!map[v.materia]) map[v.materia] = [];
@@ -161,7 +157,7 @@
             .sort((a, b) => a[0].localeCompare(b[0]))
             .forEach(([nome, arr]) => {
                 const media = arr.reduce((s, x) => s + x, 0) / arr.length;
-                const row = document.createElement('div');
+                const row   = document.createElement('div');
                 row.className = 'materia-row';
                 row.innerHTML = `
                     <span class="materia-nome" title="${escHtml(nome)}">${escHtml(nome)}</span>
@@ -170,16 +166,14 @@
             });
     }
 
-    // ── Render grafico ──
+    // ── Render grafico andamento ──
     function renderChart() {
         const canvas = document.getElementById('votiChart');
         if (!canvas) return;
 
         if (chart) { chart.destroy(); chart = null; }
-
         if (voti.length === 0) return;
 
-        // Ultimi 8 voti per data
         const sorted = [...voti]
             .filter(v => v.data)
             .sort((a, b) => a.data.localeCompare(b.data))
@@ -258,7 +252,6 @@
             filterMateria.appendChild(opt);
         });
 
-        // Datalist per autocomplete
         materieDatalist.innerHTML = '';
         materie.forEach(m => {
             const opt = document.createElement('option');
@@ -275,27 +268,44 @@
         renderChart();
     }
 
+    // ── Carica voti dal DB ──
+    async function loadVoti() {
+        try {
+            const res = await fetch(API_GET);
+            if (res.status === 401) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                voti = data;
+            }
+        } catch (e) {
+            console.error('Errore caricamento voti:', e);
+        }
+        render();
+    }
+
     // ── Modal ──
     function openModal() {
         modal.classList.add('open');
         modalError.style.display = 'none';
-        modalError.textContent = '';
+        modalError.textContent   = '';
     }
 
     function closeModal() {
         modal.classList.remove('open');
         editId = null;
         inputMateria.value = '';
-        inputVoto.value = '';
-        inputTipo.value = 'Scritto';
-        inputData.value = '';
-        inputNote.value = '';
+        inputVoto.value    = '';
+        inputTipo.value    = 'Scritto';
+        inputData.value    = '';
+        inputNote.value    = '';
     }
 
     function openNew() {
         editId = null;
         modalTitle.textContent = 'AGGIUNGI VOTO';
-        // Data di default: oggi
         inputData.value = new Date().toISOString().slice(0, 10);
         openModal();
         inputMateria.focus();
@@ -314,54 +324,57 @@
         openModal();
     }
 
-    function saveVoto() {
+    // ── Salva voto (INSERT o UPDATE) ──
+    async function saveVoto() {
         const materia = inputMateria.value.trim();
         const voto    = parseFloat(inputVoto.value);
         const tipo    = inputTipo.value;
         const data    = inputData.value;
         const note    = inputNote.value.trim();
 
-        // Validazione
-        if (!materia) {
-            showError('Inserisci il nome della materia.');
-            return;
-        }
-        if (isNaN(voto) || voto < 1 || voto > 10) {
-            showError('Il voto deve essere tra 1 e 10.');
-            return;
-        }
+        if (!materia) { showError('Inserisci il nome della materia.'); return; }
+        if (isNaN(voto) || voto < 1 || voto > 10) { showError('Il voto deve essere tra 1 e 10.'); return; }
 
-        if (editId) {
-            const idx = voti.findIndex(v => v.id === editId);
-            if (idx !== -1) {
-                voti[idx] = { ...voti[idx], materia, voto, tipo, data, note };
-            }
-        } else {
-            voti.push({ id: genId(), materia, voto, tipo, data, note });
-        }
+        const payload = { materia, voto, tipo, data, note };
+        if (editId) payload.id = editId;
 
-        saveVoti(voti);
-        closeModal();
-        render();
+        try {
+            const res  = await fetch(API_SAVE, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload)
+            });
+            const json = await res.json();
+
+            if (json.error) { showError(json.error); return; }
+
+            closeModal();
+            await loadVoti();   // ricarica tutto dal DB
+        } catch (e) {
+            showError('Errore di connessione al server.');
+            console.error(e);
+        }
     }
 
-    function deleteVoto(id) {
-        voti = voti.filter(v => v.id !== id);
-        saveVoti(voti);
-        render();
-    }
+    // ── Elimina voto ──
+    async function deleteVoto(id) {
+        if (!confirm('Eliminare questo voto?')) return;
 
-    function showError(msg) {
-        modalError.textContent = msg;
-        modalError.style.display = 'block';
-    }
+        try {
+            const res  = await fetch(API_DELETE, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ id })
+            });
+            const json = await res.json();
 
-    function escHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+            if (json.error) { alert('Errore: ' + json.error); return; }
+
+            await loadVoti();   // ricarica tutto dal DB
+        } catch (e) {
+            alert('Errore di connessione al server.');
+            console.error(e);
+        }
     }
 
     // ── Event listeners ──
@@ -378,19 +391,7 @@
     filterMateria.addEventListener('change', renderTabella);
     filterTipo.addEventListener('change', renderTabella);
 
-    // ── Verifica sessione ──
-    (async function checkAuth() {
-        try {
-            const res = await fetch('../../../database/model/get_user.php');
-            if (res.status === 401) {
-                window.location.href = 'login.html';
-            }
-        } catch (e) {
-            console.error('Errore verifica sessione:', e);
-        }
-    })();
-
     // ── Init ──
-    render();
+    loadVoti();
 
 })();

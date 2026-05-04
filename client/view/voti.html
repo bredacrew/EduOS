@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduOs • Voti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../src/css/voti.css">
+</head>
+<body>
+<div class="shell">
+    <div class="app-frame">
+
+        <!-- ─── SIDEBAR ─── -->
+        <div id="sidebar-container"></div>
+
+        <!-- ─── MAIN ─── -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="page-title">Voti<span> & Medie</span></div>
+                <div class="topbar-right">
+                    <button class="btn-add-voto" id="btnAddVoto">
+                        <i class="fa-solid fa-plus"></i> Aggiungi Voto
+                    </button>
+                    <div class="avatar-ring" id="topbar-avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </div>
+
+            <!-- BODY -->
+            <div class="body">
+
+                <!-- COLONNA SINISTRA: riepilogo medie -->
+                <div class="col-side">
+
+                    <div class="summary-card">
+                        <div class="summary-label">MEDIA GENERALE</div>
+                        <div class="summary-value" id="mediaGenerale">—</div>
+                        <div class="summary-sub" id="mediaGeneraleSub">Nessun voto inserito</div>
+                    </div>
+
+                    <div class="materie-card">
+                        <div class="materie-header">
+                            <span class="materie-label">MEDIE PER MATERIA</span>
+                        </div>
+                        <div class="materie-list" id="materieList">
+                            <p class="empty-hint">Nessuna materia</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-label">ANDAMENTO</div>
+                        <canvas id="votiChart"></canvas>
+                    </div>
+
+                </div>
+
+                <!-- COLONNA DESTRA: tabella voti -->
+                <div class="col-main">
+
+                    <div class="filters-row">
+                        <div class="search-wrap">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <label>
+                                <input type="text" id="searchInput" placeholder="Cerca materia...">
+                            </label>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <label>
+                                <select id="filterMateria">
+                                    <option value="">Tutte le materie</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <label>
+                                <select id="filterTipo">
+                                    <option value="">Tutti i tipi</option>
+                                    <option value="Scritto">Scritto</option>
+                                    <option value="Orale">Orale</option>
+                                    <option value="Pratico">Pratico</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="voti-table-wrap">
+                        <table class="voti-table">
+                            <thead>
+                                <tr>
+                                    <th>Materia</th>
+                                    <th>Voto</th>
+                                    <th>Tipo</th>
+                                    <th>Data</th>
+                                    <th>Note</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="votiTbody">
+                                <tr class="empty-row" id="emptyRow">
+                                    <td colspan="6">
+                                        <div class="empty-state">
+                                            <i class="fa-solid fa-graduation-cap"></i>
+                                            <p>Nessun voto inserito</p>
+                                            <span>Clicca "Aggiungi Voto" per iniziare</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── MODAL AGGIUNGI / MODIFICA VOTO ─── -->
+<div class="modal-overlay" id="votoModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span class="modal-title" id="modalTitle">AGGIUNGI VOTO</span>
+            <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-field">
+                <label>Materia</label>
+                <input type="text" id="inputMateria" placeholder="es. Matematica" list="materieDatalist" autocomplete="off">
+                <datalist id="materieDatalist"></datalist>
+            </div>
+            <div class="modal-row">
+                <div class="modal-field">
+                    <label>Voto</label>
+                    <input type="number" id="inputVoto" placeholder="es. 8" min="1" max="10" step="0.5">
+                </div>
+                <div class="modal-field">
+                    <label>Tipo</label>
+                    <label>
+                        <select id="inputTipo">
+                            <option value="Scritto">Scritto</option>
+                            <option value="Orale">Orale</option>
+                            <option value="Pratico">Pratico</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-field">
+                <label>Data</label>
+                <input type="date" id="inputData">
+            </div>
+            <div class="modal-field">
+                <label>Note (opzionale)</label>
+                <input type="text" id="inputNote" placeholder="es. Capitolo 5, esercizi...">
+            </div>
+            <div class="modal-error" id="modalError" style="display:none;"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-cancel" id="btnCancel">Annulla</button>
+            <button class="btn-save" id="btnSave"><i class="fa-solid fa-check"></i> Salva</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="../src/js/voti.js"></script>
+<script src="../src/js/sidebar.js"></script>
+</body>
+</html>

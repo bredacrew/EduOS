@@ -714,59 +714,41 @@ buildTimeCols();
     };
 
     try {
-        console.log('[CALENDARIO] Caricamento voti dal DB...');
         const res = await fetch('../../../database/model/get_voti.php');
-        console.log('[CALENDARIO] Response status:', res.status);
-        
-        if (!res.ok) {
-            console.warn('[CALENDARIO] Errore fetch voti, status:', res.status);
+        if (!res.ok) return;
+
+        const testo = await res.text();
+        let votiDB;
+        try { votiDB = JSON.parse(testo); } catch(e) {
+            console.error('[CALENDARIO] Risposta non JSON:', testo.slice(0, 200));
             return;
         }
-        
-        const votiDB = await res.json();
-        console.log('[CALENDARIO] Voti ricevuti dal DB:', votiDB);
-        
-        if (!Array.isArray(votiDB)) {
-            console.warn('[CALENDARIO] Risposta non è un array:', votiDB);
-            return;
-        }
+        if (!Array.isArray(votiDB) || votiDB.length === 0) return;
 
         // Assicura che la categoria "Voti" esista
         if (!cats.find(c => c.id === VOTO_CAT.id)) {
             cats.push(VOTO_CAT);
             svCats();
-            console.log('[CALENDARIO] Categoria Voti aggiunta');
         }
 
-        // Rimuovi tutti gli eventi-voto precedenti e reinseriscili freschi dal DB
-        const evsPrima = evs.length;
+        // Rimuovi eventi-voto precedenti e reinserisci freschi dal DB
         evs = evs.filter(e => !String(e.id).startsWith('voto_'));
-        console.log('[CALENDARIO] Eventi rimossi:', evsPrima - evs.length);
-        
         votiDB.forEach(v => {
-            if (!v.data) {
-                console.log('[CALENDARIO] Voto senza data, saltato:', v);
-                return;
-            }
-            const evento = {
+            if (!v.data) return;
+            evs.push({
                 id: 'voto_' + v.id,
-                ti: v.materia + ' — ' + v.voto,
+                ti: v.materia + ' — ' + parseFloat(v.voto),
                 s:  v.data,
                 e:  v.data,
                 st: null,
                 et: null,
                 c:  VOTO_CAT.id
-            };
-            evs.push(evento);
-            console.log('[CALENDARIO] Evento voto aggiunto:', evento);
+            });
         });
-        
         svEvs();
-        console.log('[CALENDARIO] Eventi totali dopo sync:', evs.length);
 
-        // Ridisegna il calendario con i voti aggiornati
+        // Ridisegna con i voti
         renderAll();
-        console.log('[CALENDARIO] Calendario ridisegnato');
     } catch (e) {
         console.error('[CALENDARIO] Errore caricamento voti:', e);
     }

@@ -367,8 +367,9 @@ function settingsShowTab(name, el) {
             if (res.status === 401) return;
             const data = await res.json();
             if (Array.isArray(data)) {
-                statsVotiData = data;
-                syncVotiCalendario(data);   // aggiorna il calendario dalla homepage
+                // Forza i voti a numeri (dal DB arrivano come stringhe)
+                statsVotiData = data.map(v => ({ ...v, voto: parseFloat(v.voto) }));
+                syncVotiCalendario(statsVotiData);
             }
         } catch (e) {
             console.error('Errore caricamento voti per statistiche:', e);
@@ -410,6 +411,10 @@ function settingsShowTab(name, el) {
         });
 
         localStorage.setItem('eduos_events', JSON.stringify(evs));
+
+        // Aggiorna la lista eventi nel mini-calendario della homepage
+        // (render() è definita nel blocco CALENDARIO più in basso)
+        if (typeof renderEventsHP === 'function') renderEventsHP();
     }
 
     loadStatsChart();
@@ -674,6 +679,9 @@ function settingsShowTab(name, el) {
         else if(view==='month'){renderMonth();}
         else{renderYear();}
     }
+
+    // Esposta globalmente per essere richiamata dopo sync voti
+    window.renderEventsHP = renderEvents;
 
     render();
 })();

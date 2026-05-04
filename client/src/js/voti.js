@@ -342,8 +342,9 @@
             }
             const data = await res.json();
             if (Array.isArray(data)) {
-                voti = data;
-                syncVotiCalendario(voti);   // aggiorna il calendario
+                // Forza i voti a numeri (dal DB arrivano come stringhe)
+                voti = data.map(v => ({ ...v, voto: parseFloat(v.voto) }));
+                syncVotiCalendario(voti);
             }
         } catch (e) {
             console.error('Errore caricamento voti:', e);

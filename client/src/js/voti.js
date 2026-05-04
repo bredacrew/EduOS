@@ -261,7 +261,50 @@
         });
     }
 
-    // ── Aggiorna filtro materie ──
+    // ── Sincronizzazione voti → calendario ──
+    // Ogni voto viene rappresentato come evento nel localStorage del calendario
+    // con id prefissato "voto_<idVoto>" e categoria fissa "voti_cat"
+
+    const VOTO_CAT = {
+        id:    'voti_cat',
+        name:  'Voti',
+        color: { hex: '#f7b432', bg: 'rgba(247,180,50,0.15)', text: '#f7d080' }
+    };
+
+    function syncVotiCalendario(votiAggiornati) {
+        // Carica eventi e categorie esistenti
+        let evs  = [];
+        let cats = [];
+        try { evs  = JSON.parse(localStorage.getItem('eduos_events')     || '[]'); } catch(e) {}
+        try { cats = JSON.parse(localStorage.getItem('eduos_categories') || '[]'); } catch(e) {}
+
+        // Assicura che la categoria "Voti" esista
+        if (!cats.find(c => c.id === VOTO_CAT.id)) {
+            cats.push(VOTO_CAT);
+            localStorage.setItem('eduos_categories', JSON.stringify(cats));
+        }
+
+        // Rimuovi tutti gli eventi-voto precedenti
+        evs = evs.filter(e => !String(e.id).startsWith('voto_'));
+
+        // Aggiungi un evento per ogni voto che ha una data
+        votiAggiornati.forEach(v => {
+            if (!v.data) return;
+            evs.push({
+                id: 'voto_' + v.id,
+                ti: `${v.materia} — ${v.voto}`,
+                s:  v.data,
+                e:  v.data,
+                st: null,
+                et: null,
+                c:  VOTO_CAT.id
+            });
+        });
+
+        localStorage.setItem('eduos_events', JSON.stringify(evs));
+    }
+
+
     function updateFilterMaterie() {
         const materie = [...new Set(voti.map(v => v.materia))].sort();
         const current = filterMateria.value;
@@ -300,6 +343,7 @@
             const data = await res.json();
             if (Array.isArray(data)) {
                 voti = data;
+                syncVotiCalendario(voti);   // aggiorna il calendario
             }
         } catch (e) {
             console.error('Errore caricamento voti:', e);

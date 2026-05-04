@@ -364,13 +364,52 @@ function settingsShowTab(name, el) {
     async function loadStatsChart() {
         try {
             const res = await fetch('../../../database/model/get_voti.php');
-            if (res.status === 401) return;   // non loggato, gestito da caricaUtente
+            if (res.status === 401) return;
             const data = await res.json();
-            if (Array.isArray(data)) statsVotiData = data;
+            if (Array.isArray(data)) {
+                statsVotiData = data;
+                syncVotiCalendario(data);   // aggiorna il calendario dalla homepage
+            }
         } catch (e) {
             console.error('Errore caricamento voti per statistiche:', e);
         }
         renderStatsChart();
+    }
+
+    // ── Sincronizzazione voti → calendario (condivisa con voti.js) ──
+    function syncVotiCalendario(votiAggiornati) {
+        const VOTO_CAT = {
+            id:    'voti_cat',
+            name:  'Voti',
+            color: { hex: '#f7b432', bg: 'rgba(247,180,50,0.15)', text: '#f7d080' }
+        };
+
+        let evs  = [];
+        let cats = [];
+        try { evs  = JSON.parse(localStorage.getItem('eduos_events')     || '[]'); } catch(e) {}
+        try { cats = JSON.parse(localStorage.getItem('eduos_categories') || '[]'); } catch(e) {}
+
+        if (!cats.find(c => c.id === VOTO_CAT.id)) {
+            cats.push(VOTO_CAT);
+            localStorage.setItem('eduos_categories', JSON.stringify(cats));
+        }
+
+        evs = evs.filter(e => !String(e.id).startsWith('voto_'));
+
+        votiAggiornati.forEach(v => {
+            if (!v.data) return;
+            evs.push({
+                id: 'voto_' + v.id,
+                ti: `${v.materia} — ${v.voto}`,
+                s:  v.data,
+                e:  v.data,
+                st: null,
+                et: null,
+                c:  VOTO_CAT.id
+            });
+        });
+
+        localStorage.setItem('eduos_events', JSON.stringify(evs));
     }
 
     loadStatsChart();

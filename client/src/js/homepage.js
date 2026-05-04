@@ -145,7 +145,7 @@ function settingsShowTab(name, el) {
             if (file) formData.append('avatar', file);
 
             try {
-                const res = await fetch('../database/model/save_user.php', {
+                const res = await fetch('/database/save_user.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -207,6 +207,167 @@ function settingsShowTab(name, el) {
     const statsDropdown = document.getElementById('stats-dropdown');
     const statsViewLabel = document.getElementById('stats-view-label');
 
+    // ── Grafico voti ──
+    let statsChart = null;
+
+    const MATERIE_COLORS = [
+        'rgba(14,207,207,0.85)',
+        'rgba(100,180,255,0.85)',
+        'rgba(180,100,255,0.85)',
+        'rgba(255,160,80,0.85)',
+        'rgba(80,220,140,0.85)',
+        'rgba(255,100,130,0.85)',
+    ];
+
+    function getVotiDaStorage() {
+        try {
+            const raw = localStorage.getItem('eduos_voti');
+            return raw ? JSON.parse(raw) : null;
+        } catch(e) { return null; }
+    }
+
+    function buildDemoVoti() {
+        return [
+            { materia: 'Matematica', voto: 8,   data: '2026-04-28' },
+            { materia: 'Italiano',   voto: 7,   data: '2026-04-25' },
+            { materia: 'Fisica',     voto: 9,   data: '2026-04-22' },
+            { materia: 'Storia',     voto: 6.5, data: '2026-04-18' },
+            { materia: 'Inglese',    voto: 8.5, data: '2026-04-15' },
+            { materia: 'Chimica',    voto: 7.5, data: '2026-04-10' },
+        ];
+    }
+
+    function renderChartVoti(voti) {
+        const labels = voti.map(v => v.materia);
+        const data   = voti.map(v => v.voto);
+        const colors = voti.map((_, i) => MATERIE_COLORS[i % MATERIE_COLORS.length]);
+
+        return {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Voto',
+                    data,
+                    backgroundColor: colors,
+                    borderColor: colors.map(c => c.replace('0.85', '1')),
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0d1f2d',
+                        borderColor: 'rgba(14,207,207,0.3)',
+                        borderWidth: 1,
+                        titleColor: '#0ecfcf',
+                        bodyColor: '#d4eef0',
+                        callbacks: {
+                            label: ctx => ' Voto: ' + ctx.parsed.y
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(14,207,207,0.06)' },
+                        ticks: { color: '#5a9aa8', font: { family: "'Rajdhani', sans-serif", size: 12 } }
+                    },
+                    y: {
+                        min: 0, max: 10,
+                        grid: { color: 'rgba(14,207,207,0.08)' },
+                        ticks: {
+                            color: '#5a9aa8',
+                            font: { family: "'Rajdhani', sans-serif", size: 12 },
+                            stepSize: 2
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    function renderChartMedia(voti) {
+        // Raggruppa per materia e calcola media
+        const map = {};
+        voti.forEach(v => {
+            if (!map[v.materia]) map[v.materia] = [];
+            map[v.materia].push(v.voto);
+        });
+        const labels = Object.keys(map);
+        const data   = labels.map(m => {
+            const arr = map[m];
+            return Math.round((arr.reduce((a,b) => a+b, 0) / arr.length) * 10) / 10;
+        });
+        const colors = labels.map((_, i) => MATERIE_COLORS[i % MATERIE_COLORS.length]);
+
+        return {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Media',
+                    data,
+                    backgroundColor: colors,
+                    borderColor: colors.map(c => c.replace('0.85', '1')),
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0d1f2d',
+                        borderColor: 'rgba(14,207,207,0.3)',
+                        borderWidth: 1,
+                        titleColor: '#0ecfcf',
+                        bodyColor: '#d4eef0',
+                        callbacks: {
+                            label: ctx => ' Media: ' + ctx.parsed.y
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(14,207,207,0.06)' },
+                        ticks: { color: '#5a9aa8', font: { family: "'Rajdhani', sans-serif", size: 12 } }
+                    },
+                    y: {
+                        min: 0, max: 10,
+                        grid: { color: 'rgba(14,207,207,0.08)' },
+                        ticks: {
+                            color: '#5a9aa8',
+                            font: { family: "'Rajdhani', sans-serif", size: 12 },
+                            stepSize: 2
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    function initChart(view) {
+        const canvas = document.getElementById('statsChart');
+        if (!canvas) return;
+        const voti = getVotiDaStorage() || buildDemoVoti();
+        const cfg = view === 'media' ? renderChartMedia(voti) : renderChartVoti(voti);
+
+        if (statsChart) { statsChart.destroy(); statsChart = null; }
+
+        Chart.defaults.color = '#5a9aa8';
+        statsChart = new Chart(canvas, cfg);
+    }
+
+    initChart('voti');
+
     statsRangeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         statsRangeBtn.classList.toggle('open');
@@ -220,6 +381,7 @@ function settingsShowTab(name, el) {
             statsViewLabel.textContent = item.textContent.trim().toUpperCase();
             statsRangeBtn.classList.remove('open');
             statsDropdown.classList.remove('open');
+            initChart(item.dataset.view);
         });
     });
 

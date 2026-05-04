@@ -65,18 +65,17 @@
                             <h2>Statistiche Accademiche</h2>
                             <div style="position:relative;">
                                 <div class="stats-range" id="stats-range-btn">
-                                    <span id="stats-view-label">QUESTA SETTIMANA</span>
+                                    <span id="stats-view-label">VOTI RECENTI</span>
                                     <span class="stats-chevron">▼</span>
                                 </div>
                                 <div class="stats-dropdown-menu" id="stats-dropdown">
-                                    <div class="stats-menu-item active" data-view="week">Questa Settimana</div>
-                                    <div class="stats-menu-item" data-view="month">Mese / Anno</div>
+                                    <div class="stats-menu-item active" data-view="voti">Voti Recenti</div>
+                                    <div class="stats-menu-item" data-view="media">Media per Materia</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="graph-area">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <p>Dati grafico dal database</p>
+                        <div class="graph-area" style="padding:16px 8px 8px; background:transparent; border:none;">
+                            <canvas id="statsChart"></canvas>
                         </div>
                     </div>
 
@@ -281,6 +280,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script src="../src/js/homepage.js"></script>
 <script src="../src/js/sidebar.js"></script>
 </body>

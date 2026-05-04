@@ -293,6 +293,40 @@ html, body {
 
 .materia-row:hover { border-color: rgba(14,207,207,0.25); }
 
+/* ── Stato materia ── */
+.materia-row.stato-ok {
+    background: rgba(78,205,196,0.06);
+    border-color: rgba(78,205,196,0.20);
+}
+.materia-row.stato-ok:hover { border-color: rgba(78,205,196,0.40); }
+
+.materia-row.stato-rischio {
+    background: rgba(247,180,50,0.07);
+    border-color: rgba(247,180,50,0.25);
+}
+.materia-row.stato-rischio:hover { border-color: rgba(247,180,50,0.45); }
+
+.materia-row.stato-recupero {
+    background: rgba(224,85,85,0.08);
+    border-color: rgba(224,85,85,0.28);
+}
+.materia-row.stato-recupero:hover { border-color: rgba(224,85,85,0.50); }
+
+.materia-info {
+    display: flex; flex-direction: column; gap: 2px;
+    min-width: 0;
+}
+
+.materia-stato-label {
+    font-size: 10px; font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 4px;
+}
+
+.stato-ok     .materia-stato-label { color: #4ecdc4; }
+.stato-rischio .materia-stato-label { color: #f7b432; }
+.stato-recupero .materia-stato-label { color: #e05555; }
+
 .materia-nome {
     font-size: 13px; color: var(--text-primary);
     font-family: 'Exo 2', sans-serif;
@@ -306,9 +340,9 @@ html, body {
     flex-shrink: 0;
 }
 
-.media-alta  { color: #4ecdc4; }
-.media-media { color: #f7c948; }
-.media-bassa { color: #e05555; }
+.media-alta  { color: #4ecdc4; }   /* >= 6  verde  */
+.media-media { color: #f7b432; }   /* 5–5.9 arancione */
+.media-bassa { color: #e05555; }   /* < 5   rosso  */
 
 .empty-hint {
     font-size: 12px; color: var(--text-muted);

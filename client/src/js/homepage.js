@@ -337,6 +337,19 @@ function settingsShowTab(name, el) {
 
         if (statsChart) { statsChart.destroy(); statsChart = null; }
 
+        // ── Media totale ──
+        const mediaEl = document.getElementById('statsMediaTotale');
+        if (mediaEl) {
+            if (statsVotiData.length === 0) {
+                mediaEl.textContent = '—';
+                mediaEl.className   = '';
+            } else {
+                const mg = statsVotiData.reduce((s, v) => s + v.voto, 0) / statsVotiData.length;
+                mediaEl.textContent = mg.toFixed(1);
+                mediaEl.className   = mg >= 6 ? 'stats-media-ok' : mg >= 5 ? 'stats-media-rischio' : 'stats-media-bassa';
+            }
+        }
+
         if (statsVotiData.length === 0) return;
 
         const cfg = statsView === 'media'

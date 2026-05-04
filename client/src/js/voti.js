@@ -50,15 +50,25 @@
     }
 
     function votoClass(v) {
-        if (v >= 7)   return 'voto-alto';
-        if (v >= 5.5) return 'voto-medio';
+        if (v >= 6)   return 'voto-alto';
+        if (v >= 5)   return 'voto-medio';
         return 'voto-basso';
     }
 
     function mediaClass(v) {
-        if (v >= 7)   return 'media-alta';
-        if (v >= 5.5) return 'media-media';
+        if (v >= 6)   return 'media-alta';
+        if (v >= 5)   return 'media-media';
         return 'media-bassa';
+    }
+
+    // ── Badge stato materia ──
+    // >= 6  → verde  "In regola"
+    // 5–5.9 → arancione "A rischio"
+    // < 5   → rosso  "Da recuperare"
+    function statoMateria(media) {
+        if (media >= 6) return { cls: 'stato-ok',      icon: 'fa-circle-check',      testo: 'In regola' };
+        if (media >= 5) return { cls: 'stato-rischio',  icon: 'fa-triangle-exclamation', testo: 'A rischio' };
+        return           { cls: 'stato-recupero',  icon: 'fa-circle-xmark',      testo: 'Da recuperare' };
     }
 
     function tipoClass(t) {
@@ -146,24 +156,35 @@
         mediaGenerale.className   = 'summary-value ' + mediaClass(mg);
         mediaGenSub.textContent   = `${voti.length} vot${voti.length === 1 ? 'o' : 'i'} inserit${voti.length === 1 ? 'o' : 'i'}`;
 
+        // Raggruppa per materia
         const map = {};
         voti.forEach(v => {
             if (!map[v.materia]) map[v.materia] = [];
             map[v.materia].push(v.voto);
         });
 
+        // Ordina: prima le materie da recuperare, poi a rischio, poi in regola
+        const ordine = { 'stato-recupero': 0, 'stato-rischio': 1, 'stato-ok': 2 };
+        const entries = Object.entries(map).map(([nome, arr]) => {
+            const media = arr.reduce((s, x) => s + x, 0) / arr.length;
+            const stato = statoMateria(media);
+            return { nome, media, stato };
+        }).sort((a, b) => ordine[a.stato.cls] - ordine[b.stato.cls] || a.nome.localeCompare(b.nome));
+
         materieList.innerHTML = '';
-        Object.entries(map)
-            .sort((a, b) => a[0].localeCompare(b[0]))
-            .forEach(([nome, arr]) => {
-                const media = arr.reduce((s, x) => s + x, 0) / arr.length;
-                const row   = document.createElement('div');
-                row.className = 'materia-row';
-                row.innerHTML = `
+        entries.forEach(({ nome, media, stato }) => {
+            const row = document.createElement('div');
+            row.className = `materia-row ${stato.cls}`;
+            row.innerHTML = `
+                <div class="materia-info">
                     <span class="materia-nome" title="${escHtml(nome)}">${escHtml(nome)}</span>
-                    <span class="materia-media ${mediaClass(media)}">${media.toFixed(1)}</span>`;
-                materieList.appendChild(row);
-            });
+                    <span class="materia-stato-label">
+                        <i class="fa-solid ${stato.icon}"></i> ${stato.testo}
+                    </span>
+                </div>
+                <span class="materia-media ${mediaClass(media)}">${media.toFixed(1)}</span>`;
+            materieList.appendChild(row);
+        });
     }
 
     // ── Render grafico andamento ──

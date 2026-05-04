@@ -1082,3 +1082,24 @@ html, body {
     background: rgba(14,207,207,0.13);
     color: var(--accent);
 }
+
+/* ── Media totale sotto al grafico statistiche ── */
+.stats-media-totale {
+    text-align: right;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 4px 4px 0;
+}
+
+.stats-media-totale span {
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+.stats-media-ok      { color: #4ecdc4; }
+.stats-media-rischio { color: #f7b432; }
+.stats-media-bassa   { color: #e05555; }

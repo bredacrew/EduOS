@@ -1,4 +1,4 @@
-fetch('sidebar.html')
+fetch('sidebar.html', { credentials: 'include' })
     .then(r => r.text())
     .then(html => {
         document.getElementById('sidebar-container').innerHTML = html;
@@ -19,6 +19,7 @@ fetch('sidebar.html')
                 e.preventDefault();
                 fetch('/server/controller/auth_controller.php', {
                     method: 'POST',
+                    credentials: 'include', // ← necessario per invalidare la sessione corretta
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'action=logout'
                 }).then(() => {

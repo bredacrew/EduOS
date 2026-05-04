@@ -15,7 +15,7 @@ function settingsShowTab(name, el) {
     // ── Carica dati utente dalla sessione ──
     async function caricaUtente() {
         try {
-            const res = await fetch('../../../database/model/get_user.php');
+            const res = await fetch('../../database/model/get_user.php', { credentials: 'include' });
             if (res.status === 401) {
                 window.location.href = 'login.html';
                 return;
@@ -145,8 +145,9 @@ function settingsShowTab(name, el) {
             if (file) formData.append('avatar', file);
 
             try {
-                const res = await fetch('/database/save_user.php', {
+                const res = await fetch('../../database/model/save_user.php', {
                     method: 'POST',
+                    credentials: 'include',
                     body: formData
                 });
                 const result = await res.json();
@@ -363,7 +364,7 @@ function settingsShowTab(name, el) {
     // Carica voti dal DB e disegna il grafico
     async function loadStatsChart() {
         try {
-            const res = await fetch('../../../database/model/get_voti.php');
+            const res = await fetch('../../database/model/get_voti.php', { credentials: 'include' });
             if (res.status === 401) return;
             const data = await res.json();
             if (Array.isArray(data)) {
@@ -413,7 +414,6 @@ function settingsShowTab(name, el) {
         localStorage.setItem('eduos_events', JSON.stringify(evs));
 
         // Aggiorna la lista eventi nel mini-calendario della homepage
-        // (render() è definita nel blocco CALENDARIO più in basso)
         if (typeof renderEventsHP === 'function') renderEventsHP();
     }
 

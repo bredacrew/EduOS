@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>EduOs • Voti</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,8 @@
                 <div class="page-title">Voti<span> & Medie</span></div>
                 <div class="topbar-right">
                     <button class="btn-add-voto" id="btnAddVoto">
-                        <i class="fa-solid fa-plus"></i> Aggiungi Voto
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Aggiungi Voto</span>
                     </button>
                     <div class="avatar-ring" id="topbar-avatar"><i class="fa-solid fa-user"></i></div>
                 </div>
@@ -34,8 +35,21 @@
             <!-- BODY -->
             <div class="body">
 
-                <!-- COLONNA SINISTRA: riepilogo medie -->
+                <!-- COLONNA SINISTRA -->
                 <div class="col-side">
+
+                    <!-- Selector periodo -->
+                    <div class="periodo-card">
+                        <div class="periodo-label">Periodo scolastico</div>
+                        <div class="periodo-tabs" id="periodoTabs"></div>
+                        <div class="periodo-mode-row">
+                            <span class="periodo-mode-label">Suddivisione:</span>
+                            <div class="periodo-mode-btns">
+                                <button class="mode-btn active" data-mode="quadrimestre">Quadrimestri</button>
+                                <button class="mode-btn" data-mode="pentamestre">Pentamestri</button>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="summary-card">
                         <div class="summary-label">MEDIA GENERALE</div>
@@ -59,7 +73,7 @@
 
                 </div>
 
-                <!-- COLONNA DESTRA: tabella voti -->
+                <!-- COLONNA DESTRA -->
                 <div class="col-main">
 
                     <div class="filters-row">
@@ -91,31 +105,31 @@
                     <div class="voti-table-wrap">
                         <table class="voti-table">
                             <thead>
-                                <tr>
-                                    <th>Materia</th>
-                                    <th>Voto</th>
-                                    <th>Tipo</th>
-                                    <th>Data</th>
-                                    <th>Note</th>
-                                    <th></th>
-                                </tr>
+                            <tr>
+                                <th>Materia</th>
+                                <th>Voto</th>
+                                <th>Tipo</th>
+                                <th>Data</th>
+                                <th>Periodo</th>
+                                <th>Note</th>
+                                <th></th>
+                            </tr>
                             </thead>
                             <tbody id="votiTbody">
-                                <tr class="empty-row" id="emptyRow">
-                                    <td colspan="6">
-                                        <div class="empty-state">
-                                            <i class="fa-solid fa-graduation-cap"></i>
-                                            <p>Nessun voto inserito</p>
-                                            <span>Clicca "Aggiungi Voto" per iniziare</span>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tr class="empty-row" id="emptyRow">
+                                <td colspan="7">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                        <p>Nessun voto inserito</p>
+                                        <span>Clicca "Aggiungi Voto" per iniziare</span>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
 
                 </div>
-
             </div>
         </div>
     </div>
@@ -130,16 +144,35 @@
         </div>
 
         <div class="modal-body">
-            <div class="modal-field">
-                <label>Materia</label>
-                <input type="text" id="inputMateria" placeholder="es. Matematica" list="materieDatalist" autocomplete="off">
-                <datalist id="materieDatalist"></datalist>
-            </div>
+
             <div class="modal-row">
                 <div class="modal-field">
+                    <label>Materia</label>
+                    <input type="text" id="inputMateria" placeholder="es. Matematica" list="materieDatalist" autocomplete="off">
+                    <datalist id="materieDatalist"></datalist>
+                </div>
+                <div class="modal-field" style="max-width:120px;">
                     <label>Voto</label>
                     <input type="number" id="inputVoto" placeholder="es. 8" min="1" max="10" step="0.5">
                 </div>
+            </div>
+
+            <!-- Colore voto personalizzato -->
+            <div class="modal-field">
+                <label>Colore voto</label>
+                <div class="color-picker-row" id="votoColorPicker"></div>
+            </div>
+
+            <!-- Toggle non fa media -->
+            <div class="toggle-field-row">
+                <div>
+                    <div class="toggle-field-label">Non contribuisce alla media</div>
+                    <div class="toggle-field-sub">Questo voto sarà registrato ma escluso dal calcolo della media</div>
+                </div>
+                <div class="mini-toggle" id="toggleNoMedia"></div>
+            </div>
+
+            <div class="modal-row">
                 <div class="modal-field">
                     <label>Tipo</label>
                     <label>
@@ -150,15 +183,29 @@
                         </select>
                     </label>
                 </div>
+                <div class="modal-field">
+                    <label>Periodo</label>
+                    <label>
+                        <select id="inputPeriodo"></select>
+                    </label>
+                </div>
             </div>
+
             <div class="modal-field">
                 <label>Data</label>
                 <input type="date" id="inputData">
             </div>
+
             <div class="modal-field">
                 <label>Note (opzionale)</label>
                 <input type="text" id="inputNote" placeholder="es. Capitolo 5, esercizi...">
             </div>
+
+            <div class="modal-field">
+                <label>Argomenti trattati (opzionale)</label>
+                <textarea id="inputArgomenti" placeholder="es. Equazioni di secondo grado, capitolo 8..."></textarea>
+            </div>
+
             <div class="modal-error" id="modalError" style="display:none;"></div>
         </div>
 

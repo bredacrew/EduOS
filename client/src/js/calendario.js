@@ -1,3 +1,9 @@
+/* ═══════════════════════════════════════════════════════════════
+   calendario.js — EduOs
+   Fix: time picker scroll, mini→main sync, palette estesa,
+        colore custom categorie, info evento, mobile
+   ═══════════════════════════════════════════════════════════════ */
+
 const CAT_COLORS = [
     {hex:'#0ecfcf', bg:'rgba(14,207,207,.15)',  text:'#7fe8e8'},
     {hex:'#7f77dd', bg:'rgba(127,119,221,.16)', text:'#b0aaf0'},
@@ -7,6 +13,10 @@ const CAT_COLORS = [
     {hex:'#e8b84b', bg:'rgba(232,184,75,.15)',  text:'#f0d07a'},
     {hex:'#4b8fe8', bg:'rgba(75,143,232,.15)',  text:'#90c0f8'},
     {hex:'#c45ce8', bg:'rgba(196,92,232,.15)',  text:'#e090f8'},
+    {hex:'#e84b4b', bg:'rgba(232,75,75,.15)',   text:'#f8a0a0'},
+    {hex:'#4be8a4', bg:'rgba(75,232,164,.15)',  text:'#90f8d0'},
+    {hex:'#f080c0', bg:'rgba(240,128,192,.15)', text:'#f8b0d8'},
+    {hex:'#80d0ff', bg:'rgba(128,208,255,.15)', text:'#b8e8ff'},
 ];
 
 const TODAY = new Date();
@@ -15,25 +25,18 @@ let curView = 'month', weekOffset = 0;
 let scv = null, tvis = false, nid = 100, selColor = CAT_COLORS[0];
 let editingId = null;
 let ctrlDays = [], isCtrl = false;
-
-// Categoria in modifica
 let editingCatId = null;
 let selColorEdit = CAT_COLORS[0];
+let selColorEditCustom = null;
 
 const MO  = ['GENNAIO','FEBBRAIO','MARZO','APRILE','MAGGIO','GIUGNO','LUGLIO','AGOSTO','SETTEMBRE','OTTOBRE','NOVEMBRE','DICEMBRE'];
 const MOS = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
 const DW  = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 
 /* ── STORAGE ── */
-function ldEvs() {
-    try { const r = localStorage.getItem('eduos_events'); if (r) return JSON.parse(r); } catch(e) {}
-    return [];
-}
-function svEvs() { try { localStorage.setItem('eduos_events', JSON.stringify(evs)); } catch(e) {} }
-function ldCats() {
-    try { const r = localStorage.getItem('eduos_categories'); if (r) return JSON.parse(r); } catch(e) {}
-    return [{id:'personal', name:'Personale', color:CAT_COLORS[0]}];
-}
+function ldEvs()  { try { const r = localStorage.getItem('eduos_events'); if (r) return JSON.parse(r); } catch(e) {} return []; }
+function svEvs()  { try { localStorage.setItem('eduos_events', JSON.stringify(evs)); } catch(e) {} }
+function ldCats() { try { const r = localStorage.getItem('eduos_categories'); if (r) return JSON.parse(r); } catch(e) {} return [{id:'personal', name:'Personale', color:CAT_COLORS[0]}]; }
 function svCats() { try { localStorage.setItem('eduos_categories', JSON.stringify(cats)); } catch(e) {} }
 
 let evs  = ldEvs();
@@ -45,6 +48,15 @@ function tds() { return ds(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate(
 function forDay(y, m, d) { const s = ds(y,m,d); return evs.filter(e => e.s <= s && e.e >= s); }
 function getCat(id) { return cats.find(c => c.id === id) || cats[0] || {id:'personal',name:'Personale',color:CAT_COLORS[0]}; }
 
+function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function colorFromHex(hex) {
+    return { hex, bg: hexToRgba(hex, 0.15), text: hexToRgba(hex, 0.9) };
+}
+
 function weekOffsetForDate(dateStr) {
     const d = new Date(dateStr + 'T00:00:00');
     const todayDay = (TODAY.getDay() + 6) % 7;
@@ -54,7 +66,7 @@ function weekOffsetForDate(dateStr) {
     return Math.round((targetMon - weekMon) / (7 * 86400000));
 }
 
-/* ── CATEGORIES ── */
+/* ── CATEGORY TAGS ── */
 function renderCatTags() {
     const c = document.getElementById('catTags'); c.innerHTML = '';
     cats.forEach(cat => {
@@ -66,6 +78,7 @@ function renderCatTags() {
     const add = document.createElement('span'); add.className = 'ct add'; add.textContent = '+ Aggiungi';
     add.onclick = openCatModal; c.appendChild(add);
 }
+
 function renderPopCats() {
     const c = document.getElementById('popCats'); c.innerHTML = '';
     cats.forEach(cat => {
@@ -74,11 +87,12 @@ function renderPopCats() {
     });
 }
 
-/* ── MINI CALENDAR ── */
+/* ── MINI CALENDAR ──
+   navToDay sincronizza sia mini che main */
 function renderMini() {
     document.getElementById('miniLbl').textContent = `${MOS[mM].toUpperCase()} ${mY}`;
     const gb = document.getElementById('miniGb'); gb.innerHTML = '';
-    const fd   = (new Date(mY, mM, 1).getDay() + 6) % 7;
+    const fd    = (new Date(mY, mM, 1).getDay() + 6) % 7;
     const days  = new Date(mY, mM+1, 0).getDate();
     const prev  = new Date(mY, mM, 0).getDate();
     let cells = [];
@@ -97,12 +111,16 @@ function renderMini() {
         gb.appendChild(div);
     });
 }
+
 function miniPrev() { if (mM === 0) { mM = 11; mY--; } else mM--; renderMini(); if (curView === 'month') renderMain(); }
 function miniNext() { if (mM === 11) { mM = 0; mY++; } else mM++; renderMini(); if (curView === 'month') renderMain(); }
 
 function navToDay(y, m, d) {
+    // Sincronizza il mese del mini con quello del main
+    mY = y; mM = m;
     if (curView === 'month') {
-        mY = y; mM = m; renderMini(); renderMain();
+        renderMini();
+        renderMain();
         requestAnimationFrame(() => {
             const el = document.getElementById(`gc-${y}-${m}-${d}`);
             if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
@@ -114,7 +132,7 @@ function navToDay(y, m, d) {
     }
 }
 
-/* ── SIDEBAR ── */
+/* ── SIDEBAR TODAY ── */
 function renderSidebar() {
     const c = document.getElementById('todayList'); c.innerHTML = '';
     const te = evs.filter(e => e.s <= tds() && e.e >= tds());
@@ -143,7 +161,7 @@ function buildMonthGrid(y, m) {
     DW.forEach(d => { const x = document.createElement('div'); x.textContent = d; hd.appendChild(x); });
     grid.appendChild(hd);
     const bd = document.createElement('div'); bd.className = 'grid-bd';
-    const fd   = (new Date(y, m, 1).getDay() + 6) % 7;
+    const fd    = (new Date(y, m, 1).getDay() + 6) % 7;
     const days  = new Date(y, m+1, 0).getDate();
     const prev  = new Date(y, m, 0).getDate();
     let cells = [];
@@ -184,8 +202,7 @@ function buildMonthGrid(y, m) {
             if (!c.o) {
                 const cStr = ds(c.y, c.m, c.d);
                 const dayEvs = forDay(c.y, c.m, c.d).sort((a,b) => {
-                    const aM = a.s !== a.e ? 0 : 1;
-                    const bM = b.s !== b.e ? 0 : 1;
+                    const aM = a.s !== a.e ? 0 : 1, bM = b.s !== b.e ? 0 : 1;
                     return aM - bM || (a.st||'').localeCompare(b.st||'');
                 });
                 const wrap2 = document.createElement('div'); wrap2.className = 'ev-row-wrap';
@@ -200,8 +217,7 @@ function buildMonthGrid(y, m) {
                     else if (ev.e === cStr) { pos = 'ev-end'; }
                     else { pos = ci === 0 ? 'ev-start' : 'ev-middle'; }
                     const pill = document.createElement('div'); pill.className = `ev-pill ${pos}`;
-                    pill.style.background = cat.color.bg;
-                    pill.style.color = cat.color.text;
+                    pill.style.background = cat.color.bg; pill.style.color = cat.color.text;
                     if (pos === 'ev-start') { pill.style.borderLeft = `3px solid ${cat.color.hex}`; pill.style.boxShadow = `0 2px 8px ${cat.color.hex}30`; }
                     if (pos === 'ev-middle' || pos === 'ev-end') { pill.style.borderLeft = `3px solid ${cat.color.hex}60`; }
                     const showText = (pos === 'ev-single' || pos === 'ev-start' || ci === 0);
@@ -232,6 +248,7 @@ function getWS(off) {
     d.setHours(0,0,0,0);
     return d;
 }
+
 function buildWeekView(off) {
     const ws = getWS(off);
     const we = new Date(ws); we.setDate(ws.getDate() + 6);
@@ -306,17 +323,19 @@ function renderMain() {
     if (curView === 'month') area.appendChild(buildMonthGrid(mY, mM));
     else area.appendChild(buildWeekView(weekOffset));
 }
+
 function switchView(v) {
     curView = v;
     if (v === 'week') { const ws = getWS(weekOffset); mY = ws.getFullYear(); mM = ws.getMonth(); renderMini(); }
     renderMain();
 }
+
 function weekPrev() { weekOffset--; const ws = getWS(weekOffset); mY = ws.getFullYear(); mM = ws.getMonth(); renderMini(); renderMain(); }
 function weekNext() { weekOffset++; const ws = getWS(weekOffset); mY = ws.getFullYear(); mM = ws.getMonth(); renderMini(); renderMain(); }
 
-/* ══════════════════════════════════════════════
-   POPUP EVENTO
-   ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   POPUP EVENTO — con campi info aggiuntivi
+   ═══════════════════════════════════════════════════ */
 function openP(y, m, d, el) {
     editingId = null; _resetPopup(ds(y,m,d), ds(y,m,d)); _positionPopup(el); _showPopup();
 }
@@ -329,12 +348,18 @@ function openNew() {
     p.style.top = '72px'; p.style.right = '24px'; p.style.left = 'auto';
     _showPopup();
 }
+
 function openEdit(id) {
     const ev = evs.find(e => e.id === id); if (!ev) return;
     editingId = id;
     document.getElementById('pTi').value = ev.ti;
     document.getElementById('pS').value  = ev.s;
     document.getElementById('pE').value  = ev.e;
+    document.getElementById('pLuogo').value      = ev.luogo || '';
+    document.getElementById('pDescrizione').value = ev.descrizione || '';
+    document.getElementById('pLink').value        = ev.link || '';
+    document.getElementById('pArgomenti').value   = ev.argomenti || '';
+
     if (ev.st) {
         setPickerFromTime('SH','SM', ev.st);
         setPickerFromTime('EH','EM', ev.et || '');
@@ -360,10 +385,15 @@ function openEdit(id) {
     p.classList.add('on');
     setTimeout(() => document.getElementById('pTi').focus(), 50);
 }
+
 function _resetPopup(startStr, endStr) {
-    document.getElementById('pTi').value = '';
-    document.getElementById('pS').value  = startStr;
-    document.getElementById('pE').value  = endStr;
+    document.getElementById('pTi').value         = '';
+    document.getElementById('pS').value           = startStr;
+    document.getElementById('pE').value           = endStr;
+    document.getElementById('pLuogo').value       = '';
+    document.getElementById('pDescrizione').value = '';
+    document.getElementById('pLink').value        = '';
+    document.getElementById('pArgomenti').value   = '';
     if (document.getElementById('chkAllDay')) {
         document.getElementById('chkAllDay').checked = false;
         document.getElementById('timeSelWrap').style.display = 'flex';
@@ -378,37 +408,43 @@ function _resetPopup(startStr, endStr) {
     document.getElementById('popActions').style.display = 'none';
     hideWarning();
 }
+
 function _positionPopup(el) {
     if (!el || typeof el.getBoundingClientRect !== 'function') return;
     const r = el.getBoundingClientRect();
     const p = document.getElementById('popup');
     let t = r.bottom + 8, l = r.left;
     if (l + 370 > window.innerWidth - 12) l = window.innerWidth - 370 - 12;
-    if (t + 320 > window.innerHeight - 12) t = r.top - 320 - 8;
+    if (t + 420 > window.innerHeight - 12) t = r.top - 420 - 8;
     if (t < 65) t = 65;
     p.style.top = `${t}px`; p.style.left = `${l}px`; p.style.right = 'auto';
 }
+
 function _showPopup() {
     document.getElementById('ovl').classList.add('on');
     document.getElementById('popup').classList.add('on');
     setTimeout(() => document.getElementById('pTi').focus(), 50);
 }
+
 function closeP() {
     document.getElementById('ovl').classList.remove('on');
     document.getElementById('popup').classList.remove('on');
     editingId = null; hideWarning();
 }
+
 function selC(cid, btn) {
     scv = cid;
     document.querySelectorAll('.pc').forEach(b => { b.classList.remove('sel'); b.style.background=''; b.style.color=''; b.style.borderColor=''; });
     const cat = getCat(cid); btn.classList.add('sel');
     btn.style.background = cat.color.bg; btn.style.color = cat.color.text; btn.style.borderColor = cat.color.hex + '88';
 }
+
 function syncE() {
     const s = document.getElementById('pS').value, e = document.getElementById('pE').value;
     if (s > e) document.getElementById('pE').value = s;
     if (tvis && !document.getElementById('chkAllDay').checked) enforceEndAfterStart();
 }
+
 function onEndDateChange() {
     if (tvis && !document.getElementById('chkAllDay').checked) enforceEndAfterStart();
 }
@@ -423,91 +459,125 @@ function togT() {
         applyTimeDefaults();
     } else { hideWarning(); }
 }
+
 function createEv() {
     const ti = document.getElementById('pTi').value.trim();
     if (!ti) { document.getElementById('pTi').style.boxShadow = '0 0 0 1px #e05c7e'; return; }
     if (tvis && !document.getElementById('chkAllDay').checked && !isEndValid()) { showWarning(); return; }
     evs.push({
-        id: nid++, ti,
-        s:  document.getElementById('pS').value,
-        e:  document.getElementById('pE').value,
-        st: tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('SH','SM')) : null,
-        et: tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('EH','EM')) : null,
-        c:  scv || cats[0].id
+        id:          nid++,
+        ti,
+        s:           document.getElementById('pS').value,
+        e:           document.getElementById('pE').value,
+        st:          tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('SH','SM')) : null,
+        et:          tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('EH','EM')) : null,
+        c:           scv || cats[0].id,
+        luogo:       document.getElementById('pLuogo').value.trim() || null,
+        descrizione: document.getElementById('pDescrizione').value.trim() || null,
+        link:        document.getElementById('pLink').value.trim() || null,
+        argomenti:   document.getElementById('pArgomenti').value.trim() || null,
     });
     svEvs(); closeP(); renderAll();
 }
+
 function saveEv() {
     const ti = document.getElementById('pTi').value.trim(); if (!ti) return;
     if (tvis && !document.getElementById('chkAllDay').checked && !isEndValid()) { showWarning(); return; }
     const idx = evs.findIndex(e => e.id === editingId); if (idx === -1) return;
     evs[idx] = {
         ...evs[idx], ti,
-        s:  document.getElementById('pS').value,
-        e:  document.getElementById('pE').value,
-        st: tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('SH','SM')) : null,
-        et: tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('EH','EM')) : null,
-        c:  scv || evs[idx].c
+        s:           document.getElementById('pS').value,
+        e:           document.getElementById('pE').value,
+        st:          tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('SH','SM')) : null,
+        et:          tvis ? (document.getElementById('chkAllDay').checked ? null : getTimeFromPicker('EH','EM')) : null,
+        c:           scv || evs[idx].c,
+        luogo:       document.getElementById('pLuogo').value.trim() || null,
+        descrizione: document.getElementById('pDescrizione').value.trim() || null,
+        link:        document.getElementById('pLink').value.trim() || null,
+        argomenti:   document.getElementById('pArgomenti').value.trim() || null,
     };
     svEvs(); closeP(); renderAll();
 }
+
 function deleteEv() {
     if (editingId === null) return;
     evs = evs.filter(e => e.id !== editingId);
     svEvs(); closeP(); renderAll();
 }
+
 function renderAll() { renderMain(); renderMini(); renderSidebar(); }
 
-/* ══════════════════════════════════════════════
-   MODAL NUOVA CATEGORIA
-   ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   MODAL NUOVA CATEGORIA — palette estesa + colore custom
+   ═══════════════════════════════════════════════════ */
+let selColorCustomHex = null; // per nuova categoria
+
 function openCatModal() {
-    document.getElementById('catName').value = ''; selColor = CAT_COLORS[0]; buildColorPicker();
+    document.getElementById('catName').value = '';
+    selColor = CAT_COLORS[0];
+    selColorCustomHex = null;
+    buildColorPicker();
     document.getElementById('catModal').classList.add('on');
     setTimeout(() => document.getElementById('catName').focus(), 80);
 }
 function closeCatModal() { document.getElementById('catModal').classList.remove('on'); }
+
 function buildColorPicker() {
     const cp = document.getElementById('colorPicker'); cp.innerHTML = '';
     CAT_COLORS.forEach(c => {
         const sw = document.createElement('div'); sw.className = 'cswatch';
-        sw.style.background = c.hex; sw.style.color = c.hex;
-        if (c.hex === selColor.hex) sw.classList.add('sel');
-        sw.onclick = () => { selColor = c; buildColorPicker(); };
+        sw.style.background = c.hex;
+        if (c.hex === selColor.hex && !selColorCustomHex) sw.classList.add('sel');
+        sw.onclick = () => { selColor = c; selColorCustomHex = null; buildColorPicker(); };
         cp.appendChild(sw);
     });
+    // Custom color input
+    const customWrap = document.createElement('div');
+    customWrap.className = 'cswatch cswatch-custom' + (selColorCustomHex ? ' sel' : '');
+    customWrap.style.background = selColorCustomHex || 'rgba(14,207,207,0.1)';
+    customWrap.style.border = selColorCustomHex ? '2px solid rgba(255,255,255,0.75)' : '2px dashed rgba(14,207,207,0.4)';
+    customWrap.style.cssText += ';display:flex;align-items:center;justify-content:center;';
+    const colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = selColorCustomHex || '#0ecfcf';
+    colorInput.style.cssText = 'position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;';
+    colorInput.addEventListener('input', e => {
+        selColorCustomHex = e.target.value;
+        selColor = colorFromHex(e.target.value);
+        buildColorPicker();
+    });
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-palette';
+    icon.style.cssText = 'font-size:16px;color:rgba(14,207,207,0.7);pointer-events:none;position:relative;z-index:1;';
+    if (selColorCustomHex) icon.style.color = selColorCustomHex;
+    customWrap.style.position = 'relative';
+    customWrap.appendChild(colorInput);
+    customWrap.appendChild(icon);
+    cp.appendChild(customWrap);
 }
+
 function saveCat() {
     const name = document.getElementById('catName').value.trim(); if (!name) return;
-    cats.push({id:'cat_'+Date.now(), name, color:selColor});
+    cats.push({id:'cat_'+Date.now(), name, color: selColor});
     svCats(); renderCatTags(); renderPopCats(); closeCatModal();
 }
 document.getElementById('catModal').addEventListener('click', function(e) { if (e.target === this) closeCatModal(); });
 
-/* ══════════════════════════════════════════════
-   MODAL MODIFICA CATEGORIA
-   ══════════════════════════════════════════════ */
+/* ── MODAL MODIFICA CATEGORIA — palette estesa + colore custom ── */
 function openEditCat(catId, triggerEl) {
     const cat = cats.find(c => c.id === catId); if (!cat) return;
-    editingCatId = catId;
-    selColorEdit = cat.color;
-
+    editingCatId    = catId;
+    selColorEdit    = cat.color;
+    selColorEditCustom = null;
     document.getElementById('editCatName').value = cat.name;
     buildColorPickerEdit();
-
-    // Controlla se ci sono eventi che usano questa categoria
     const evCount = evs.filter(e => e.c === catId).length;
     const warnEl = document.getElementById('editCatWarn');
     if (evCount > 0) {
         warnEl.textContent = `Attenzione: ${evCount} evento${evCount > 1 ? 'i' : ''} usa${evCount > 1 ? 'no' : ''} questa categoria.`;
         warnEl.style.display = 'block';
-    } else {
-        warnEl.style.display = 'none';
-    }
-
-    // Posiziona il modal vicino al tag cliccato
-    const modal = document.getElementById('editCatModal');
-    modal.classList.add('on');
+    } else { warnEl.style.display = 'none'; }
+    document.getElementById('editCatModal').classList.add('on');
     setTimeout(() => document.getElementById('editCatName').focus(), 80);
 }
 
@@ -520,11 +590,34 @@ function buildColorPickerEdit() {
     const cp = document.getElementById('colorPickerEdit'); cp.innerHTML = '';
     CAT_COLORS.forEach(c => {
         const sw = document.createElement('div'); sw.className = 'cswatch';
-        sw.style.background = c.hex; sw.style.color = c.hex;
-        if (c.hex === selColorEdit.hex) sw.classList.add('sel');
-        sw.onclick = () => { selColorEdit = c; buildColorPickerEdit(); };
+        sw.style.background = c.hex;
+        if (c.hex === selColorEdit.hex && !selColorEditCustom) sw.classList.add('sel');
+        sw.onclick = () => { selColorEdit = c; selColorEditCustom = null; buildColorPickerEdit(); };
         cp.appendChild(sw);
     });
+    // Custom
+    const customWrap = document.createElement('div');
+    customWrap.className = 'cswatch cswatch-custom' + (selColorEditCustom ? ' sel' : '');
+    customWrap.style.background = selColorEditCustom || 'rgba(14,207,207,0.1)';
+    customWrap.style.border = selColorEditCustom ? '2px solid rgba(255,255,255,0.75)' : '2px dashed rgba(14,207,207,0.4)';
+    customWrap.style.cssText += ';display:flex;align-items:center;justify-content:center;';
+    const colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = selColorEditCustom || selColorEdit.hex || '#0ecfcf';
+    colorInput.style.cssText = 'position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;';
+    colorInput.addEventListener('input', e => {
+        selColorEditCustom = e.target.value;
+        selColorEdit = colorFromHex(e.target.value);
+        buildColorPickerEdit();
+    });
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-palette';
+    icon.style.cssText = 'font-size:16px;color:rgba(14,207,207,0.7);pointer-events:none;position:relative;z-index:1;';
+    if (selColorEditCustom) icon.style.color = selColorEditCustom;
+    customWrap.style.position = 'relative';
+    customWrap.appendChild(colorInput);
+    customWrap.appendChild(icon);
+    cp.appendChild(customWrap);
 }
 
 function saveEditCat() {
@@ -538,11 +631,8 @@ function deleteEditCat() {
     if (!editingCatId) return;
     const evCount = evs.filter(e => e.c === editingCatId).length;
     if (evCount > 0) {
-        // Sposta gli eventi sulla prima categoria disponibile (o crea una di default)
         const fallback = cats.find(c => c.id !== editingCatId);
-        if (fallback) {
-            evs = evs.map(e => e.c === editingCatId ? {...e, c: fallback.id} : e);
-        }
+        if (fallback) evs = evs.map(e => e.c === editingCatId ? {...e, c: fallback.id} : e);
         svEvs();
     }
     cats = cats.filter(c => c.id !== editingCatId);
@@ -551,10 +641,14 @@ function deleteEditCat() {
 
 document.getElementById('editCatModal').addEventListener('click', function(e) { if (e.target === this) closeEditCatModal(); });
 
-/* ══════════════════════════════════════════════
-   TIME PICKER CON VALIDAZIONE ORA FINE >= ORA INIZIO
-   ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   TIME PICKER — FIX SCROLL
+   Il problema era che scrollTop veniva impostato prima
+   che il DOM fosse visibile. Ora usiamo requestAnimationFrame
+   e scrollIntoView per centrare l'elemento selezionato.
+   ═══════════════════════════════════════════════════ */
 const timePickers = { SH:0, SM:0, EH:1, EM:0 };
+const ITEM_H = 46; // altezza singolo item in px
 
 function buildTimeCols() {
     buildCol('colSH', 24, 'SH');
@@ -570,9 +664,21 @@ function buildCol(colId, count, key) {
         item.className = 'time-item';
         item.textContent = String(i).padStart(2,'0');
         item.dataset.val = i;
-        item.onclick = () => selectTimeItem(colId, key, i);
+        item.addEventListener('click', () => selectTimeItem(colId, key, i));
         col.appendChild(item);
     }
+}
+
+/* FIX: usa scrollIntoView con block:'center' per portare
+   l'elemento selezionato al centro del pannello visibile */
+function scrollToSelected(colId, val) {
+    const col = document.getElementById(colId);
+    if (!col) return;
+    const wrap = col.parentElement;
+    if (!wrap) return;
+    // Imposta lo scroll direttamente sul wrap
+    const targetScroll = val * ITEM_H - (wrap.clientHeight / 2 - ITEM_H / 2);
+    wrap.scrollTop = Math.max(0, targetScroll);
 }
 
 function selectTimeItem(colId, key, val) {
@@ -581,13 +687,9 @@ function selectTimeItem(colId, key, val) {
     col.querySelectorAll('.time-item').forEach(el =>
         el.classList.toggle('sel', parseInt(el.dataset.val) === val)
     );
-    const wrap = col.parentElement;
-    const itemH = 38;
-    wrap.scrollTop = Math.max(0, val * itemH - itemH);
+    scrollToSelected(colId, val);
 
-    if (key === 'SH' || key === 'SM') {
-        enforceEndAfterStart();
-    }
+    if (key === 'SH' || key === 'SM') enforceEndAfterStart();
 
     if (key === 'EH' || key === 'EM') {
         const sameDate = document.getElementById('pS').value === document.getElementById('pE').value;
@@ -595,59 +697,44 @@ function selectTimeItem(colId, key, val) {
         const endMins   = timePickers.EH * 60 + timePickers.EM;
         if (sameDate && endMins <= startMins) {
             const fixedMins = Math.min(startMins + 30, 23 * 60 + 59);
-            const fH = Math.floor(fixedMins / 60);
-            const fM = fixedMins % 60;
-            _setPickerSilent('colEH', 'EH', fH);
-            _setPickerSilent('colEM', 'EM', fM);
+            _setPickerSilent('colEH', 'EH', Math.floor(fixedMins / 60));
+            _setPickerSilent('colEM', 'EM', fixedMins % 60);
             showWarning();
             setTimeout(hideWarning, 2200);
-        } else {
-            hideWarning();
-        }
+        } else { hideWarning(); }
         enforceEndAfterStart();
     }
 }
 
 function enforceEndAfterStart() {
     const sameDate = document.getElementById('pS').value === document.getElementById('pE').value;
-    const colEH = document.getElementById('colEH');
-    const colEM = document.getElementById('colEM');
-
+    const colEH = document.getElementById('colEH'), colEM = document.getElementById('colEM');
     if (!sameDate) {
         if (colEH) colEH.querySelectorAll('.time-item').forEach(el => el.classList.remove('time-disabled'));
         if (colEM) colEM.querySelectorAll('.time-item').forEach(el => el.classList.remove('time-disabled'));
-        hideWarning();
-        return;
+        hideWarning(); return;
     }
-
-    if (colEH) {
-        colEH.querySelectorAll('.time-item').forEach(el => {
-            el.classList.toggle('time-disabled', parseInt(el.dataset.val) < timePickers.SH);
-        });
-    }
-    if (colEM) {
-        colEM.querySelectorAll('.time-item').forEach(el => {
-            const sameHour = timePickers.EH === timePickers.SH;
-            el.classList.toggle('time-disabled', sameHour && parseInt(el.dataset.val) <= timePickers.SM);
-        });
-    }
+    if (colEH) colEH.querySelectorAll('.time-item').forEach(el => {
+        el.classList.toggle('time-disabled', parseInt(el.dataset.val) < timePickers.SH);
+    });
+    if (colEM) colEM.querySelectorAll('.time-item').forEach(el => {
+        const sameHour = timePickers.EH === timePickers.SH;
+        el.classList.toggle('time-disabled', sameHour && parseInt(el.dataset.val) <= timePickers.SM);
+    });
 }
 
 function _setPickerSilent(colId, key, val) {
     timePickers[key] = val;
-    const col = document.getElementById(colId);
-    if (!col) return;
+    const col = document.getElementById(colId); if (!col) return;
     col.querySelectorAll('.time-item').forEach(el =>
         el.classList.toggle('sel', parseInt(el.dataset.val) === val)
     );
-    const wrap = col.parentElement;
-    if (wrap) wrap.scrollTop = Math.max(0, val * 38 - 38);
+    // FIX: usa rAF per aspettare che il DOM sia pronto prima di scrollare
+    requestAnimationFrame(() => scrollToSelected(colId, val));
 }
 
-function setPickerValue(key, val) { selectTimeItem('col' + key, key, val); }
-
 function applyTimeDefaults() {
-    const now   = new Date();
+    const now = new Date();
     const nextH  = (now.getHours() + 1) % 24;
     const afterH = (now.getHours() + 2) % 24;
     _setPickerSilent('colSH', 'SH', nextH);
@@ -682,13 +769,43 @@ function isEndValid() {
     return (timePickers.EH * 60 + timePickers.EM) > (timePickers.SH * 60 + timePickers.SM);
 }
 
-function showWarning() {
-    document.getElementById('timeWarning').classList.add('visible');
-}
-function hideWarning() {
-    const w = document.getElementById('timeWarning');
-    if (w) w.classList.remove('visible');
-}
+function showWarning() { document.getElementById('timeWarning').classList.add('visible'); }
+function hideWarning() { const w = document.getElementById('timeWarning'); if (w) w.classList.remove('visible'); }
+
+/* ── MOBILE: swipe per chiudere popup, tap outside ── */
+(function setupMobile() {
+    let startY = 0, startX = 0;
+    const popup = document.getElementById('popup');
+
+    popup.addEventListener('touchstart', e => {
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    popup.addEventListener('touchend', e => {
+        const dy = e.changedTouches[0].clientY - startY;
+        const dx = Math.abs(e.changedTouches[0].clientX - startX);
+        if (dy > 80 && dx < 50) closeP(); // swipe down
+    }, { passive: true });
+
+    // Time picker: touch scroll (il browser scroll nativo funziona con overflow-y:auto)
+    // Aggiungiamo listener per aggiornare la selezione dopo lo scroll
+    ['colSH','colSM','colEH','colEM'].forEach(colId => {
+        const colEl = document.getElementById(colId);
+        if (!colEl) return;
+        const wrap = colEl.parentElement;
+        if (!wrap) return;
+        let scrollTimer = null;
+        wrap.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                const idx = Math.round(wrap.scrollTop / ITEM_H);
+                const key = colId.replace('col','');
+                if (timePickers[key] !== idx) selectTimeItem(colId, key, idx);
+            }, 120);
+        }, { passive: true });
+    });
+})();
 
 /* ── KEYBOARD ── */
 document.addEventListener('keydown', e => {
@@ -705,51 +822,26 @@ renderMain();
 renderSidebar();
 buildTimeCols();
 
-/* ── CARICA VOTI DAL DB E AGGIORNA CALENDARIO ── */
+/* ── CARICA VOTI DAL DB ── */
 (async function caricaVotiNelCalendario() {
     const VOTO_CAT = {
         id:    'voti_cat',
         name:  'Voti',
         color: { hex: '#f7b432', bg: 'rgba(247,180,50,0.15)', text: '#f7d080' }
     };
-
     try {
         const res = await fetch('../../../database/model/get_voti.php');
         if (!res.ok) return;
-
         const testo = await res.text();
         let votiDB;
-        try { votiDB = JSON.parse(testo); } catch(e) {
-            console.error('[CALENDARIO] Risposta non JSON:', testo.slice(0, 200));
-            return;
-        }
+        try { votiDB = JSON.parse(testo); } catch(e) { return; }
         if (!Array.isArray(votiDB) || votiDB.length === 0) return;
-
-        // Assicura che la categoria "Voti" esista
-        if (!cats.find(c => c.id === VOTO_CAT.id)) {
-            cats.push(VOTO_CAT);
-            svCats();
-        }
-
-        // Rimuovi eventi-voto precedenti e reinserisci freschi dal DB
+        if (!cats.find(c => c.id === VOTO_CAT.id)) { cats.push(VOTO_CAT); svCats(); }
         evs = evs.filter(e => !String(e.id).startsWith('voto_'));
         votiDB.forEach(v => {
             if (!v.data) return;
-            evs.push({
-                id: 'voto_' + v.id,
-                ti: v.materia + ' — ' + parseFloat(v.voto),
-                s:  v.data,
-                e:  v.data,
-                st: null,
-                et: null,
-                c:  VOTO_CAT.id
-            });
+            evs.push({ id:'voto_'+v.id, ti:v.materia+' — '+parseFloat(v.voto), s:v.data, e:v.data, st:null, et:null, c:VOTO_CAT.id });
         });
-        svEvs();
-
-        // Ridisegna con i voti
-        renderAll();
-    } catch (e) {
-        console.error('[CALENDARIO] Errore caricamento voti:', e);
-    }
+        svEvs(); renderAll();
+    } catch(e) { console.error('[CALENDARIO] Errore:', e); }
 })();
